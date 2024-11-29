@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1731421161159-38"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="account"/>
+    </changeSet>
+    <changeSet id="1731421161159-39"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="accountAccountType"/>
+    </changeSet>
+    <changeSet id="1731421161159-40"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="accountGroup"/>
+    </changeSet>
+    <changeSet id="1731421161159-41"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="accountOffice"/>
+    </changeSet>
+    <changeSet id="1731421161159-42"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="accountType"/>
+    </changeSet>
+    <changeSet id="1731421161159-43"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="address"/>
+    </changeSet>
+    <changeSet id="1731421161159-44"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="agreement"/>
+    </changeSet>
+    <changeSet id="1731421161159-45"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="approval"/>
+    </changeSet>
+    <changeSet id="1731421161159-46"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="billOfLanding"/>
+    </changeSet>
+    <changeSet id="1731421161159-47"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="billOfLandingType"/>
+    </changeSet>
+    <changeSet id="1731421161159-48"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="booking"/>
+    </changeSet>
+    <changeSet id="1731421161159-49"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="bookingEquipmentDimensions"/>
+    </changeSet>
+    <changeSet id="1731421161159-50"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="clause"/>
+    </changeSet>
+    <changeSet id="1731421161159-51"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="commodity"/>
+    </changeSet>
+    <changeSet id="1731421161159-52"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="company"/>
+    </changeSet>
+    <changeSet id="1731421161159-53"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="country"/>
+    </changeSet>
+    <changeSet id="1731421161159-54"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="customStatus"/>
+    </changeSet>
+    <changeSet id="1731421161159-55"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="customsDocumentsType"/>
+    </changeSet>
+    <changeSet id="1731421161159-56"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="customsOffice"/>
+    </changeSet>
+    <changeSet id="1731421161159-57"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="dangerousGoods"/>
+    </changeSet>
+    <changeSet id="1731421161159-58"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="dangerousGoodsPage"/>
+    </changeSet>
+    <changeSet id="1731421161159-59"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="flashPointUnit"/>
+    </changeSet>
+    <changeSet id="1731421161159-60"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="location"/>
+    </changeSet>
+    <changeSet id="1731421161159-61"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="measureUnit"/>
+    </changeSet>
+    <changeSet id="1731421161159-62"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="package"/>
+    </changeSet>
+    <changeSet id="1731421161159-63"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="payable"/>
+    </changeSet>
+    <changeSet id="1731421161159-64"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="payableDetail"/>
+    </changeSet>
+    <changeSet id="1731421161159-65"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="payableHow"/>
+    </changeSet>
+    <changeSet id="1731421161159-66"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="physicalConditions"/>
+    </changeSet>
+    <changeSet id="1731421161159-67"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="processStatus"/>
+    </changeSet>
+    <changeSet id="1731421161159-68"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="quote"/>
+    </changeSet>
+    <changeSet id="1731421161159-69"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="serviceType"/>
+    </changeSet>
+    <changeSet id="1731421161159-70"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="shipment"/>
+    </changeSet>
+    <changeSet id="1731421161159-71"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="shipmentCharges"/>
+    </changeSet>
+    <changeSet id="1731421161159-72"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="shipmentDetail"/>
+    </changeSet>
+    <changeSet id="1731421161159-73"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="shippingCondition"/>
+    </changeSet>
+    <changeSet id="1731421161159-74"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="state"/>
+    </changeSet>
+    <changeSet id="1731421161159-75"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="temperatureUnit"/>
+    </changeSet>
+    <changeSet id="1731421161159-76"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="trade"/>
+    </changeSet>
+    <changeSet id="1731421161159-77"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="vessel"/>
+    </changeSet>
+    <changeSet id="1731421161159-78"
+               author="pedro.monteiro">
+        <dropTable cascadeConstraints="true"
+                   tableName="voyage"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1732186003623-1"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="DOUBLE"
+                              columnName="grossWeight"
+                              tableName="bookingTransport"
+                              validate="true"/>
+    </changeSet>
+    <changeSet id="1732186003623-2"
+               author="pedro.monteiro">
+        <addAutoIncrement columnDataType="int"
+                          columnName="id"
+                          tableName="demurrage"/>
+    </changeSet>
+    <changeSet id="1732186003623-3"
+               author="pedro.monteiro">
+        <addAutoIncrement columnDataType="int"
+                          columnName="id"
+                          tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1732186003623-4"
+               author="pedro.monteiro">
+        <addAutoIncrement columnDataType="int"
+                          columnName="id"
+                          tableName="equipment"/>
+    </changeSet>
+    <changeSet id="1732186003623-5"
+               author="pedro.monteiro">
+        <addAutoIncrement columnDataType="int"
+                          columnName="id"
+                          tableName="transportMeans"/>
+    </changeSet>
+
+</databaseChangeLog>

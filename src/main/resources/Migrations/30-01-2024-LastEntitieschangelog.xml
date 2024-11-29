@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1730290301108-1" author="pedro.monteiro">
+        <createTable tableName="company">
+            <column autoIncrement="true" name="companyID" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_company"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="companyName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="clusterID" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730290301108-2" author="pedro.monteiro">
+        <createTable tableName="state">
+            <column autoIncrement="true" name="stateID" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_state"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="stateName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="countryID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

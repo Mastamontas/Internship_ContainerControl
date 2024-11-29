@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1731493671619-3"
+               author="pedro.monteiro">
+        <createTable tableName="demurrage">
+            <column autoIncrement="true"
+                    name="id"
+                    type="BIGINT">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="pk_demurrage"/>
+            </column>
+            <column name="createdOn"
+                    type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated"
+                    type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus"
+                    type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tradeLineID"
+                    type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tradeLineServiceCode"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tradeServiceBound"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tradeVesselCode"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tradeVoyageNumber"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bookingProcessKey"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentTypeID"
+                    type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bookingKey"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleKey"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageDescription"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageStartDate"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageMidDate"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageEndDate"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="terminalStatus"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageStatus"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageFreeDays"
+                    type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageCost"
+                    type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageCostApply"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageCostPrice"
+                    type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageDiscountType"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="clientID"
+                    type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="invoiceID"
+                    type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accountID"
+                    type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentPrefix"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentNumber"
+                    type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentCheckDigit"
+                    type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="startMoveCode"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="startMoveKey"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="moveTypeCode"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementKey"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="endMoveCode"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="endMoveKey"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageComments"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731493671619-4"
+               author="pedro.monteiro">
+        <addColumn tableName="movement">
+            <column name="accessUserID"
+                    type="INT"/>
+            <column name="bookingReleaseRef"
+                    type="VARCHAR(255)"/>
+            <column name="bookingTransportID"
+                    type="INT"/>
+            <column name="businessUnitID"
+                    type="INT"/>
+            <column name="businessUnitShortNumber"
+                    type="INT"/>
+            <column name="equipmentCheckDigit"
+                    type="INT"/>
+            <column name="equipmentNumber"
+                    type="INT"/>
+            <column name="equipmentOwnerID"
+                    type="INT"/>
+            <column name="equipmentPrefix"
+                    type="VARCHAR(255)"/>
+            <column name="equipmentServiceCode"
+                    type="VARCHAR(255)"/>
+            <column name="equipmentStatusCode"
+                    type="VARCHAR(255)"/>
+            <column name="equipmentTypeCode"
+                    type="VARCHAR(255)"/>
+            <column name="equipmentTypeID"
+                    type="INT"/>
+            <column name="equipmentTypeLength"
+                    type="INT"/>
+            <column name="leasingContractCode"
+                    type="VARCHAR(255)"/>
+            <column name="movementBLReference"
+                    type="VARCHAR(255)"/>
+            <column name="movementBookingRegistration"
+                    type="VARCHAR(255)"/>
+            <column name="movementComment"
+                    type="VARCHAR(255)"/>
+            <column name="movementDate"
+                    type="DATETIME"/>
+            <column name="movementDays"
+                    type="INT"/>
+            <column name="movementFinalCode"
+                    type="VARCHAR(255)"/>
+            <column name="movementFinalName"
+                    type="VARCHAR(255)"/>
+            <column name="movementFromCode"
+                    type="VARCHAR(255)"/>
+            <column name="movementFromName"
+                    type="VARCHAR(255)"/>
+            <column name="movementKey"
+                    type="VARCHAR(255)"/>
+            <column name="movementLast"
+                    type="INT"/>
+            <column name="movementLineID"
+                    type="INT"/>
+            <column name="movementOfHire"
+                    type="VARCHAR(255)"/>
+            <column name="movementProcessKey"
+                    type="VARCHAR(255)"/>
+            <column name="movementRestitutionCode"
+                    type="VARCHAR(255)"/>
+            <column name="movementRestitutionName"
+                    type="VARCHAR(255)"/>
+            <column name="movementServiceBound"
+                    type="VARCHAR(255)"/>
+            <column name="movementServiceCode"
+                    type="VARCHAR(255)"/>
+            <column name="movementTime"
+                    type="DATETIME"/>
+            <column name="movementToCode"
+                    type="VARCHAR(255)"/>
+            <column name="movementToName"
+                    type="VARCHAR(255)"/>
+            <column name="movementTransport"
+                    type="VARCHAR(255)"/>
+            <column name="movementTypeCode"
+                    type="VARCHAR(255)"/>
+            <column name="movementVesselCode"
+                    type="VARCHAR(255)"/>
+            <column name="movementVoyageNumber"
+                    type="VARCHAR(255)"/>
+            <column name="physicalConditionCode"
+                    type="VARCHAR(255)"/>
+            <column name="shipmentConditionCode"
+                    type="VARCHAR(255)"/>
+            <column name="shipmentUCN"
+                    type="VARCHAR(255)"/>
+            <column name="transportMeansCode"
+                    type="VARCHAR(255)"/>
+            <column name="transportResponsability"
+                    type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1731493671619-5"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="accessUserID"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-7"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="bookingReleaseRef"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-9"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="bookingTransportID"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-11"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="businessUnitID"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-13"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="businessUnitShortNumber"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-15"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="equipmentCheckDigit"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-17"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="equipmentNumber"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-19"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="equipmentOwnerID"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-21"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="equipmentPrefix"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-23"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="equipmentServiceCode"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-25"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="equipmentStatusCode"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-27"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="equipmentTypeCode"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-29"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="equipmentTypeID"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-31"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="equipmentTypeLength"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-33"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="leasingContractCode"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-35"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="movementBLReference"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-37"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="movementBookingRegistration"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-39"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="movementComment"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-41"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="DATETIME"
+                              columnName="movementDate"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-43"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="movementDays"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-45"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="movementFinalCode"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-47"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="movementFinalName"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-49"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="movementFromCode"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-51"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="movementFromName"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-53"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="movementKey"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-55"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="movementLast"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-57"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="movementLineID"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-59"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="movementOfHire"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-61"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="movementProcessKey"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-63"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="movementRestitutionCode"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-65"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="movementRestitutionName"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-67"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="movementServiceBound"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-69"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="movementServiceCode"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-71"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="DATETIME"
+                              columnName="movementTime"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-73"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="movementToCode"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-75"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="movementToName"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-77"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="movementTransport"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-79"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="movementTypeCode"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-81"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="movementVesselCode"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-83"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="movementVoyageNumber"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-85"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="physicalConditionCode"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-87"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="shipmentConditionCode"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-89"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="shipmentUCN"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-91"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="transportMeansCode"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-93"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="transportResponsability"
+                              tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-94"
+               author="pedro.monteiro">
+        <addUniqueConstraint columnNames="tradeLineID"
+                             constraintName="uc_demurrage_tradelineid"
+                             tableName="demurrage"/>
+    </changeSet>
+    <changeSet id="1731493671619-95"
+               author="pedro.monteiro">
+        <dropColumn columnName="tenantID"
+                    tableName="movement"/>
+
+        <dropColumn columnName="dbStatus"
+                    tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731493671619-2"
+               author="pedro.monteiro">
+        <addColumn tableName="movement">
+            <column name="dbStatus"
+                    type="BOOLEAN">
+                <constraints nullable="false"
+                             validateNullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

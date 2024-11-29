@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1730387909021-1"
+               author="pedro.monteiro">
+        <createTable tableName="approval">
+            <column autoIncrement="true"
+                    name="approvalID"
+                    type="INT">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="pk_approval"/>
+            </column>
+            <column name="createdOn"
+                    type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated"
+                    type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID"
+                    type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="statusName"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730387909021-9"
+               author="pedro.monteiro">
+        <createTable tableName="processStatus">
+            <column autoIncrement="true"
+                    name="processStatusID"
+                    type="INT">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="pk_processstatus"/>
+            </column>
+            <column name="createdOn"
+                    type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated"
+                    type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID"
+                    type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus"
+                    type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bookingID"
+                    type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="billOfLandingID"
+                    type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="approved"
+                    type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="notificationBody"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

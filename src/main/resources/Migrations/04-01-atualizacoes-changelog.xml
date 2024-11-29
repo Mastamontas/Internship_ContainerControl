@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+    <changeSet id="1730733243412-14"
+               author="pedro.monteiro">
+        <renameColumn tableName="state" oldColumnName="countryID"
+                      newColumnName="companyID"
+                      columnDataType="INT"/>
+    </changeSet>
+
+    <changeSet id="1730733243412-15"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="companyID"
+                              tableName="state"/>
+    </changeSet>
+    <changeSet id="1730733243412-16"
+               author="pedro.monteiro">
+        <addColumn tableName="transport">
+            <column name="lastUpdatedOn"
+                    type="DATETIME"/>
+            <column name="tenantID"
+                    type="INT"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="1730733243412-17"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="DATETIME"
+                              columnName="lastUpdatedOn"
+                              tableName="transport"/>
+    </changeSet>
+    <changeSet id="1730733243412-18"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="tenantID"
+                              tableName="transport"/>
+    </changeSet>
+</databaseChangeLog>

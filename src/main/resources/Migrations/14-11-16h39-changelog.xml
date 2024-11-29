@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1731602278487-1"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="varchar(255)"
+                               columnName="demurrageDescription"
+                               tableName="demurrage"/>
+    </changeSet>
+    <changeSet id="1731602278487-3"
+               author="pedro.monteiro">
+        <modifyDataType tableName="demurrage"
+                        columnName="demurrageEndDate"
+                        newDataType="DATETIME"/>
+    </changeSet>
+    <changeSet id="1731602278487-5"
+               author="pedro.monteiro">
+        <modifyDataType tableName="demurrage"
+                        columnName="demurrageMidDate"
+                        newDataType="DATETIME"/>
+    </changeSet>
+    <changeSet id="1731602278487-7"
+               author="pedro.monteiro">
+        <modifyDataType tableName="demurrage"
+                        columnName="demurrageStartDate"
+                        newDataType="DATETIME"/>
+    </changeSet>
+    <changeSet id="1731602278487-8"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="lastUpdated"
+                               tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731602278487-9"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="lastUpdated"
+                               tableName="demurrage"/>
+    </changeSet>
+    <changeSet id="1731602278487-10"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="lastUpdated"
+                               tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1731602278487-11"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="lastUpdated"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1731602278487-12"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="lastUpdated"
+                               tableName="demurrageRuleCondition"/>
+    </changeSet>
+    <changeSet id="1731602278487-13"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="lastUpdated"
+                               tableName="demurrageRuleLineDetail"/>
+    </changeSet>
+    <changeSet id="1731602278487-14"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="lastUpdated"
+                               tableName="equipmentClassSentence"/>
+    </changeSet>
+    <changeSet id="1731602278487-15"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="lastUpdated"
+                               tableName="equipmentCondition"/>
+    </changeSet>
+    <changeSet id="1731602278487-16"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="lastUpdated"
+                               tableName="equipmentCostRule"/>
+    </changeSet>
+    <changeSet id="1731602278487-17"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="lastUpdated"
+                               tableName="equipmentLeasing"/>
+    </changeSet>
+    <changeSet id="1731602278487-18"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="lastUpdated"
+                               tableName="equipmentService"/>
+    </changeSet>
+    <changeSet id="1731602278487-19"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="lastUpdated"
+                               tableName="equipmentStatus"/>
+    </changeSet>
+    <changeSet id="1731602278487-20"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="lastUpdated"
+                               tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731602278487-21"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="lastUpdated"
+                               tableName="movementCounter"/>
+    </changeSet>
+    <changeSet id="1731602278487-22"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="lastUpdated"
+                               tableName="movementLink"/>
+    </changeSet>
+    <changeSet id="1731602278487-23"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="lastUpdated"
+                               tableName="movementType"/>
+    </changeSet>
+    <changeSet id="1731602278487-24"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="lastUpdated"
+                               tableName="movementTypeEquipmentStatus"/>
+    </changeSet>
+
+</databaseChangeLog>

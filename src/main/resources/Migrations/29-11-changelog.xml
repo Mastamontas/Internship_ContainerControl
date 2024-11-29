@@ -1,0 +1,624 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1732889381551-71"
+               author="pedro.monteiro">
+        <addColumn tableName="demurrage">
+            <column name="bookingID"
+                    type="INT"/>
+            <column name="demurrageRuleID"
+                    type="VARCHAR(255)"/>
+            <column name="endMovementID"
+                    type="INT"/>
+            <column name="equipmentID"
+                    type="INT"/>
+            <column name="midMovementID"
+                    type="INT"/>
+            <column name="startMovementID"
+                    type="INT"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1732889381551-72"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="bookingID"
+                              tableName="demurrage"/>
+    </changeSet>
+    <changeSet id="1732889381551-73"
+               author="pedro.monteiro">
+        <addColumn tableName="demurrageControl">
+            <column name="bookingID"
+                    type="INT"/>
+            <column name="demurrageID"
+                    type="INT"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1732889381551-74"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="bookingID"
+                              tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1732889381551-76"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="demurrageID"
+                              tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1732889381551-77"
+               author="pedro.monteiro">
+        <addColumn tableName="demurrageRule">
+            <column name="demurrageRuleCurrencyID"
+                    type="INT"/>
+            <column name="payCurrencyID"
+                    type="INT"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1732889381551-81"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="equipmentID"
+                              tableName="demurrage"/>
+    </changeSet>
+    <changeSet id="1732889381551-82"
+               author="pedro.monteiro">
+        <addColumn tableName="equipment">
+            <column name="equipmentLineID"
+                    type="INT"/>
+            <column name="equipmentOwnerID"
+                    type="INT"/>
+            <column name="equipmentTareWeight"
+                    type="DOUBLE"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1732889381551-85"
+               author="pedro.monteiro">
+        <addColumn tableName="equipmentType">
+            <column name="lastUpdated"
+                    type="DATETIME"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1732889381551-88"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="payCurrencyID"
+                              tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-138"
+               author="pedro.monteiro">
+        <dropColumn columnName="bookingKey"
+                    tableName="demurrage"/>
+
+        <dropColumn columnName="bookingProcessKey"
+                    tableName="demurrage"/>
+
+        <dropColumn columnName="demurrageDescription"
+                    tableName="demurrage"/>
+
+        <dropColumn columnName="demurrageRuleKey"
+                    tableName="demurrage"/>
+
+        <dropColumn columnName="endMoveCode"
+                    tableName="demurrage"/>
+
+        <dropColumn columnName="endMoveKey"
+                    tableName="demurrage"/>
+
+        <dropColumn columnName="equipmentCheckDigit"
+                    tableName="demurrage"/>
+
+        <dropColumn columnName="equipmentNumber"
+                    tableName="demurrage"/>
+
+        <dropColumn columnName="equipmentPrefix"
+                    tableName="demurrage"/>
+
+        <dropColumn columnName="equipmentTypeID"
+                    tableName="demurrage"/>
+
+        <dropColumn columnName="moveTypeCode"
+                    tableName="demurrage"/>
+
+        <dropColumn columnName="movementKey"
+                    tableName="demurrage"/>
+
+        <dropColumn columnName="startMoveCode"
+                    tableName="demurrage"/>
+
+        <dropColumn columnName="startMoveKey"
+                    tableName="demurrage"/>
+
+        <dropColumn columnName="tradeLineID"
+                    tableName="demurrage"/>
+
+        <dropColumn columnName="tradeLineServiceCode"
+                    tableName="demurrage"/>
+
+        <dropColumn columnName="tradeServiceBound"
+                    tableName="demurrage"/>
+
+        <dropColumn columnName="tradeVesselCode"
+                    tableName="demurrage"/>
+
+        <dropColumn columnName="tradeVoyageNumber"
+                    tableName="demurrage"/>
+    </changeSet>
+    <changeSet id="1732889381551-139"
+               author="pedro.monteiro">
+        <dropColumn columnName="bookingKey"
+                    tableName="demurrageControl"/>
+
+        <dropColumn columnName="bookingProcessKey"
+                    tableName="demurrageControl"/>
+
+        <dropColumn columnName="demurrageControlKey"
+                    tableName="demurrageControl"/>
+
+        <dropColumn columnName="equipmentTypeID"
+                    tableName="demurrageControl"/>
+
+        <dropColumn columnName="tradeLineID"
+                    tableName="demurrageControl"/>
+
+        <dropColumn columnName="tradeServiceBound"
+                    tableName="demurrageControl"/>
+
+        <dropColumn columnName="tradeServiceCode"
+                    tableName="demurrageControl"/>
+
+        <dropColumn columnName="tradeVesselCode"
+                    tableName="demurrageControl"/>
+
+        <dropColumn columnName="tradeVoyageNumber"
+                    tableName="demurrageControl"/>
+
+        <dropColumn columnName="demurrageControlDate"
+                    tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1732889381551-142"
+               author="pedro.monteiro">
+        <dropColumn columnName="businessUnitKey"
+                    tableName="demurrageRule"/>
+
+        <dropColumn columnName="businessUnitShortName"
+                    tableName="demurrageRule"/>
+
+        <dropColumn columnName="currencyCode"
+                    tableName="demurrageRule"/>
+
+        <dropColumn columnName="costCurrencyCode"
+                    tableName="demurrageRule"/>
+
+        <dropColumn columnName="demurrageRuleExchange"
+                    tableName="demurrageRule"/>
+
+        <dropColumn columnName="serviceTypeCode"
+                    tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-144"
+               author="pedro.monteiro">
+        <dropColumn columnName="clusterID"
+                    tableName="equipment"/>
+
+        <dropColumn columnName="lineID"
+                    tableName="equipment"/>
+
+        <dropColumn columnName="ownerID"
+                    tableName="equipment"/>
+
+        <dropColumn columnName="grossWeight"
+                    tableName="equipment"/>
+
+        <dropColumn columnName="insideCubic"
+                    tableName="equipment"/>
+
+        <dropColumn columnName="insideHeight"
+                    tableName="equipment"/>
+
+        <dropColumn columnName="insideLength"
+                    tableName="equipment"/>
+
+        <dropColumn columnName="insideWidth"
+                    tableName="equipment"/>
+
+        <dropColumn columnName="payload"
+                    tableName="equipment"/>
+    </changeSet>
+    <changeSet id="1732889381551-156"
+               author="pedro.monteiro">
+        <dropColumn columnName="lastUpdate"
+                    tableName="equipmentType"/>
+
+        <dropColumn columnName="tenantID"
+                    tableName="equipmentType"/>
+
+        <dropColumn columnName="dbStatus"
+                    tableName="equipmentType"/>
+    </changeSet>
+    <changeSet id="1732889381551-1"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="int"
+                               columnName="accountID"
+                               tableName="demurrage"/>
+    </changeSet>
+    <changeSet id="1732889381551-2"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="checkDigit"
+                              tableName="equipment"
+                              validate="true"/>
+    </changeSet>
+    <changeSet id="1732889381551-3"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="int"
+                               columnName="clientID"
+                               tableName="demurrage"/>
+    </changeSet>
+    <changeSet id="1732889381551-4"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="int"
+                               columnName="clientID"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-6"
+               author="pedro.monteiro">
+        <addColumn tableName="demurrageRule">
+            <column name="costCurrencyCode"
+                    type="INT"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1732889381551-7"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="int"
+                               columnName="costCurrencyCode"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-9"
+               author="pedro.monteiro">
+        <addColumn tableName="equipmentType">
+            <column name="dbStatus"
+                    type="BOOLEAN">
+                <constraints nullable="false"
+                             validateNullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1732889381551-10"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="varchar(255)"
+                               columnName="demurrageComments"
+                               tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1732889381551-12"
+               author="pedro.monteiro">
+        <addColumn tableName="demurrageControl">
+            <column name="demurrageControlDate"
+                    type="DATETIME">
+                <constraints nullable="false"
+                             validateNullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1732889381551-13"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="int"
+                               columnName="demurrageControlHolidays"
+                               tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1732889381551-14"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="double"
+                               columnName="demurrageCost"
+                               tableName="demurrage"/>
+    </changeSet>
+    <changeSet id="1732889381551-15"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="double"
+                               columnName="demurrageCost"
+                               tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1732889381551-16"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="varchar(255)"
+                               columnName="demurrageCostApply"
+                               tableName="demurrage"/>
+    </changeSet>
+    <changeSet id="1732889381551-17"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="double"
+                               columnName="demurrageCostDiscount"
+                               tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1732889381551-18"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="double"
+                               columnName="demurrageCostPrice"
+                               tableName="demurrage"/>
+    </changeSet>
+    <changeSet id="1732889381551-19"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="varchar(255)"
+                               columnName="demurrageDiscountType"
+                               tableName="demurrage"/>
+    </changeSet>
+    <changeSet id="1732889381551-20"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="demurrageEndDate"
+                               tableName="demurrage"/>
+    </changeSet>
+    <changeSet id="1732889381551-21"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="int"
+                               columnName="demurrageFreeDays"
+                               tableName="demurrage"/>
+    </changeSet>
+    <changeSet id="1732889381551-22"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="demurrageMidDate"
+                               tableName="demurrage"/>
+    </changeSet>
+    <changeSet id="1732889381551-23"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="double"
+                               columnName="demurrageRuleAgentCommission"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-24"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="double"
+                               columnName="demurrageRuleAgentCommissionMultiple"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-25"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="varchar(255)"
+                               columnName="demurrageRuleComments"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-26"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="varchar(255)"
+                               columnName="demurrageRuleDescription"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-28"
+               author="pedro.monteiro">
+        <addColumn tableName="demurrageRule">
+            <column name="demurrageRuleExchange"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"
+                             validateNullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1732889381551-29"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="demurrageRuleExpirationDate"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-30"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="int"
+                               columnName="demurrageRuleFirstPeriodNumber"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-31"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="double"
+                               columnName="demurrageRuleFirstPeriodPrice"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-32"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="int"
+                               columnName="demurrageRuleFreeNumber"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-33"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="double"
+                               columnName="demurrageRuleLastPeriodPrice"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-34"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="int"
+                               columnName="demurrageRuleOrder"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-35"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="int"
+                               columnName="demurrageRuleSecondPeriodNumber"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-36"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="double"
+                               columnName="demurrageRuleSecondPeriodPrice"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-37"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="int"
+                               columnName="demurrageRuleTerminalFirst"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-38"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="double"
+                               columnName="demurrageRuleTerminalFirstCost"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-39"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="int"
+                               columnName="demurrageRuleTerminalFreeNumber"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-40"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="int"
+                               columnName="demurrageRuleTerminalSecond"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-41"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="double"
+                               columnName="demurrageRuleTerminalSecondCost"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-42"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="double"
+                               columnName="demurrageRuleTerminalThirdCost"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-43"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="int"
+                               columnName="demurrageRuleThirdPeriodNumber"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-44"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="double"
+                               columnName="demurrageRuleThirdPeriodPrice"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-45"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime"
+                               columnName="demurrageStartDate"
+                               tableName="demurrage"/>
+    </changeSet>
+    <changeSet id="1732889381551-46"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="DOUBLE"
+                              columnName="grossWeight"
+                              tableName="bookingTransport"
+                              validate="true"/>
+    </changeSet>
+    <changeSet id="1732889381551-48"
+               author="pedro.monteiro">
+        <addColumn tableName="equipment">
+            <column name="grossWeight"
+                    type="DOUBLE"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1732889381551-49"
+               author="pedro.monteiro">
+        <addAutoIncrement columnDataType="int"
+                          columnName="id"
+                          tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1732889381551-50"
+               author="pedro.monteiro">
+        <addAutoIncrement columnDataType="int"
+                          columnName="id"
+                          tableName="equipment"/>
+    </changeSet>
+    <changeSet id="1732889381551-51"
+               author="pedro.monteiro">
+        <addAutoIncrement columnDataType="int"
+                          columnName="id"
+                          tableName="transportMeans"/>
+    </changeSet>
+    <changeSet id="1732889381551-53"
+               author="pedro.monteiro">
+        <addColumn tableName="equipment">
+            <column name="insideCubic"
+                    type="DOUBLE"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1732889381551-55"
+               author="pedro.monteiro">
+        <addColumn tableName="equipment">
+            <column name="insideHeight"
+                    type="DOUBLE"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1732889381551-57"
+               author="pedro.monteiro">
+        <addColumn tableName="equipment">
+            <column name="insideLength"
+                    type="DOUBLE"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1732889381551-59"
+               author="pedro.monteiro">
+        <addColumn tableName="equipment">
+            <column name="insideWidth"
+                    type="DOUBLE"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1732889381551-60"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="int"
+                               columnName="invoiceCompanyID"
+                               tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1732889381551-61"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="int"
+                               columnName="invoiceDetailKey"
+                               tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1732889381551-62"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="int"
+                               columnName="invoiceID"
+                               tableName="demurrage"/>
+    </changeSet>
+    <changeSet id="1732889381551-63"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="int"
+                               columnName="invoiceKey"
+                               tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1732889381551-64"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="INT"
+                              columnName="number"
+                              tableName="equipment"
+                              validate="true"/>
+    </changeSet>
+    <changeSet id="1732889381551-65"
+               author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="varchar(255)"
+                               columnName="payCurrencyCode"
+                               tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1732889381551-67"
+               author="pedro.monteiro">
+        <addColumn tableName="equipment">
+            <column name="payload"
+                    type="DOUBLE"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1732889381551-68"
+               author="pedro.monteiro">
+        <addNotNullConstraint columnDataType="VARCHAR(255)"
+                              columnName="prefix"
+                              tableName="equipment"
+                              validate="true"/>
+    </changeSet>
+    <changeSet id="1732889381551-70"
+               author="pedro.monteiro">
+        <addColumn tableName="demurrageRule">
+            <column name="serviceTypeCode"
+                    type="INT">
+                <constraints nullable="false"
+                             validateNullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

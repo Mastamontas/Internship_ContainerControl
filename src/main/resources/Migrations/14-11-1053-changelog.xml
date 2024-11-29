@@ -1,0 +1,1090 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1731581544087-1" author="pedro.monteiro">
+        <createTable tableName="bookingTransport">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_bookingtransport"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bookingtransportDetail" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transhipment" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fullEmpty" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bookingGoodsDetail" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shipmentTemperature" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shipmentTemperatureUnit" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="haulierID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vehicleReference" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="stowageLocation" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shipmentPackageNumber" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="netWeight" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sealNumberA" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sealNumberB" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="moveTypeBound" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="depotCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="depotAreaCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="depotLocationCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="depotLocationStreet" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="depotLocationRow" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="depotLocationStacking" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="clientID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shipperID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="consigneeID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="notifyID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="agentID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="grossWeight" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="goodsExportDeclaration" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customsDispatchDocument" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customsSeal" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="goodsValue" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="situation" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentDateDischarge" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="commodityExpireDate" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="commodityCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="commodityName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731581544087-2" author="pedro.monteiro">
+        <createTable tableName="demurrageControl">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_demurragecontrol"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tradeLineID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tradeServiceCode" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tradeServiceBound" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tradeVesselCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tradeVoyageNumber" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bookingProcessKey" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentTypeID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bookingKey" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageControlKey" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageControlType" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageControlHolidays" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageControlDate" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageCost" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageCostDiscount" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="invoiceCompanyID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="invoiceKey" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="invoiceDetailKey" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageComments" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731581544087-3" author="pedro.monteiro">
+        <createTable tableName="demurrageRule">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_demurragerule"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="businessUnitKey" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="businessUnitID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="businessUnitShortName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accessUserID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accountID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleKey" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleDescription" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleOrder" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleStartDate" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleExpirationDate" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRulePayer" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="clientID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleWeekend" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleTerminalFreeNumber" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleTerminalFirst" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleTerminalFirstCost" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleTerminalSecond" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleTerminalSecondCost" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleTerminalThirdCost" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="costCurrencyCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleAgentCommission" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleAgentCommissionMultiple" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleFreeNumber" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleFirstPeriodNumber" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleSecondPeriodNumber" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleThirdPeriodNumber" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleFirstPeriodPrice" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleSecondPeriodPrice" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleThirdPeriodPrice" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleLastPeriodPrice" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currencyCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="payCurrencyCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleExchange" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="serviceTypeCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleComments" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731581544087-4" author="pedro.monteiro">
+        <createTable tableName="demurrageRuleCondition">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_demurragerulecondition"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accountID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleKey" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageConditionKey" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageConditionID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageConditionValue" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageConditionOperator" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageConditionImplementedName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731581544087-5" author="pedro.monteiro">
+        <createTable tableName="demurrageRuleLineDetail">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_demurragerulelinedetail"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accountID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleKey" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageRuleLineDetailKey" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="terminalTariffCompanyValue1" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="terminalTariffCompanyValue2" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="terminalTariffCompanyValue3" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageTariffCompanyValue1" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageTariffCompanyValue2" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageTariffCompanyValue3" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="demurrageTariffCompanyValue4" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currencyCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currencyName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731581544087-6" author="pedro.monteiro">
+        <createTable tableName="equipmentClassSentence">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_equipmentclasssentence"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentClassCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tradeLineID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="loadingCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dischargeCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shippingConditionCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentClassSentencePattern1" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentClassSentencePattern2" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731581544087-7" author="pedro.monteiro">
+        <createTable tableName="equipmentCondition">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_equipmentcondition"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="physicalConditionCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="physicalConditionName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="physicalConditionType" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731581544087-8" author="pedro.monteiro">
+        <createTable tableName="equipmentCostRule">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_equipmentcostrule"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementTypeCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentTypeID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementFromCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementToCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transportMeansCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="serviceTypeCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accountID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentCostEstimatedCost" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentCostDescription" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731581544087-9" author="pedro.monteiro">
+        <createTable tableName="equipmentLeasing">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_equipmentleasing"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="leasingContractCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="leasingContractName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731581544087-10" author="pedro.monteiro">
+        <createTable tableName="equipmentService">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_equipmentservice"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentServiceCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentServiceName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentServiceComments" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731581544087-11" author="pedro.monteiro">
+        <createTable tableName="equipmentStatus">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_equipmentstatus"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentStatusCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentStatusName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentStatusLevel1" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentStatusLevel2" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentStatusComments" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731581544087-12" author="pedro.monteiro">
+        <createTable tableName="movementCounter">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_movementcounter"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="counterKey1" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="counterKey2" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="counterKey3" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="counterKey4" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="counterKey5" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementCounterKeyRef1" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementCounterKeyRef2" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementCounterKeyRef3" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementCounterKeyRef4" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementCounterKeyRef5" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="counterAddition" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="counterLastNumber" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="counterPosition" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="counterFill" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="counterFillChar" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="counterReady" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="counterComments" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731581544087-13" author="pedro.monteiro">
+        <createTable tableName="movementLink">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_movementlink"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementLinkType" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accountID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accountVATNumber" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementLinkOutCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementLinkOutName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementEquipmentStatusOutCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementFromOutCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementToOutCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementConditionOutCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementTypeOutBound" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementLinkInCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementLinkInName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementEquipmentStatusInCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementFromInCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementToInCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementConditionInCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementTypeInBound" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="outLocationField" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="inLocationField" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731581544087-14" author="pedro.monteiro">
+        <createTable tableName="movementType">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_movementtype"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementTypeCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementTypeName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementTypeComments" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementTypeEmpty" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731581544087-15" author="pedro.monteiro">
+        <createTable tableName="movementTypeEquipmentStatus">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_movementtypeequipmentstatus"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementTypeCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="movementTypeName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentStatusCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentStatusName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentStatusLevel1" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentStatusLevel2" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731581544087-16" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="agentID" constraintName="uc_bookingtransport_agentid"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-17" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="bookingGoodsDetail" constraintName="uc_bookingtransport_bookinggoodsdetail"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-18" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="bookingtransportDetail"
+                             constraintName="uc_bookingtransport_bookingtransportdetail" tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-19" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="clientID" constraintName="uc_bookingtransport_clientid"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-20" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="commodityCode" constraintName="uc_bookingtransport_commoditycode"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-21" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="commodityExpireDate" constraintName="uc_bookingtransport_commodityexpiredate"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-22" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="commodityName" constraintName="uc_bookingtransport_commodityname"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-23" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="consigneeID" constraintName="uc_bookingtransport_consigneeid"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-24" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="customsDispatchDocument"
+                             constraintName="uc_bookingtransport_customsdispatchdocument" tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-25" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="customsSeal" constraintName="uc_bookingtransport_customsseal"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-26" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="depotAreaCode" constraintName="uc_bookingtransport_depotareacode"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-27" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="depotCode" constraintName="uc_bookingtransport_depotcode"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-28" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="depotLocationCode" constraintName="uc_bookingtransport_depotlocationcode"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-29" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="depotLocationRow" constraintName="uc_bookingtransport_depotlocationrow"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-30" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="depotLocationStacking"
+                             constraintName="uc_bookingtransport_depotlocationstacking" tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-31" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="depotLocationStreet" constraintName="uc_bookingtransport_depotlocationstreet"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-32" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="equipmentDateDischarge"
+                             constraintName="uc_bookingtransport_equipmentdatedischarge" tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-33" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="fullEmpty" constraintName="uc_bookingtransport_fullempty"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-34" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="goodsExportDeclaration"
+                             constraintName="uc_bookingtransport_goodsexportdeclaration" tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-35" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="goodsValue" constraintName="uc_bookingtransport_goodsvalue"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-36" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="grossWeight" constraintName="uc_bookingtransport_grossweight"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-37" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="haulierID" constraintName="uc_bookingtransport_haulierid"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-38" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="moveTypeBound" constraintName="uc_bookingtransport_movetypebound"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-39" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="netWeight" constraintName="uc_bookingtransport_netweight"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-40" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="notifyID" constraintName="uc_bookingtransport_notifyid"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-41" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="sealNumberA" constraintName="uc_bookingtransport_sealnumbera"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-42" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="sealNumberB" constraintName="uc_bookingtransport_sealnumberb"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-43" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="shipmentPackageNumber"
+                             constraintName="uc_bookingtransport_shipmentpackagenumber" tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-44" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="shipmentTemperature" constraintName="uc_bookingtransport_shipmenttemperature"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-45" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="shipmentTemperatureUnit"
+                             constraintName="uc_bookingtransport_shipmenttemperatureunit" tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-46" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="shipperID" constraintName="uc_bookingtransport_shipperid"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-47" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="situation" constraintName="uc_bookingtransport_situation"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-48" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="stowageLocation" constraintName="uc_bookingtransport_stowagelocation"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-49" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="transhipment" constraintName="uc_bookingtransport_transhipment"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-50" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="vehicleReference" constraintName="uc_bookingtransport_vehiclereference"
+                             tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731581544087-51" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="bookingKey" constraintName="uc_demurragecontrol_bookingkey"
+                             tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1731581544087-52" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="bookingProcessKey" constraintName="uc_demurragecontrol_bookingprocesskey"
+                             tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1731581544087-53" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="demurrageComments" constraintName="uc_demurragecontrol_demurragecomments"
+                             tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1731581544087-54" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="demurrageControlDate"
+                             constraintName="uc_demurragecontrol_demurragecontroldate" tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1731581544087-55" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="demurrageControlHolidays"
+                             constraintName="uc_demurragecontrol_demurragecontrolholidays"
+                             tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1731581544087-56" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="demurrageControlKey" constraintName="uc_demurragecontrol_demurragecontrolkey"
+                             tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1731581544087-57" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="demurrageControlType"
+                             constraintName="uc_demurragecontrol_demurragecontroltype" tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1731581544087-58" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="demurrageCost" constraintName="uc_demurragecontrol_demurragecost"
+                             tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1731581544087-59" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="demurrageCostDiscount"
+                             constraintName="uc_demurragecontrol_demurragecostdiscount" tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1731581544087-60" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="equipmentTypeID" constraintName="uc_demurragecontrol_equipmenttypeid"
+                             tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1731581544087-61" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="invoiceCompanyID" constraintName="uc_demurragecontrol_invoicecompanyid"
+                             tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1731581544087-62" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="invoiceDetailKey" constraintName="uc_demurragecontrol_invoicedetailkey"
+                             tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1731581544087-63" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="invoiceKey" constraintName="uc_demurragecontrol_invoicekey"
+                             tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1731581544087-64" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="tradeLineID" constraintName="uc_demurragecontrol_tradelineid"
+                             tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1731581544087-65" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="tradeServiceBound" constraintName="uc_demurragecontrol_tradeservicebound"
+                             tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1731581544087-66" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="tradeServiceCode" constraintName="uc_demurragecontrol_tradeservicecode"
+                             tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1731581544087-67" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="tradeVesselCode" constraintName="uc_demurragecontrol_tradevesselcode"
+                             tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1731581544087-68" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="tradeVoyageNumber" constraintName="uc_demurragecontrol_tradevoyagenumber"
+                             tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1731581544087-69" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="dischargeCode" constraintName="uc_equipmentclasssentence_dischargecode"
+                             tableName="equipmentClassSentence"/>
+    </changeSet>
+    <changeSet id="1731581544087-70" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="equipmentClassCode"
+                             constraintName="uc_equipmentclasssentence_equipmentclasscode"
+                             tableName="equipmentClassSentence"/>
+    </changeSet>
+    <changeSet id="1731581544087-71" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="equipmentClassSentencePattern1"
+                             constraintName="uc_equipmentclasssentence_equipmentclasssentencepattern1"
+                             tableName="equipmentClassSentence"/>
+    </changeSet>
+    <changeSet id="1731581544087-72" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="equipmentClassSentencePattern2"
+                             constraintName="uc_equipmentclasssentence_equipmentclasssentencepattern2"
+                             tableName="equipmentClassSentence"/>
+    </changeSet>
+    <changeSet id="1731581544087-73" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="loadingCode" constraintName="uc_equipmentclasssentence_loadingcode"
+                             tableName="equipmentClassSentence"/>
+    </changeSet>
+    <changeSet id="1731581544087-74" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="shippingConditionCode"
+                             constraintName="uc_equipmentclasssentence_shippingconditioncode"
+                             tableName="equipmentClassSentence"/>
+    </changeSet>
+    <changeSet id="1731581544087-75" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="tradeLineID" constraintName="uc_equipmentclasssentence_tradelineid"
+                             tableName="equipmentClassSentence"/>
+    </changeSet>
+    <changeSet id="1731581544087-76" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="physicalConditionCode"
+                             constraintName="uc_equipmentcondition_physicalconditioncode"
+                             tableName="equipmentCondition"/>
+    </changeSet>
+    <changeSet id="1731581544087-77" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="physicalConditionName"
+                             constraintName="uc_equipmentcondition_physicalconditionname"
+                             tableName="equipmentCondition"/>
+    </changeSet>
+    <changeSet id="1731581544087-78" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="physicalConditionType"
+                             constraintName="uc_equipmentcondition_physicalconditiontype"
+                             tableName="equipmentCondition"/>
+    </changeSet>
+    <changeSet id="1731581544087-79" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="leasingContractCode" constraintName="uc_equipmentleasing_leasingcontractcode"
+                             tableName="equipmentLeasing"/>
+    </changeSet>
+    <changeSet id="1731581544087-80" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="leasingContractName" constraintName="uc_equipmentleasing_leasingcontractname"
+                             tableName="equipmentLeasing"/>
+    </changeSet>
+    <changeSet id="1731581544087-81" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="equipmentServiceCode"
+                             constraintName="uc_equipmentservice_equipmentservicecode" tableName="equipmentService"/>
+    </changeSet>
+    <changeSet id="1731581544087-82" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="equipmentServiceName"
+                             constraintName="uc_equipmentservice_equipmentservicename" tableName="equipmentService"/>
+    </changeSet>
+    <changeSet id="1731581544087-83" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="equipmentStatusCode" constraintName="uc_equipmentstatus_equipmentstatuscode"
+                             tableName="equipmentStatus"/>
+    </changeSet>
+    <changeSet id="1731581544087-84" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="equipmentStatusComments"
+                             constraintName="uc_equipmentstatus_equipmentstatuscomments" tableName="equipmentStatus"/>
+    </changeSet>
+    <changeSet id="1731581544087-85" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="equipmentStatusLevel1"
+                             constraintName="uc_equipmentstatus_equipmentstatuslevel1" tableName="equipmentStatus"/>
+    </changeSet>
+    <changeSet id="1731581544087-86" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="equipmentStatusLevel2"
+                             constraintName="uc_equipmentstatus_equipmentstatuslevel2" tableName="equipmentStatus"/>
+    </changeSet>
+    <changeSet id="1731581544087-87" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="equipmentStatusName" constraintName="uc_equipmentstatus_equipmentstatusname"
+                             tableName="equipmentStatus"/>
+    </changeSet>
+
+</databaseChangeLog>

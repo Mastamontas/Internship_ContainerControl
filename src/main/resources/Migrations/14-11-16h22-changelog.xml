@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1731601336256-18" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="movementKey" constraintName="uc_movement_movementkey" tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731601336256-19" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="movementTypeCode" constraintName="uc_movement_movementtypecode"
+                             tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731601336256-20" author="pedro.monteiro">
+        <dropTable cascadeConstraints="true" tableName="bookingEquipment"/>
+    </changeSet>
+    <changeSet id="1731601336256-1" author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime" columnName="lastUpdated" tableName="bookingTransport"/>
+    </changeSet>
+    <changeSet id="1731601336256-2" author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime" columnName="lastUpdated" tableName="demurrage"/>
+    </changeSet>
+    <changeSet id="1731601336256-3" author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime" columnName="lastUpdated" tableName="demurrageControl"/>
+    </changeSet>
+    <changeSet id="1731601336256-4" author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime" columnName="lastUpdated" tableName="demurrageRule"/>
+    </changeSet>
+    <changeSet id="1731601336256-5" author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime" columnName="lastUpdated" tableName="demurrageRuleCondition"/>
+    </changeSet>
+    <changeSet id="1731601336256-6" author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime" columnName="lastUpdated" tableName="demurrageRuleLineDetail"/>
+    </changeSet>
+    <changeSet id="1731601336256-7" author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime" columnName="lastUpdated" tableName="equipmentClassSentence"/>
+    </changeSet>
+    <changeSet id="1731601336256-8" author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime" columnName="lastUpdated" tableName="equipmentCondition"/>
+    </changeSet>
+    <changeSet id="1731601336256-9" author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime" columnName="lastUpdated" tableName="equipmentCostRule"/>
+    </changeSet>
+    <changeSet id="1731601336256-10" author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime" columnName="lastUpdated" tableName="equipmentLeasing"/>
+    </changeSet>
+    <changeSet id="1731601336256-11" author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime" columnName="lastUpdated" tableName="equipmentService"/>
+    </changeSet>
+    <changeSet id="1731601336256-12" author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime" columnName="lastUpdated" tableName="equipmentStatus"/>
+    </changeSet>
+    <changeSet id="1731601336256-13" author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime" columnName="lastUpdated" tableName="movement"/>
+    </changeSet>
+    <changeSet id="1731601336256-14" author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime" columnName="lastUpdated" tableName="movementCounter"/>
+    </changeSet>
+    <changeSet id="1731601336256-15" author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime" columnName="lastUpdated" tableName="movementLink"/>
+    </changeSet>
+    <changeSet id="1731601336256-16" author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime" columnName="lastUpdated" tableName="movementType"/>
+    </changeSet>
+    <changeSet id="1731601336256-17" author="pedro.monteiro">
+        <dropNotNullConstraint columnDataType="datetime" columnName="lastUpdated"
+                               tableName="movementTypeEquipmentStatus"/>
+    </changeSet>
+
+</databaseChangeLog>

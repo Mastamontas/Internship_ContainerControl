@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd">
+
+    <!--alterou se colunas que estavam na process status para a approval e vice versa-->
+    <!-- Step 1: Add new columns to target tables -->
+    <changeSet id="move-columns-1" author="pedro.monteiro (generated)">
+    <!-- Add bookingID, billOfLandingID, approved, description, notificationBody to approval table -->
+    <addColumn tableName="approval">
+        <column name="bookingID" type="INT">
+                <constraints nullable="false"/>
+        </column>
+        <column name="billOfLandingID" type="INT">
+                <constraints nullable="false"/>
+        </column>
+        <column name="approved" type="BOOLEAN">
+                <constraints nullable="false"/>
+        </column>
+        <column name="description" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+        </column>
+        <column name="notificationBody" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+        </column>
+    </addColumn>
+        <!-- Add statusName to processStatus table -->
+        <addColumn tableName="processStatus">
+            <column name="statusName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+</changeSet>
+    <!--apagar as colunas erradas das tabelas -->
+    <!-- Step 2: Remove old columns from source tables -->
+    <changeSet id="move-columns-2" author="pedro.monteiro (generated)">
+        <!-- Remove bookingID, billOfLandingID, approved, description, notificationBody from processStatus table -->
+        <dropColumn tableName="processStatus" columnName="bookingID"/>
+        <dropColumn tableName="processStatus" columnName="billOfLandingID"/>
+        <dropColumn tableName="processStatus" columnName="approved"/>
+        <dropColumn tableName="processStatus" columnName="description"/>
+        <dropColumn tableName="processStatus" columnName="notificationBody"/>
+        <!-- Remove statusName from approval table -->
+        <dropColumn tableName="approval" columnName="statusName"/>
+    </changeSet>
+</databaseChangeLog>

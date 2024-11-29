@@ -1,0 +1,1185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1730199185076-1" author="pedro.monteiro">
+        <createTable tableName="account">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_account"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accountCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="countryID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="agreementID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accountGroupID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accountName" type="VARCHAR(255)"/>
+            <column name="accountVATNumber" type="VARCHAR(255)"/>
+            <column name="officeContact1" type="VARCHAR(255)"/>
+            <column name="accountWebPage" type="VARCHAR(255)"/>
+            <column name="officePhone" type="VARCHAR(255)"/>
+            <column name="officePhone2" type="VARCHAR(255)"/>
+            <column name="officeFax" type="VARCHAR(255)"/>
+            <column name="officeEmail" type="VARCHAR(255)"/>
+            <column name="accountEORI" type="VARCHAR(255)"/>
+            <column name="accountAccountingAdditionalCode" type="VARCHAR(255)"/>
+            <column name="accountCreditCode" type="VARCHAR(255)"/>
+            <column name="accountDebitCode" type="VARCHAR(255)"/>
+            <column name="accountExchangeTypeDebit" type="VARCHAR(255)"/>
+            <column name="accountExchangeTypeCredit" type="VARCHAR(255)"/>
+            <column name="accountComments" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-2" author="pedro.monteiro">
+        <createTable tableName="accountGroup">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_accountgroup"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="agreementCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="agreementName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="agreementDescription" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="agreementDays" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="endMonth" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nextMonth" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fixDay" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-3" author="pedro.monteiro">
+        <createTable tableName="accountOffice">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_accountoffice"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accountID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subAccountID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locationID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="officeAddressName" type="VARCHAR(255)"/>
+            <column name="officeAddress1" type="VARCHAR(255)"/>
+            <column name="officeAddress2" type="VARCHAR(255)"/>
+            <column name="officeAddress3" type="VARCHAR(255)"/>
+            <column name="officeAddress4" type="VARCHAR(255)"/>
+            <column name="officeCity" type="VARCHAR(255)"/>
+            <column name="officeState" type="VARCHAR(255)"/>
+            <column name="officePostalCode1" type="VARCHAR(255)"/>
+            <column name="officePostalCode2" type="VARCHAR(255)"/>
+            <column name="officePostalCode3" type="VARCHAR(255)"/>
+            <column name="officeRegion" type="VARCHAR(255)"/>
+            <column name="officeContact1" type="VARCHAR(255)"/>
+            <column name="officeContact2" type="VARCHAR(255)"/>
+            <column name="officePhone1" type="VARCHAR(255)"/>
+            <column name="officePhone2" type="VARCHAR(255)"/>
+            <column name="officePhone3" type="VARCHAR(255)"/>
+            <column name="officeEmail" type="VARCHAR(255)"/>
+            <column name="officeEmailTo" type="VARCHAR(255)"/>
+            <column name="officeEmailCc" type="VARCHAR(255)"/>
+            <column name="officeFax" type="VARCHAR(255)"/>
+            <column name="officeFax2" type="VARCHAR(255)"/>
+            <column name="officeTypeMain" type="VARCHAR(255)"/>
+            <column name="officeTypeSales" type="VARCHAR(255)"/>
+            <column name="officeTypeInvoice" type="VARCHAR(255)"/>
+            <column name="officeTypeShipper" type="VARCHAR(255)"/>
+            <column name="officeTypeConsignee" type="VARCHAR(255)"/>
+            <column name="officeTypeNotify" type="VARCHAR(255)"/>
+            <column name="officeTypeReceipt" type="VARCHAR(255)"/>
+            <column name="officeTypeDelivery" type="VARCHAR(255)"/>
+            <column name="officeTypeAgent" type="VARCHAR(255)"/>
+            <column name="officeTypeLine" type="VARCHAR(255)"/>
+            <column name="officeTypeSupplier" type="VARCHAR(255)"/>
+            <column name="officeTypeComments" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-4" author="pedro.monteiro">
+        <createTable tableName="address">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_address"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantId" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="businessStatusKey" type="VARCHAR(255)"/>
+            <column name="shipperAddress1" type="VARCHAR(255)"/>
+            <column name="shipperAddress2" type="VARCHAR(255)"/>
+            <column name="shipperAddress3" type="VARCHAR(255)"/>
+            <column name="shipperPostal1" type="VARCHAR(255)"/>
+            <column name="shipperPostal2" type="VARCHAR(255)"/>
+            <column name="shipperCity" type="VARCHAR(255)"/>
+            <column name="shipperState" type="VARCHAR(255)"/>
+            <column name="consigneeAddress1" type="VARCHAR(255)"/>
+            <column name="consigneeAddress2" type="VARCHAR(255)"/>
+            <column name="consigneeAddress3" type="VARCHAR(255)"/>
+            <column name="consigneeAddress4" type="VARCHAR(255)"/>
+            <column name="consigneePostal1" type="VARCHAR(255)"/>
+            <column name="consigneePostal2" type="VARCHAR(255)"/>
+            <column name="consigneeCity" type="VARCHAR(255)"/>
+            <column name="consigneeState" type="VARCHAR(255)"/>
+            <column name="notifyAddress1" type="VARCHAR(255)"/>
+            <column name="notifyAddress2" type="VARCHAR(255)"/>
+            <column name="notifyAddress3" type="VARCHAR(255)"/>
+            <column name="notifyAddress4" type="VARCHAR(255)"/>
+            <column name="notifyPostal1" type="VARCHAR(255)"/>
+            <column name="notifyPostal2" type="VARCHAR(255)"/>
+            <column name="notifyCity" type="VARCHAR(255)"/>
+            <column name="notifyState" type="VARCHAR(255)"/>
+            <column name="alsoNotifyAddress1" type="VARCHAR(255)"/>
+            <column name="alsoNotifyAddress2" type="VARCHAR(255)"/>
+            <column name="alsoNotifyAddress3" type="VARCHAR(255)"/>
+            <column name="alsoNotifyAddress4" type="VARCHAR(255)"/>
+            <column name="pickUpAddress1" type="VARCHAR(255)"/>
+            <column name="pickUpAddress2" type="VARCHAR(255)"/>
+            <column name="pickUpAddress3" type="VARCHAR(255)"/>
+            <column name="pickUpAddress4" type="VARCHAR(255)"/>
+            <column name="pickUpPostal1" type="VARCHAR(255)"/>
+            <column name="pickUpPostal2" type="VARCHAR(255)"/>
+            <column name="pickUpCity" type="VARCHAR(255)"/>
+            <column name="pickUpState" type="VARCHAR(255)"/>
+            <column name="deliveryAddress1" type="VARCHAR(255)"/>
+            <column name="deliveryAddress2" type="VARCHAR(255)"/>
+            <column name="deliveryAddress3" type="VARCHAR(255)"/>
+            <column name="deliveryAddress4" type="VARCHAR(255)"/>
+            <column name="deliveryAddressPostal1" type="VARCHAR(255)"/>
+            <column name="deliveryAddressPostal2" type="VARCHAR(255)"/>
+            <column name="deliveryAddressCity" type="VARCHAR(255)"/>
+            <column name="deliveryAddressState" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-5" author="pedro.monteiro">
+        <createTable tableName="billOfLanding">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_billoflanding"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdate" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantId" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="addressID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="billOfLandingType" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bookingID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="processStatusID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="billOfLandingNumber" type="INT"/>
+            <column name="businessStatusKey" type="INT"/>
+            <column name="numberOriginal" type="INT"/>
+            <column name="copyNumber" type="INT"/>
+            <column name="typeOfService" type="VARCHAR(255)"/>
+            <column name="exportReference" type="VARCHAR(255)"/>
+            <column name="preCarriage" type="VARCHAR(255)"/>
+            <column name="vessel" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="voyage" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="receipt" type="VARCHAR(255)"/>
+            <column name="loadingPort" type="INT"/>
+            <column name="dischargePort" type="INT"/>
+            <column name="delivery" type="INT"/>
+            <column name="payableCollect" type="INT"/>
+            <column name="payablePrepaid" type="INT"/>
+            <column name="countryOfOrigin" type="INT"/>
+            <column name="onBoard" type="INT"/>
+            <column name="shipping" type="INT"/>
+            <column name="responsibility" type="INT"/>
+            <column name="placeDate" type="DATE"/>
+            <column name="onBoardDate" type="DATE"/>
+            <column name="quantityType" type="VARCHAR(255)"/>
+            <column name="quantity" type="INT"/>
+            <column name="addressAgent1" type="VARCHAR(255)"/>
+            <column name="addressAgent2" type="VARCHAR(255)"/>
+            <column name="addressAgent3" type="VARCHAR(255)"/>
+            <column name="addressAgent4" type="VARCHAR(255)"/>
+            <column name="city" type="VARCHAR(255)"/>
+            <column name="state" type="VARCHAR(255)"/>
+            <column name="POBox1" type="VARCHAR(255)"/>
+            <column name="POBox2" type="VARCHAR(255)"/>
+            <column name="pickUpDate" type="DATE"/>
+            <column name="pickUpTime" type="DATETIME"/>
+            <column name="deliveryDate" type="DATE"/>
+            <column name="deliveryTime" type="DATETIME"/>
+            <column name="driversReference" type="VARCHAR(255)"/>
+            <column name="specialRequirements" type="VARCHAR(255)"/>
+            <column name="haulierContact1" type="VARCHAR(255)"/>
+            <column name="haulierContact2" type="VARCHAR(255)"/>
+            <column name="bookingPartyContact1" type="VARCHAR(255)"/>
+            <column name="bookingPartyContact2" type="VARCHAR(255)"/>
+            <column name="additionalInfo1" type="VARCHAR(255)"/>
+            <column name="additionalInfo2" type="VARCHAR(255)"/>
+            <column name="blAdditionalValue1" type="INT"/>
+            <column name="blAdditionalValue2" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-6" author="pedro.monteiro">
+        <createTable tableName="booking">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_booking"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantId" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bookingNumber" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transportId" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locationLoadingPortId" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locationDischargePortId" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locationReceiptPortId" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locationDeliveryPortId" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="processStatusId" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="clientId" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subAccountId" type="INT"/>
+            <column name="shipperId" type="INT"/>
+            <column name="consigneeId" type="INT"/>
+            <column name="externalLineId" type="INT"/>
+            <column name="currencyId" type="INT"/>
+            <column name="incontermId" type="INT"/>
+            <column name="invoiceId" type="INT"/>
+            <column name="customStatusId" type="INT"/>
+            <column name="shippingConditionId" type="INT"/>
+            <column name="bookingDate" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="documentQuantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="processKey" type="VARCHAR(255)"/>
+            <column name="transhipment" type="VARCHAR(255)"/>
+            <column name="clientReference" type="VARCHAR(255)"/>
+            <column name="accountingA" type="VARCHAR(255)"/>
+            <column name="mrn" type="VARCHAR(255)"/>
+            <column name="comments" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-7" author="pedro.monteiro">
+        <createTable tableName="bookingEquipment">
+            <column autoIncrement="true" name="bookingEquipmentId" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_bookingequipment"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentTypeID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EquipmentID" type="INT"/>
+            <column name="physicalConditionID" type="INT"/>
+            <column name="movementID" type="INT"/>
+            <column name="terminalLoadLocationID" type="INT"/>
+            <column name="terminalDischargeLocationID" type="INT"/>
+            <column name="parkLocationID" type="INT"/>
+            <column name="transportMeansID" type="INT"/>
+            <column name="stateID" type="INT"/>
+            <column name="equipmentOwnerAccountID" type="INT"/>
+            <column name="businessUnitKey" type="INT"/>
+            <column name="accessUserID" type="INT"/>
+            <column name="businessStatusKey" type="INT"/>
+            <column name="goodsDetails" type="VARCHAR(255)"/>
+            <column name="transhipment" type="VARCHAR(255)"/>
+            <column name="bookingDate" type="DATE"/>
+            <column name="gateDate" type="DATE"/>
+            <column name="loadingDate" type="DATE"/>
+            <column name="releaseReference" type="VARCHAR(255)"/>
+            <column name="turnInReference" type="VARCHAR(255)"/>
+            <column name="transportDetails" type="VARCHAR(255)"/>
+            <column name="sealNumberA" type="VARCHAR(255)"/>
+            <column name="sealNumberB" type="VARCHAR(255)"/>
+            <column name="brand" type="VARCHAR(255)"/>
+            <column name="model" type="VARCHAR(255)"/>
+            <column name="chassis" type="VARCHAR(255)"/>
+            <column name="vehicleUsage" type="CHAR"/>
+            <column name="vehicleCategory" type="CHAR"/>
+            <column name="SOC" type="CHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VGMDocReferenceVerification" type="VARCHAR(255)"/>
+            <column name="VGMWeightDate" type="DATE"/>
+            <column name="VGMWeightTime" type="DATETIME"/>
+            <column name="VGMWeight" type="DOUBLE"/>
+            <column name="VGMMethod" type="VARCHAR(255)"/>
+            <column name="VGMAuthorizedOfficialName" type="VARCHAR(255)"/>
+            <column name="VGMDocumentNumber" type="VARCHAR(255)"/>
+            <column name="VGMPath" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-8" author="pedro.monteiro">
+        <createTable tableName="commodity">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_commodity"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdate" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="commodityName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="commodityForeignName" type="VARCHAR(255)"/>
+            <column name="commodityDescription" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-9" author="pedro.monteiro">
+        <createTable tableName="customStatus">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_customstatus"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customStatusCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customStatusName" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-10" author="pedro.monteiro">
+        <createTable tableName="customsDocumentsType">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_customsdocumentstype"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PCOMCustomsDocumentTypeDescription" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-11" author="pedro.monteiro">
+        <createTable tableName="customsOffice">
+            <column autoIncrement="true" name="customsOfficeId" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_customsoffice"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bookingID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shipmentID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customsDocumentTypeID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PCOMCustomsDocumentNumber" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PCOMCustomsOffice" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PCOMCustomsDocumentDate" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PCOMCustomsEntity" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PCOMCustomsStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PCOMExportsDeclaration" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PCOMFileName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-12" author="pedro.monteiro">
+        <createTable tableName="dangerousGoods">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_dangerousgoods"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdate" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dangerousGoodsCode" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dangerousGoodsName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dangerousGoodsDescription" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dangerousGoodsClass" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dangerousGoodsRisk" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="packageA" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="packageB" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dangerousGoodsComment" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="clusterID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-13" author="pedro.monteiro">
+        <createTable tableName="dangerousGoodsPage">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_dangerousgoodspage"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdate" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dangerousGoodsID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pageNumber" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="page" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="clusterID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-14" author="pedro.monteiro">
+        <createTable tableName="equipment">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_equipment"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdate" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentTypeID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prefix" type="VARCHAR(255)"/>
+            <column name="number" type="INT"/>
+            <column name="checkDigit" type="INT"/>
+            <column name="grossWeight" type="FLOAT"/>
+            <column name="insideCubic" type="FLOAT"/>
+            <column name="insideHeight" type="FLOAT"/>
+            <column name="insideLength" type="FLOAT"/>
+            <column name="insideWidth" type="FLOAT"/>
+            <column name="yearOfManufacture" type="INT"/>
+            <column name="payload" type="INT"/>
+            <column name="comment" type="VARCHAR(255)"/>
+            <column name="lineID" type="INT"/>
+            <column name="ownerID" type="INT"/>
+            <column name="SOC" type="BOOLEAN"/>
+            <column name="clusterID" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-15" author="pedro.monteiro">
+        <createTable tableName="equipmentClass">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_equipmentclass"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdate" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentCode" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentName" type="VARCHAR(255)"/>
+            <column name="equipmentType" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-16" author="pedro.monteiro">
+        <createTable tableName="equipmentType">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_equipmenttype"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdate" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentClassID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentTypeCode" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipmentTypeLength" type="INT"/>
+            <column name="equipmentTypeName" type="VARCHAR(255)"/>
+            <column name="equipmentTypeTareWeight" type="FLOAT"/>
+            <column name="equipmentTypeHeight" type="FLOAT"/>
+            <column name="equipmentTypeComments" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-17" author="pedro.monteiro">
+        <createTable tableName="location">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_location"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accountID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="countryID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locationCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locationName" type="VARCHAR(255)"/>
+            <column name="locationEquipmentStatus" type="VARCHAR(255)"/>
+            <column name="locationPlaceStatus" type="VARCHAR(255)"/>
+            <column name="locationPortStatus" type="VARCHAR(255)"/>
+            <column name="locationTerminalStatus" type="VARCHAR(255)"/>
+            <column name="locationComments" type="VARCHAR(255)"/>
+            <column name="clusterID" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-18" author="pedro.monteiro">
+        <createTable tableName="package">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_package"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdate" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="packageCode" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="foreignName" type="VARCHAR(255)"/>
+            <column name="packageName" type="VARCHAR(255)"/>
+            <column name="packageComments" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-19" author="pedro.monteiro">
+        <createTable tableName="shipment">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_shipment"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bookingID" type="INT"/>
+            <column name="customStatusID" type="INT"/>
+            <column name="commodityID" type="INT"/>
+            <column name="packageID" type="INT"/>
+            <column name="innerPackageID" type="INT"/>
+            <column name="measureUnitID" type="INT"/>
+            <column name="temperatureUnitID" type="INT"/>
+            <column name="dangerousGoodsID" type="INT"/>
+            <column name="payableHowID" type="INT"/>
+            <column name="locationPayID" type="INT"/>
+            <column name="quoteID" type="INT"/>
+            <column name="flashPointUnitID" type="INT"/>
+            <column name="accessUserID" type="INT"/>
+            <column name="businessUnitKey" type="INT"/>
+            <column name="shipmentOrder" type="INT"/>
+            <column name="shipmentDescription" type="VARCHAR(255)"/>
+            <column name="numberOfPackages" type="INT"/>
+            <column name="numberInPackages" type="INT"/>
+            <column name="grossWeight" type="DOUBLE"/>
+            <column name="netWeight" type="DOUBLE"/>
+            <column name="measures" type="DOUBLE"/>
+            <column name="temperature" type="DOUBLE"/>
+            <column name="UCR" type="VARCHAR(255)"/>
+            <column name="UCN" type="VARCHAR(255)"/>
+            <column name="dangerousGoodsMP" type="VARCHAR(255)"/>
+            <column name="freightLineReference" type="VARCHAR(255)"/>
+            <column name="freightReference" type="VARCHAR(255)"/>
+            <column name="revision" type="VARCHAR(255)"/>
+            <column name="flashPoint" type="DOUBLE"/>
+            <column name="packagingGroup" type="VARCHAR(255)"/>
+            <column name="marineWeight" type="DOUBLE"/>
+            <column name="minimumTemperature" type="DOUBLE"/>
+            <column name="maximumTemperature" type="DOUBLE"/>
+            <column name="marineDescription" type="VARCHAR(255)"/>
+            <column name="approvalNumber" type="VARCHAR(255)"/>
+            <column name="shipmentLimitedQuantities" type="VARCHAR(255)"/>
+            <column name="additionalInformation1" type="VARCHAR(255)"/>
+            <column name="additionalInformation2" type="VARCHAR(255)"/>
+            <column name="additionalInformation3" type="VARCHAR(255)"/>
+            <column name="shipmentAdditionalNValue1" type="DOUBLE"/>
+            <column name="shipmentAdditionalNValue2" type="DOUBLE"/>
+            <column name="shipmentAdditionalNValue3" type="DOUBLE"/>
+            <column name="IMOPath" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-20" author="pedro.monteiro">
+        <createTable tableName="shipmentDetail">
+            <column autoIncrement="true" name="shipmentDetailId" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_shipmentdetail"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bookingEquipmentID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shipmentID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="businessUnitKey" type="VARCHAR(255)"/>
+            <column name="shipmentDetailOrder" type="INT"/>
+            <column name="numbers" type="INT"/>
+            <column name="marks" type="VARCHAR(255)"/>
+            <column name="packaging" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="weight" type="DOUBLE"/>
+            <column name="measures" type="DOUBLE"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-21" author="pedro.monteiro">
+        <createTable tableName="shippingCondition">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_shippingcondition"/>
+            </column>
+            <column name="createdOn" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantId" type="binary(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shippingConditionCode" type="VARCHAR(8)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shippingConditionName" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-22" author="pedro.monteiro">
+        <createTable tableName="trade">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_trade"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdatedOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="businessUnitKey" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accessUserID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tradeCode" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tradeName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tradeType" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tradeBound" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tradeAccountingCodeA" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tradeAccountingCodeB" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-23" author="pedro.monteiro">
+        <createTable tableName="transport">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_transport"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tradeLine" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tradeID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="voyageID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="businessUnitID" type="INT"/>
+            <column name="businessStatusID" type="INT"/>
+            <column name="accessUserID" type="INT"/>
+            <column name="transportDate" type="DATE"/>
+            <column name="transportExchange" type="DATE"/>
+            <column name="transportAccounting" type="VARCHAR(255)"/>
+            <column name="transportState" type="VARCHAR(255)"/>
+            <column name="transportComments" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-24" author="pedro.monteiro">
+        <createTable tableName="voyage">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_voyage"/>
+            </column>
+            <column name="createdOn" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastUpdated" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenantID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dbStatus" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="voyageNumber" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vesselID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="agentPortLocationID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="startPortLocationID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="previousPortLocationID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nextPortLocationID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vesselAgentAccountID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vesselLineAccountID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="voyageDateETA" type="DATE"/>
+            <column name="voyageTimeETA" type="TIME"/>
+            <column name="voyageDateETD" type="DATE"/>
+            <column name="voyageTimeETD" type="TIME"/>
+            <column name="voyageStartETD" type="DATE"/>
+            <column name="voyagePreviousETD" type="DATE"/>
+            <column name="voyageNextETA" type="DATE"/>
+            <column name="callStatus" type="VARCHAR(255)"/>
+            <column name="voyageCallNumber" type="VARCHAR(255)"/>
+            <column name="voyageCallProcess" type="VARCHAR(255)"/>
+            <column name="voyageAdditionalCall" type="VARCHAR(255)"/>
+            <column name="voyageAccountingCode" type="VARCHAR(255)"/>
+            <column name="voyageComments" type="VARCHAR(255)"/>
+            <column name="voyageDateRTA" type="DATE"/>
+            <column name="voyageTimeRTA" type="TIME"/>
+            <column name="voyageDateRTD" type="DATE"/>
+            <column name="voyageTimeRTD" type="TIME"/>
+            <column name="voyageAdditionalSValue1" type="VARCHAR(255)"/>
+            <column name="voyageAdditionalNValue1" type="DOUBLE"/>
+            <column name="voyageAdditionalDValue1" type="DATE"/>
+            <column name="voyageAdditionalDValue2" type="DATE"/>
+            <column name="electronicManifestReference" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1730199185076-25" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="bookingNumber" constraintName="uc_booking_bookingnumber" tableName="booking"/>
+    </changeSet>
+    <changeSet id="1730199185076-26" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="clientId" constraintName="uc_booking_clientid" tableName="booking"/>
+    </changeSet>
+    <changeSet id="1730199185076-27" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="consigneeId" constraintName="uc_booking_consigneeid" tableName="booking"/>
+    </changeSet>
+    <changeSet id="1730199185076-28" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="currencyId" constraintName="uc_booking_currencyid" tableName="booking"/>
+    </changeSet>
+    <changeSet id="1730199185076-29" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="customStatusId" constraintName="uc_booking_customstatusid"
+                             tableName="booking"/>
+    </changeSet>
+    <changeSet id="1730199185076-30" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="externalLineId" constraintName="uc_booking_externallineid"
+                             tableName="booking"/>
+    </changeSet>
+    <changeSet id="1730199185076-31" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="incontermId" constraintName="uc_booking_incontermid" tableName="booking"/>
+    </changeSet>
+    <changeSet id="1730199185076-32" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="invoiceId" constraintName="uc_booking_invoiceid" tableName="booking"/>
+    </changeSet>
+    <changeSet id="1730199185076-33" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="locationDeliveryPortId" constraintName="uc_booking_locationdeliveryportid"
+                             tableName="booking"/>
+    </changeSet>
+    <changeSet id="1730199185076-34" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="locationDischargePortId" constraintName="uc_booking_locationdischargeportid"
+                             tableName="booking"/>
+    </changeSet>
+    <changeSet id="1730199185076-35" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="locationLoadingPortId" constraintName="uc_booking_locationloadingportid"
+                             tableName="booking"/>
+    </changeSet>
+    <changeSet id="1730199185076-36" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="locationReceiptPortId" constraintName="uc_booking_locationreceiptportid"
+                             tableName="booking"/>
+    </changeSet>
+    <changeSet id="1730199185076-37" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="processStatusId" constraintName="uc_booking_processstatusid"
+                             tableName="booking"/>
+    </changeSet>
+    <changeSet id="1730199185076-38" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="shipperId" constraintName="uc_booking_shipperid" tableName="booking"/>
+    </changeSet>
+    <changeSet id="1730199185076-39" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="shippingConditionId" constraintName="uc_booking_shippingconditionid"
+                             tableName="booking"/>
+    </changeSet>
+    <changeSet id="1730199185076-40" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="subAccountId" constraintName="uc_booking_subaccountid" tableName="booking"/>
+    </changeSet>
+    <changeSet id="1730199185076-41" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="tenantId" constraintName="uc_booking_tenantid" tableName="booking"/>
+    </changeSet>
+    <changeSet id="1730199185076-42" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="transportId" constraintName="uc_booking_transportid" tableName="booking"/>
+    </changeSet>
+    <changeSet id="1730199185076-43" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="commodityName" constraintName="uc_commodity_commodityname"
+                             tableName="commodity"/>
+    </changeSet>
+    <changeSet id="1730199185076-44" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="tenantID" constraintName="uc_commodity_tenantid" tableName="commodity"/>
+    </changeSet>
+    <changeSet id="1730199185076-45" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="clusterID" constraintName="uc_dangerousgoods_clusterid"
+                             tableName="dangerousGoods"/>
+    </changeSet>
+    <changeSet id="1730199185076-46" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="dangerousGoodsCode" constraintName="uc_dangerousgoods_dangerousgoodscode"
+                             tableName="dangerousGoods"/>
+    </changeSet>
+    <changeSet id="1730199185076-47" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="tenantID" constraintName="uc_dangerousgoods_tenantid"
+                             tableName="dangerousGoods"/>
+    </changeSet>
+    <changeSet id="1730199185076-48" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="clusterID" constraintName="uc_dangerousgoodspage_clusterid"
+                             tableName="dangerousGoodsPage"/>
+    </changeSet>
+    <changeSet id="1730199185076-49" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="dangerousGoodsID" constraintName="uc_dangerousgoodspage_dangerousgoodsid"
+                             tableName="dangerousGoodsPage"/>
+    </changeSet>
+    <changeSet id="1730199185076-50" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="pageNumber" constraintName="uc_dangerousgoodspage_pagenumber"
+                             tableName="dangerousGoodsPage"/>
+    </changeSet>
+    <changeSet id="1730199185076-51" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="tenantID" constraintName="uc_dangerousgoodspage_tenantid"
+                             tableName="dangerousGoodsPage"/>
+    </changeSet>
+    <changeSet id="1730199185076-52" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="equipmentTypeID" constraintName="uc_equipment_equipmenttypeid"
+                             tableName="equipment"/>
+    </changeSet>
+    <changeSet id="1730199185076-53" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="tenantID" constraintName="uc_equipment_tenantid" tableName="equipment"/>
+    </changeSet>
+    <changeSet id="1730199185076-54" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="equipmentCode" constraintName="uc_equipmentclass_equipmentcode"
+                             tableName="equipmentClass"/>
+    </changeSet>
+    <changeSet id="1730199185076-55" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="tenantID" constraintName="uc_equipmentclass_tenantid"
+                             tableName="equipmentClass"/>
+    </changeSet>
+    <changeSet id="1730199185076-56" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="equipmentClassID" constraintName="uc_equipmenttype_equipmentclassid"
+                             tableName="equipmentType"/>
+    </changeSet>
+    <changeSet id="1730199185076-57" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="equipmentTypeCode" constraintName="uc_equipmenttype_equipmenttypecode"
+                             tableName="equipmentType"/>
+    </changeSet>
+    <changeSet id="1730199185076-58" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="tenantID" constraintName="uc_equipmenttype_tenantid"
+                             tableName="equipmentType"/>
+    </changeSet>
+    <changeSet id="1730199185076-59" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="locationCode" constraintName="uc_location_locationcode" tableName="location"/>
+    </changeSet>
+    <changeSet id="1730199185076-60" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="packageCode" constraintName="uc_package_packagecode" tableName="package"/>
+    </changeSet>
+    <changeSet id="1730199185076-61" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="tenantID" constraintName="uc_package_tenantid" tableName="package"/>
+    </changeSet>
+    <changeSet id="1730199185076-62" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="shippingConditionCode"
+                             constraintName="uc_shippingcondition_shippingconditioncode" tableName="shippingCondition"/>
+    </changeSet>
+    <changeSet id="1730199185076-63" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="shippingConditionName"
+                             constraintName="uc_shippingcondition_shippingconditionname" tableName="shippingCondition"/>
+    </changeSet>
+    <changeSet id="1730199185076-64" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="tenantId" constraintName="uc_shippingcondition_tenantid"
+                             tableName="shippingCondition"/>
+    </changeSet>
+    <changeSet id="1730199185076-65" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="accessUserID" constraintName="uc_transport_accessuserid"
+                             tableName="transport"/>
+    </changeSet>
+    <changeSet id="1730199185076-66" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="tradeID" constraintName="uc_transport_tradeid" tableName="transport"/>
+    </changeSet>
+    <changeSet id="1730199185076-67" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="tradeLine" constraintName="uc_transport_tradeline" tableName="transport"/>
+    </changeSet>
+    <changeSet id="1730199185076-68" author="pedro.monteiro">
+        <addUniqueConstraint columnNames="voyageID" constraintName="uc_transport_voyageid" tableName="transport"/>
+    </changeSet>
+
+</databaseChangeLog>

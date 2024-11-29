@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd">
+
+
+    <include file="Migrations/29-01-2024-changelog.xml"/>
+    <include file="Migrations/29-01-2024-afternoon-changelog.xml"/>
+    <include file="Migrations/29-01-2024-1620-changelog-entities.xml"/>
+    <include file="Migrations/30-01-2024-entities-changelog.xml"/>
+    <include file="Migrations/30-01-2024-LastEntitieschangelog.xml"/>
+    <include file="Migrations/30-01-2024-Entities_red-changelog.xml"/>
+    <include file="Migrations/31-01-2024-15h19-changelog.xml"/>
+    <include file="Migrations/04-01-atualizacoes-changelog.xml"/>
+    <include file="Migrations/05-01-changelog.xml"/>
+    <include file="Migrations/12-01-1420-entidadesCC-changelog.xml"/>
+    <include file="Migrations/13-11-1028-changelog.xml"/>
+    <include file="Migrations/14-11-1053-changelog.xml"/>
+    <include file="Migrations/14-11-16h22-changelog.xml"/>
+    <include file="Migrations/14-11-16h39-changelog.xml"/>
+    <include file="Migrations/14-11-16h54-changelog.xml"/>
+    <include file="Migrations/21-01-changelog.xml"/>
+    <include file="Migrations/21-01-10h46-changelog.xml"/>
+    <include file="Migrations/29-11-changelog.xml"/>
+</databaseChangeLog>
