@@ -24,6 +24,7 @@ stages:
             inputs:
                 version: '17'
                 jdkArchitectureOption: 'x64'
+                jdkSourceOption: 'PreInstalled'
           #cache maven dependencies
           - task: Cache@2
             displayName: "Cache Maven Dependencies"
