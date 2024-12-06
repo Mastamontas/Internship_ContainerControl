@@ -10,34 +10,38 @@ pool:
 stages:
   - stage: BuildAndTest
     displayName: "Build and test"
-    steps:
-      #check out code
-      - task: Checkout@1
-        displayName: "Checkout Code"
-      #set up java 17
-      - task: UseJavaVersion@1
-        displayName: "set up java 17"
-        inputs:
-            versionSpec: '17'
-            jdkArchitectureOption: 'x64'
-            jdkSourceOption: 'LocalDirectory'
-            jdkFile: '/usr/lib/jvm/zulu-17-amd64'
-            cleanDestinationDirectory: false
+    jobs:
+      - job: Build
+        displayName: "Build job"
+        steps:
+          #check out code
+          - task: Checkout@1
+            displayName: "Checkout Code"
 
-      #cache maven dependencies
-      - task: Cache@2
-        displayName: "Cache Maven Dependencies"
-        inputs:
-          key: 'maven | "$(Agent.OS)" | pom.xml'
-          path: ~/.m2/repository'
-          cacheHitVar: 'MavenCacheRestored'
+          #set up java 17
+          - task: UseJavaVersion@1
+            displayName: "set up java 17"
+            inputs:
+                versionSpec: '17'
+                jdkArchitectureOption: 'x64'
+                jdkSourceOption: 'LocalDirectory'
+                jdkFile: '/usr/lib/jvm/zulu-17-amd64'
+                cleanDestinationDirectory: false
 
-      #install dependencies and build
-      - script: mvn clean install
-        displayName: "Install Dependencies and Build"
+          #cache maven dependencies
+          - task: Cache@2
+            displayName: "Cache Maven Dependencies"
+            inputs:
+              key: 'maven | "$(Agent.OS)" | pom.xml'
+              path: ~/.m2/repository'
+              cacheHitVar: 'MavenCacheRestored'
+
+          #install dependencies and build
+          - script: mvn clean install
+            displayName: "Install Dependencies and Build"
 
 
-      #run unit and integration tests
-      - script: mvn test
+          #run unit and integration tests
+          - script: mvn test
 
-        displayName: "Run Unit and Integration Tests"
+            displayName: "Run Unit and Integration Tests"
