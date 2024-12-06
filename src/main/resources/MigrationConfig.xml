@@ -24,4 +24,5 @@
     <include file="Migrations/21-01-changelog.xml"/>
     <include file="Migrations/21-01-10h46-changelog.xml"/>
     <include file="Migrations/29-11-changelog.xml"/>
+
 </databaseChangeLog>

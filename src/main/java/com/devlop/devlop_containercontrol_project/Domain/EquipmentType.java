@@ -9,16 +9,16 @@ import java.sql.Timestamp;
 public class EquipmentType extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     //equipmentClassID
-    //many to one
-    @Column(name = "equipmentClassID", nullable = false, unique = true)
-    private int equipmentClassID;
+    @ManyToOne
+    @JoinColumn(name = "equipmentClassID", nullable = false, unique = true)
+    private EquipmentClass equipmentClassID;
 
     //equipmentTypeCode
     @Column(name = "equipmentTypeCode", nullable = false, unique = true)
-    private int equipmentTypeCode;
+    private String equipmentTypeCode;
 
     //equipmentTypeLength
     @Column(name = "equipmentTypeLength")
@@ -43,27 +43,27 @@ public class EquipmentType extends BaseEntity{
     public EquipmentType() {
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public int getEquipmentClassID() {
+    public EquipmentClass getEquipmentClassID() {
         return equipmentClassID;
     }
 
-    public void setEquipmentClassID(int equipmentClassID) {
+    public void setEquipmentClassID(EquipmentClass equipmentClassID) {
         this.equipmentClassID = equipmentClassID;
     }
 
-    public int getEquipmentTypeCode() {
+    public String getEquipmentTypeCode() {
         return equipmentTypeCode;
     }
 
-    public void setEquipmentTypeCode(int equipmentTypeCode) {
+    public void setEquipmentTypeCode(String equipmentTypeCode) {
         this.equipmentTypeCode = equipmentTypeCode;
     }
 

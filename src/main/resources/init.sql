@@ -1,9 +1,7 @@
-/**
-    * This script is executed when the database is created.
-    * It is used to create the tables and insert the initial data.
-    * The script is executed only once when the database is created.
-
-
+/*
+* This script is executed when the database is created.
+* It is used to create the tables and insert the initial data.
+* The script is executed only once when the database is created.
 */
 -- Drop tables if they already exist (useful for re-initialization)
 DROP TABLE IF EXISTS location, company, booking, customs, audition;

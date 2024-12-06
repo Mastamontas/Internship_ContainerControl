@@ -3,6 +3,7 @@ package com.devlop.devlop_containercontrol_project.ContainerMovements.Applicatio
 
 //DTO especifico para retornar informação completa de equipamentos e movimentos
 //tem de retornar toda a informação do equipment info e do equipment movement
+//este funciona com DTOS porque é uma junção de informação de duas entidades DTO
 public class AggregatedInformationDTO {
     private EquipmentMovementDTO equipmentMovementDTO;
     private EquipmentInformationDTO equipmentInformationDTO;

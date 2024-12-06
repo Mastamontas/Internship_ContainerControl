@@ -1,7 +1,7 @@
 package com.devlop.devlop_containercontrol_project.ContainerMovements.Application.Queries;
 
 import com.devlop.devlop_containercontrol_project.ContainerMovements.Application.Mapper.IEquipmentMapper;
-import com.devlop.devlop_containercontrol_project.ContainerMovements.Persistence.IContainerMovementQueries;
+import com.devlop.devlop_containercontrol_project.ContainerMovements.Persistence.IEquipmentQueries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +16,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class EquipmentInformationQuery {
 
-    private final IContainerMovementQueries equipmentInformationRepository;
+    private final IEquipmentQueries equipmentInformationRepository;
     private final IEquipmentMapper equipmentMapper;
 
     @Autowired
-    public EquipmentInformationQuery(IContainerMovementQueries equipmentInformationRepository, IEquipmentMapper equipmentMapper) {
+    public EquipmentInformationQuery(IEquipmentQueries equipmentInformationRepository, IEquipmentMapper equipmentMapper) {
         this.equipmentInformationRepository = equipmentInformationRepository;
         this.equipmentMapper = equipmentMapper;
     }

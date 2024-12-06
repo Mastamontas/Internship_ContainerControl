@@ -24,6 +24,9 @@ public class Movement extends BaseEntity{
     @Column(name = "businessUnitShortNumber", nullable = false)
     private int businessUnitShortNumber;
 
+    @Column(name ="equipmentID", nullable = false)
+    private int equipmentID;
+
     //accessUserID
     //foreignKEY
     //um user por ter vários movements, mas um movement só tem um accessUserID

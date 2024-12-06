@@ -1,8 +1,14 @@
 package com.devlop.devlop_containercontrol_project.ContainerMovements.Persistence;
 
 import com.devlop.devlop_containercontrol_project.Domain.Equipment;
+import com.devlop.devlop_containercontrol_project.Domain.Movement;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * repositorio faz as operaçoes CRUD com a base de dados
@@ -11,43 +17,36 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public interface IContainerMovementQueries extends JpaRepository <Equipment, Integer> {
-/**
+public interface
+IEquipmentQueries extends JpaRepository <Equipment, Integer> {
+/*
  * QUERY 1 CONTAINER INFORMATION
  * função: vai buscar a lista de entidades e retorna automaticamente para DTO com os detalhes necessários
  * também tem de retornar todos os movimentos associados a este container
- * @Query
- * SELECT (
- * e.prefix, (equipment) as prefix
- * e.number, AS number
- * e.insideHeight AS insideHeight,
- * e.grossWeight AS grossWeight,
- * e.payload AS payload,
- * e.tareWeight AS tareWeight,
- * e.insideLength AS insideLength,
- * e.insideCubic AS insideCubic,
- * e.yearOfManufacture AS yearOfManufacture,
- * e.comment AS comment,
- * eType.ID AS typeID, (equipmentType)
- * eType.equipmentType AS equipmentType,
- * eType.code AS typeCode,
- * eType.length AS typeLength,
- * eType.tare AS typeTare,
- * eLine.code AS lineCode, (equipmentLine)
- * eLine.name AS lineName,
- * eLeasing.ownerName AS equipmentOwner, (equipmentLeasing),
- *
- *FROM
- * equipment e
- * JOIN
- *  equipmentType eType ON e.equipmentTypeID = eType.ID
- * JOIN
- *  equipmentLine eLine ON e.lineID = eLine.ID
- * JOIN
- *  equipmentLeasing eLeasing ON e.ownerID = eLeasing.ID)
- *
- *  List<Equipment> getEquipmentInformation(); //retorna todos os equipamentos
- */
+ * */
+
+  @Query("SELECT \n" +
+          "e.prefix AS prefix,\n" +
+          "e.checkDigit AS checkDigit,\n" +
+          "e.number AS number,\n" +
+          "e.insideHeight AS insideHeight,\n" +
+          "e.grossWeight AS grossWeight,\n" +
+          "e.payload AS payload,\n" +
+          "e.equipmentTareWeight AS tareWeight,\n" +
+          "e.insideLength AS insideLength,\n" +
+          "e.insideCubic AS insideCubic,\n" +
+          "e.yearOfManufacture AS yearOfManufacture,\n" +
+          "e.comment AS comment,\n" +
+          "eType.id AS typeID,\n" +
+          "eType.equipmentTypeName AS equipmentTypeName,\n" +
+          "eType.equipmentTypeCode AS typeCode,\n" +
+          "eType.equipmentTypeLength AS typeLength,\n" +
+          "eType.equipmentTypeTareWeight AS typeTare\n" +
+          "FROM \n" +
+          "Equipment e \n" +
+          "JOIN\n" +
+          "EquipmentType eType")
+  List<Equipment> getEquipmentInformation(); //retorna todos os equipamentos
 
 /**
  * só é retornado quando se clica num container que foi retornado acima.
@@ -153,4 +152,16 @@ public interface IContainerMovementQueries extends JpaRepository <Equipment, Int
  *     return List<Movement>;
  * };
  */
+
+/**
+ * esta query retorna os movimentos de um equipamento através de um ID e uma data (movement date)
+ * Objetivo é retornar o movimento especifico e os dados das tabelas acessórias quando se carrega na data
+ * @return
+ */
+
+/*@Query("SELECT m from Movement m where m.equipmentID = :ID AND m.movementDate = :date")
+Movement findMovementByIDAndDate (@Param("id") Integer equipmentID, @Param("date")Timestamp movementDate);*/
+
+//verificação de existencia da entidade- não precisa de estar aqui porque vem pelo repositorio
+boolean existsById(Integer id);
 }
