@@ -19,29 +19,31 @@ stages:
             displayName: "Checkout Code"
 
           #set up java 17
-          - task: UseJavaVersion@1
+          - task: JavaToolInstaller@0
             displayName: "set up java 17"
             inputs:
-                versionSpec: '17'
+                version: '17'
                 jdkArchitectureOption: 'x64'
-                jdkSourceOption: 'LocalDirectory'
-                jdkFile: '/usr/lib/jvm/zulu-17-amd64'
-                cleanDestinationDirectory: false
-
           #cache maven dependencies
           - task: Cache@2
             displayName: "Cache Maven Dependencies"
             inputs:
               key: 'maven | "$(Agent.OS)" | pom.xml'
-              path: ~/.m2/repository'
+              path: $(HOME)/.m2/repository
               cacheHitVar: 'MavenCacheRestored'
 
           #install dependencies and build
-          - script: mvn clean install
-            displayName: "Install Dependencies and Build"
+          - script: mvn --batch-mode --update-snapshots clean install -DskipTests
+            displayName: "Build Project"
 
 
           #run unit and integration tests
-          - script: mvn test
-
+          - script: mvn --batch-mode test
             displayName: "Run Unit and Integration Tests"
+
+          # Publish Test Results
+          - task: PublishTestResults@2
+            displayName: "Publish Test Results"
+            inputs:
+              testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
+              testRunTitle: "Maven Test Results"
