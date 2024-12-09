@@ -22,7 +22,7 @@ stages:
           - task: JavaToolInstaller@1
             displayName: "set up java 17"
             inputs:
-                version: '17'
+                versionSpec: '17'
                 jdkArchitectureOption: 'x64'
                 jdkSourceOption: 'PreInstalled'
           #cache maven dependencies
