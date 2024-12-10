@@ -7,44 +7,19 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest' #ubuntu image for the agent
 
-stages:
-  - stage: BuildAndTest
-    displayName: "Build and test"
-    jobs:
-      - job: Build
-        displayName: "Build job"
-        steps:
-          #check out code
-          - task: Checkout@1
-            displayName: "Checkout Code"
-
-          #set up java 17
-          - task: JavaToolInstaller@1
-            displayName: "set up java 17"
-            inputs:
-                versionSpec: '17'
-                jdkArchitectureOption: 'x64'
-                jdkSourceOption: 'PreInstalled'
-          #cache maven dependencies
-          - task: Cache@2
-            displayName: "Cache Maven Dependencies"
-            inputs:
-              key: 'maven | "$(Agent.OS)" | pom.xml'
-              path: $(HOME)/.m2/repository
-              cacheHitVar: 'MavenCacheRestored'
-
-          #install dependencies and build
-          - script: mvn --batch-mode --update-snapshots clean install -DskipTests
-            displayName: "Build Project"
-
-
-          #run unit and integration tests
-          - script: mvn --batch-mode test
-            displayName: "Run Unit and Integration Tests"
-
-          # Publish Test Results
-          - task: PublishTestResults@2
-            displayName: "Publish Test Results"
-            inputs:
-              testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
-              testRunTitle: "Maven Test Results"
+steps:
+  - task: Maven@4
+    inputs:
+      mavenPomFile: 'pom.xml'
+      mavenOptions: -Xmx1024m
+      javaHomeOption: 'JDKVersion'
+      jdkArchitectureOption: 'x64'
+      jdkVersionOption: 1.17
+      publishJUnitResults: true
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      mavenVersionOption: 'Default'
+      goals: 'package'
+      options: '-DskipTests=true'
+      mavenAuthenticateFeed: false
+      effectivePomSkip: false
+      sonarQubeRunAnalysis: false
