@@ -1,3 +1,4 @@
+/*
 package com.DEVLOP.Factories;
 
 import com.DEVLOP.DomainEntities.Equipment.Equipment;
@@ -41,4 +42,4 @@ public class EquipmentFactoryTest {
     }
 
     // Add more tests for other validation rules as needed
-}
+}*/

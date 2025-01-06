@@ -20,7 +20,7 @@ public class EquipmentTypePersistenceEntity extends BaseEntity{
 
     //equipmentTypeLength
     @Column(name = "equipmentTypeLength")
-    private int equipmentTypeLength;
+    private double equipmentTypeLength;
 
     //equipmentTypeName
     @Column(name = "equipmentTypeName")
@@ -28,11 +28,11 @@ public class EquipmentTypePersistenceEntity extends BaseEntity{
 
     //equipmentTypeTareWeight
     @Column(name = "equipmentTypeTareWeight")
-    private float equipmentTypeTareWeight;
+    private double equipmentTypeTareWeight;
 
     //equipmentTypeHeight
     @Column(name = "equipmentTypeHeight")
-    private float equipmentTypeHeight;
+    private double equipmentTypeHeight;
 
     //equipmentTypeComments
     @Column(name = "equipmentTypeComments")
@@ -65,11 +65,11 @@ public class EquipmentTypePersistenceEntity extends BaseEntity{
         this.equipmentTypeCode = equipmentTypeCode;
     }
 
-    public int getEquipmentTypeLength() {
+    public double getEquipmentTypeLength() {
         return equipmentTypeLength;
     }
 
-    public void setEquipmentTypeLength(int equipmentTypeLength) {
+    public void setEquipmentTypeLength(double equipmentTypeLength) {
         this.equipmentTypeLength = equipmentTypeLength;
     }
 
@@ -81,19 +81,19 @@ public class EquipmentTypePersistenceEntity extends BaseEntity{
         this.equipmentTypeName = equipmentTypeName;
     }
 
-    public float getEquipmentTypeTareWeight() {
+    public double getEquipmentTypeTareWeight() {
         return equipmentTypeTareWeight;
     }
 
-    public void setEquipmentTypeTareWeight(float equipmentTypeTareWeight) {
+    public void setEquipmentTypeTareWeight(double equipmentTypeTareWeight) {
         this.equipmentTypeTareWeight = equipmentTypeTareWeight;
     }
 
-    public float getEquipmentTypeHeight() {
+    public double getEquipmentTypeHeight() {
         return equipmentTypeHeight;
     }
 
-    public void setEquipmentTypeHeight(float equipmentTypeHeight) {
+    public void setEquipmentTypeHeight(double equipmentTypeHeight) {
         this.equipmentTypeHeight = equipmentTypeHeight;
     }
 

@@ -5,16 +5,9 @@ import lombok.Data;
 import java.time.Year;
 @Data //lombok annotation to create getters and setters
 public class Equipment {
-    //not null
     private int id;
-    //not null
-    private int equipmentTypeID;
-    private int movementID;
-    //not null
     private String prefix;
-    //not null
     private int number;
-    //not null
     private int checkDigit;
     private double grossWeight;
     private double insideCubic;
@@ -25,18 +18,27 @@ public class Equipment {
     private Year yearOfManufacture;
     private double payload;
     private String comment;
-    private int lineID;
-    private int ownerID;
     private boolean SOC;
+    //equipment type
+    private String equipmentTypeCode;
+    private double equipmentTypeLength;
+    private double equipmentTypeTareWeight;
+    //equipment class
+    private String equipmentClassCode;
+
+    //ID's para serviços externos depois
+    //equipment line
+    private int equipmentLineID;
+    //equipment owner
+    private int equipmentOwnerID;
+
 
 
     public Equipment() {
     }
 
-    public Equipment(int id, int equipmentTypeID,int movementID, String prefix, int number, int checkDigit, double grossWeight, double insideCubic, double insideHeight, double insideLength, double insideWidth, double equipmentTareWeight, Year yearOfManufacture, double payload, String comment, int lineID, int ownerID, boolean SOC) {
+    public Equipment(int id, String prefix, int number, int checkDigit, double grossWeight, double insideCubic, double insideHeight, double insideLength, double insideWidth, double equipmentTareWeight, Year yearOfManufacture, double payload, String comment, boolean SOC, String equipmentTypeCode, double equipmentTypeLength, double equipmentTypeTareWeight, String equipmentClassCode, int equipmentLineID, int equipmentOwnerID) {
         this.id = id;
-        this.equipmentTypeID = equipmentTypeID;
-        this.movementID = movementID;
         this.prefix = prefix;
         this.number = number;
         this.checkDigit = checkDigit;
@@ -49,8 +51,12 @@ public class Equipment {
         this.yearOfManufacture = yearOfManufacture;
         this.payload = payload;
         this.comment = comment;
-        this.lineID = lineID;
-        this.ownerID = ownerID;
         this.SOC = SOC;
+        this.equipmentTypeCode = equipmentTypeCode;
+        this.equipmentTypeLength = equipmentTypeLength;
+        this.equipmentTypeTareWeight = equipmentTypeTareWeight;
+        this.equipmentClassCode = equipmentClassCode;
+        this.equipmentLineID = equipmentLineID;
+        this.equipmentOwnerID = equipmentOwnerID;
     }
 }

@@ -19,7 +19,7 @@ public class EquipmentRepositoryImplementation implements IEquipmentRepository{
     private final IJpaEquipmentRepository iJpaEquipmentRepository;
     private final IEquipmentMapper iEquipmentMapper;
 
-    public EquipmentRepositoryImplementation(IJpaEquipmentRepository iJpaEquipmentRepository, @Qualifier("IEquipmentMapperImpl") IEquipmentMapper iEquipmentMapper){
+    public EquipmentRepositoryImplementation(IJpaEquipmentRepository iJpaEquipmentRepository, IEquipmentMapper iEquipmentMapper){
         this.iJpaEquipmentRepository = iJpaEquipmentRepository;
         this.iEquipmentMapper = iEquipmentMapper;
     }

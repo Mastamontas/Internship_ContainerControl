@@ -3,106 +3,70 @@ package com.DEVLOP.PersistenceEntities;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
-
 @Entity
 @Table(name = "equipmentClass")
-public class EquipmentClassPersistenceEntity {
+public class EquipmentClassPersistenceEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    //createdOn
-    @Column(name = "createdOn", nullable = false, updatable = false)
-    private Timestamp createdOn;
-
-    //lastUpdate
-    @Column(name = "lastUpdate", nullable = false)
-    private Timestamp lastUpdate;
-
-    //tenantID
-    @Column(name = "tenantID", nullable = false, unique = true)
-    private int tenantID;
-
-    //dbStatus
-    @Column(name = "dbStatus", nullable = false)
-    private String dbStatus;
+    private int id;
 
     //equipmentCode
-    @Column(name = "equipmentCode", nullable = false, unique = true)
-    private int equipmentCode;
+    @Column(name = "equipmentClassCode", nullable = false, unique = true)
+    private String equipmentClassCode;
 
     //equipmentName
-    @Column(name = "equipmentName")
-    private String equipmentName;
+    @Column(name = "equipmentClassName")
+    private String equipmentClassName;
 
     //equipmentType
-    @Column(name = "equipmentType")
-    private String equipmentType;
+    @Column(name = "equipmentClassType")
+    private String equipmentClassType;
+
+    //equipment type tare
+    @Column(name = "equipmentClassTypeTare")
+    private double equipmentClassTypeTare;
 
     public EquipmentClassPersistenceEntity() {
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Timestamp getCreatedOn() {
-        return createdOn;
+    public String getEquipmentClassCode() {
+        return equipmentClassCode;
     }
 
-    public void setCreatedOn(Timestamp createdOn) {
-        this.createdOn = createdOn;
+    public void setEquipmentClassCode(String equipmentClassCode) {
+        this.equipmentClassCode = equipmentClassCode;
     }
 
-    public Timestamp getLastUpdate() {
-        return lastUpdate;
+    public String getEquipmentClassName() {
+        return equipmentClassName;
     }
 
-    public void setLastUpdate(Timestamp lastUpdate) {
-        this.lastUpdate = lastUpdate;
+    public void setEquipmentClassName(String equipmentClassName) {
+        this.equipmentClassName = equipmentClassName;
     }
 
-    public int getTenantID() {
-        return tenantID;
+    public String getEquipmentClassType() {
+        return equipmentClassType;
     }
 
-    public void setTenantID(int tenantID) {
-        this.tenantID = tenantID;
+    public void setEquipmentClassType(String equipmentClassType) {
+        this.equipmentClassType = equipmentClassType;
     }
 
-    public String getDbStatus() {
-        return dbStatus;
+    public double getEquipmentClassTypeTare() {
+        return equipmentClassTypeTare;
     }
 
-    public void setDbStatus(String dbStatus) {
-        this.dbStatus = dbStatus;
-    }
-
-    public int getEquipmentCode() {
-        return equipmentCode;
-    }
-
-    public void setEquipmentCode(int equipmentCode) {
-        this.equipmentCode = equipmentCode;
-    }
-
-    public String getEquipmentName() {
-        return equipmentName;
-    }
-
-    public void setEquipmentName(String equipmentName) {
-        this.equipmentName = equipmentName;
-    }
-
-    public String getEquipmentType() {
-        return equipmentType;
-    }
-
-    public void setEquipmentType(String equipmentType) {
-        this.equipmentType = equipmentType;
+    public void setEquipmentClassTypeTare(double equipmentClassTypeTare) {
+        this.equipmentClassTypeTare = equipmentClassTypeTare;
     }
 }
+

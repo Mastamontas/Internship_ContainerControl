@@ -9,18 +9,9 @@ import org.mapstruct.Named;
 
 @Mapper(componentModel = "spring")
 public interface IEquipmentMapper {
-    //faltam aqui os mappings para os IDs dos owners
-    //faltam retornar o codigo do equipment type, nao o seu id
-    //desenhar a query primeiro, depois o mapper
-    @Mapping(source="equipmentTypeID.id", target = "equipmentTypeID")
+    @Mapping(source="equipmentTypeID.equipmentTypeCode", target = "equipmentTypeCode")
+    @Mapping(source ="equipmentTypeID.equipmentTypeLength",target="equipmentTypeLength")
+    @Mapping(source="equipmentTypeID.equipmentTypeTareWeight", target ="equipmentTypeTareWeight")
+    @Mapping(source="equipmentTypeID.equipmentClassID.equipmentClassCode", target="equipmentClassCode")
     Equipment toDomainEntity(EquipmentPersistenceEntity equipmentPersistenceEntity);
-
-    //EquipmentPersistenceEntity toPersistenceEntity(Equipment equipment);
-
-    /*@Named("mapEquipmentType")
-    default EquipmentTypePersistenceEntity mapEquipmentType(int value){
-        EquipmentTypePersistenceEntity equipmentType = new EquipmentTypePersistenceEntity();
-        equipmentType.setId(value);
-        return equipmentType;
-    }*/
 }

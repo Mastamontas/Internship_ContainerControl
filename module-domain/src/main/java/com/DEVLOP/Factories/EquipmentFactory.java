@@ -1,3 +1,4 @@
+/*
 package com.DEVLOP.Factories;
 import com.DEVLOP.DomainEntities.Equipment.Equipment;
 import java.time.Year;
@@ -69,3 +70,4 @@ public class EquipmentFactory {
     //number tem de ser positivo
 
 }
+*/
