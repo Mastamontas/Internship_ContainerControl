@@ -1,12 +1,13 @@
 package com.DEVLOP.Repositories;
-
-import com.DEVLOP.DomainEntities.Equipment.Equipment;
-import com.DEVLOP.PersistenceEntities.EquipmentPersistenceEntity;
+import com.DEVLOP.Entities.Equipment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface IJpaEquipmentRepository extends JpaRepository<EquipmentPersistenceEntity, Integer> {
+/**
+ * Repository that inherits CRUD functionalities from the {@link JpaRepository}
+ */
+public interface IJpaEquipmentRepository extends JpaRepository<Equipment, Integer> {
     @Override
-    List<EquipmentPersistenceEntity> findAll();
+    List<Equipment> findAll();
 }
