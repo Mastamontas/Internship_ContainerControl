@@ -30,16 +30,14 @@ public class EquipmentQuery {
     }
 
     /**
-     * Returns all equipments from a repository or an empty collection
+     * Returns all equipments from a repository or an equipment not found exception
      *
      * @return List of equipment entities
      */
-    private List<Equipment> getAllEquipments(){
+    private List<Equipment> getAllEquipments() {
         List<Equipment> equipmentList = equipmentRepositoryImplementation.findAll();
         if (equipmentList == null || equipmentList.isEmpty()) {
-           /* System.out.println("Equipment list returned empty");
-            return Collections.emptyList();*/
-            throw new EquipmentNotFoundException("No lists found");
+            throw new EquipmentNotFoundException("No equipments in database!");
         }
         return equipmentList;
     }
@@ -57,18 +55,13 @@ public class EquipmentQuery {
 
     /**
      * Public methods that aggregates both the return of equipment list and the maps to a DTO
-     * returns the list of equipment DTO's or throws an object not found exception
+     * returns the list of equipment DTO's or throws {@link EquipmentNotFoundException}
      *
      * @return list of equipment information DTO's
      */
     public List<EquipmentInformationDTO> fetchAndMapEquipments(){
-        try{
-            List<Equipment> equipmentList =  getAllEquipments();
-            System.out.println("Calling fetch equipments");
-            return getAllEquipmentDTO(equipmentList);
-        } catch (Exception e){
-            throw new ObjectNotFoundException("no equipments found",e);
-        }
+        //o que faz sentido aqui a nivel de performance? Ter o metodo nested na return call ou criar um objeto que é retornado?
+            return getAllEquipmentDTO(getAllEquipments());
     }
 
 

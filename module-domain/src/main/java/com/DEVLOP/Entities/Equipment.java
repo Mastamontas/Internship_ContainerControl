@@ -1,24 +1,31 @@
 package com.DEVLOP.Entities;
 import java.time.Year;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+
 @Entity
 @Table(name = "Equipment")
 public class Equipment extends BaseEntity{
+    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="Id", nullable = false, unique = true, updatable = false)
     private int id;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "EquipmentTypeID", nullable = false)
     private EquipmentType equipmentTypeID;
 
+    @NotNull
     @Column(name = "Prefix", nullable = false,updatable = false)
     private String prefix;
 
+    @NotNull
     @Column(name = "Number", nullable = false,updatable = false)
     private int number;
 
+    @NotNull
     @Column(name = "CheckDigit", nullable = false,updatable = false)
     private int checkDigit;
 

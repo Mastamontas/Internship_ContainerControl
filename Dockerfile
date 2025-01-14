@@ -1,4 +1,5 @@
 #amazon correto jdk 17
+#cache as much as possible from dockerfile
 FROM openjdk:17-alpine
 
 #set working directory inside container

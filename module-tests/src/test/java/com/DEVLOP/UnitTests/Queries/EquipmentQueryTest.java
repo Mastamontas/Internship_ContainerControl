@@ -82,19 +82,25 @@ public class EquipmentQueryTest {
         verify(mapper, times(runTimes)).toDTO(any(Equipment.class));
     }
 
+    /**
+     * Tests null response for equipment fetch and map method
+     * "when" method returns null but can return an empty array list
+     *
+     */
     @Test
     void fetchAndMapEquipmentsObjectNotFound(){
-        // Stub the repository to return an empty list
-        when(equipmentRepository.findAll()).thenReturn(new ArrayList<>());
-
-        // Call the method and assert exception is thrown
+        when(equipmentRepository.findAll()).thenReturn(null);
         EquipmentNotFoundException exception = assertThrows(
                 EquipmentNotFoundException.class, () -> equipmentQuery.fetchAndMapEquipments()
         );
-
-        assertEquals("List not found", exception.getMessage());
+        assertEquals("No equipments in database!", exception.getMessage());
     }
-    //generate random equipments
+
+    /**
+     * Method for creation of a single equipment, for single or list test creation purposes
+     * @param numberOfEqs
+     * @return a list of equipments
+     */
     private List<Equipment> generateMockEquipment(int numberOfEqs){
         List<Equipment> equipmentList = new ArrayList<>();
         for (int i = 0; i< numberOfEqs; i++){

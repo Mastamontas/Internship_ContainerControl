@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class EquipmentApplicationTest {
+public class ApplicationMapperTest {
     private IEquipmentApplicationMapper mapper;
     private Faker faker;
 
@@ -22,10 +22,26 @@ public class EquipmentApplicationTest {
         faker = new Faker();
     }
 
+
     @Test
     void testToDTO(){
-        //generate random data with faker
-        //random equip data
+        Equipment testEquipment = generateRandomEquipment();
+        EquipmentInformationDTO dto = mapper.toDTO(testEquipment);
+        assertEquals(testEquipment.getEquipmentTypeID().getEquipmentTypeCode(), dto.getEquipmentTypeCode());
+        assertEquals(testEquipment.getEquipmentTypeID().getEquipmentTypeLength(), dto.getEquipmentTypeLength());
+        assertEquals(testEquipment.getEquipmentTypeID().getEquipmentTypeTareWeight(), dto.getEquipmentTypeTareWeight());
+        assertEquals(testEquipment.getEquipmentTypeID().getEquipmentClassID().getEquipmentClassCode(), dto.getEquipmentClassCode());
+    }
+    //null test - turn some elements to null and dto generation cannot be complete
+
+
+
+
+
+
+
+    //equipment generator for tests
+    private Equipment generateRandomEquipment(){
         int id = faker.number().numberBetween(1,200);
         String prefix = faker.lorem().characters(3).toUpperCase();
         int number = faker.number().numberBetween(1000,9999);
@@ -38,8 +54,6 @@ public class EquipmentApplicationTest {
         //random equipment class data
         String equipmentClassCode= faker.lorem().characters(5).toUpperCase();
 
-
-        //mock data
         Equipment equipment = new Equipment();
         equipment.setId(id);
         equipment.setPrefix(prefix);
@@ -59,15 +73,6 @@ public class EquipmentApplicationTest {
 
         equipmentType.setEquipmentClassID(equipmentClass); // Linking EquipmentClass to EquipmentTyp
         equipment.setEquipmentTypeID(equipmentType);
-
-        // Perform mapping from Equipment to EquipmentInformationDTO
-        EquipmentInformationDTO dto = mapper.toDTO(equipment);
-        System.out.println(dto.toString());
-
-        // Perform assertions to ensure mapping is correct
-        assertEquals(equipmentTypeCode, dto.getEquipmentTypeCode());
-        assertEquals(equipmentTypeLength, dto.getEquipmentTypeLength());
-        assertEquals(equipmentTypeTareWeight, dto.getEquipmentTypeTareWeight());
-        assertEquals(equipmentClassCode, dto.getEquipmentClassCode());
+        return equipment;
     }
 }

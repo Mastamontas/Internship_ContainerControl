@@ -8,5 +8,5 @@ import org.mapstruct.Mapper;
  */
 @Mapper(componentModel = "spring")
 public interface IEquipmentPersistenceMapper {
-    Equipment toPersistenceEntity(com.DEVLOP.Entities.Equipment equipmentEntity);
+    //Equipment toPersistenceEntity(com.DEVLOP.Entities.Equipment equipmentEntity);
 }

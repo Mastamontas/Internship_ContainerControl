@@ -1,36 +1,39 @@
 package com.DEVLOP.Entities;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+
 @Entity
 @Table(name = "EquipmentType")
 public class EquipmentType extends BaseEntity{
+    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="Id", nullable = false, unique = true)
     private int id;
 
-    //equipmentClassID
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "EquipmentClassID", nullable = false, unique = true)
     private EquipmentClass equipmentClassID;
 
-    //equipmentTypeCode
+    @NotNull
     @Column(name = "EquipmentTypeCode", nullable = false, unique = true)
     private String equipmentTypeCode;
 
-    //equipmentTypeLength
-    @Column(name = "EquipmentTypeLength")
+    @NotNull
+    @Column(name = "EquipmentTypeLength",nullable = false)
     private double equipmentTypeLength;
 
-    //equipmentTypeName
-    @Column(name = "EquipmentTypeName")
+    @NotNull
+    @Column(name = "EquipmentTypeName",nullable = false)
     private String equipmentTypeName;
 
-    //equipmentTypeTareWeight
-    @Column(name = "EquipmentTypeTareWeight")
+    @NotNull
+    @Column(name = "EquipmentTypeTareWeight",nullable = false)
     private double equipmentTypeTareWeight;
 
-    //equipmentTypeHeight
-    @Column(name = "EquipmentTypeHeight")
+    @NotNull
+    @Column(name = "EquipmentTypeHeight" ,nullable = false)
     private double equipmentTypeHeight;
 
     //equipmentTypeComments

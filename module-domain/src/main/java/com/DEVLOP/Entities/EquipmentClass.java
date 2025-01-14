@@ -1,28 +1,35 @@
 package com.DEVLOP.Entities;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+
 @Entity
 @Table(name = "EquipmentClass")
 public class EquipmentClass extends BaseEntity {
+    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false, unique = true)
     private int id;
-    //equipmentCode
+
+
+    @NotNull
     @Column(name = "EquipmentClassCode", nullable = false, unique = true)
     private String equipmentClassCode;
 
-    //equipmentName
-    @Column(name = "EquipmentClassName")
+    @NotNull
+    @Column(name = "EquipmentClassName",nullable = false)
     private String equipmentClassName;
 
-    //equipmentType
-    @Column(name = "EquipmentClassType")
+
+    //ISTO É UM ENUM
+    @NotNull
+    @Column(name = "EquipmentClassType", nullable = false)
     private String equipmentClassType;
 
-    //equipment type tare
+    /*//equipment type tare
     @Column(name = "EquipmentClassTypeTare")
     private double equipmentClassTypeTare;
-
+*/
     public EquipmentClass() {
     }
 
@@ -58,12 +65,12 @@ public class EquipmentClass extends BaseEntity {
         this.equipmentClassType = equipmentClassType;
     }
 
-    public double getEquipmentClassTypeTare() {
+    /*public double getEquipmentClassTypeTare() {
         return equipmentClassTypeTare;
     }
 
     public void setEquipmentClassTypeTare(double equipmentClassTypeTare) {
         this.equipmentClassTypeTare = equipmentClassTypeTare;
-    }
+    }*/
 }
 
