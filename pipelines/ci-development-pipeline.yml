@@ -1,25 +1,103 @@
-#pipeline file for container control project
-#trigger - dev
+# Parent pipeline file for container control project
 trigger:
   branches:
     include:
       - development
-pool:
-  vmImage: 'ubuntu-latest' #ubuntu image for the agent
 
-steps:
-  - task: Maven@4
-    inputs:
-      mavenPomFile: 'pom.xml'
-      mavenOptions: -Xmx1024m
-      javaHomeOption: 'JDKVersion'
-      jdkArchitectureOption: 'x64'
-      jdkVersionOption: 1.17
-      publishJUnitResults: true
-      testResultsFiles: '**/surefire-reports/TEST-*.xml'
-      mavenVersionOption: 'Default'
-      goals: 'clean package'
-      options: '-DskipTests=true'
-      mavenAuthenticateFeed: false
-      effectivePomSkip: false
-      sonarQubeRunAnalysis: false
+pool:
+  vmImage: 'ubuntu-latest' # Ubuntu image for the agent
+
+variables:
+  - group: 'container-control-variables' # Group for the variables
+  - MAVEN_CLI_OPTS: '-s $(Build.SourcesDirectory)/.m2/settings.xml --batch-mode --errors --show-version --fail-at-end --settings $(Build.SourcesDirectory)/.m2/settings.xml'
+
+stages:
+  - stage: Setup
+    jobs:
+      - job: Setup
+        steps:
+          - task: UseJavaVersion@1
+            inputs:
+              versionSpec: '1.17'
+              jdkArchitectureOption: 'x64'
+
+  - stage: Build
+    jobs:
+      - job: Build
+        steps:
+          - task: Maven@4
+            inputs:
+              mavenPomFile: 'pom.xml'
+              mavenOptions: -Xmx1024m
+              javaHomeOption: 'JDKVersion'
+              jdkArchitectureOption: 'x64'
+              jdkVersionOption: 1.17
+              publishJUnitResults: true
+              testResultsFiles: '**/surefire-reports/TEST-*.xml'
+              mavenVersionOption: 'Default'
+              goals: 'clean package'
+              options: '-DskipTests=false'
+              mavenAuthenticateFeed: false
+              effectivePomSkip: false
+              sonarQubeRunAnalysis: false
+
+  - stage: Test
+    jobs:
+      - job: Test
+        steps:
+          - task: Maven@4
+            inputs:
+              mavenPomFile: 'pom.xml'
+              mavenOptions: -Xmx1024m
+              javaHomeOption: 'JDKVersion'
+              jdkArchitectureOption: 'x64'
+              jdkVersionOption: 1.17
+              publishJUnitResults: true
+              testResultsFiles: '**/surefire-reports/TEST-*.xml'
+              mavenVersionOption: 'Default'
+              goals: 'test'
+              mavenAuthenticateFeed: false
+              effectivePomSkip: false
+              sonarQubeRunAnalysis: false
+
+  - stage: Package
+    jobs:
+      - job: Package
+        steps:
+          - task: Maven@4
+            inputs:
+              mavenPomFile: 'pom.xml'
+              mavenOptions: -Xmx1024m
+              javaHomeOption: 'JDKVersion'
+              jdkArchitectureOption: 'x64'
+              jdkVersionOption: 1.17
+              publishJUnitResults: true
+              testResultsFiles: '**/surefire-reports/TEST-*.xml'
+              mavenVersionOption: 'Default'
+              goals: 'package'
+              mavenAuthenticateFeed: false
+              effectivePomSkip: false
+              sonarQubeRunAnalysis: false
+
+  - stage: Deploy
+    jobs:
+      - job: Deploy
+        steps:
+          - script: echo "Deploying the application..."
+            displayName: 'Deploy Step'
+
+  - template: module-domain/module-domain.yml
+    parameters:
+      MODULE: "module-domain"
+  - template: module-persistence/module-persistence.yml
+    parameters:
+      MODULE: "module-persistence"
+  - template: module-application/module-application.yml
+    parameters:
+      MODULE: "module-application"
+  - template: module-webApp/module-webApp.yml
+    parameters:
+      MODULE: "module-webApp"
+  - template: module-tests/module-tests.yml
+    parameters:
+      MODULE: "module-tests"
