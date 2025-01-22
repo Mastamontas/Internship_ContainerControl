@@ -1,10 +1,15 @@
 package com.DEVLOP.ContainerMovements.Application.DTOS;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import java.time.Year;
 @Data
-public class EquipmentInformationDTO {
+public class EquipmentDTO {
     @NotNull (message = "Prefix must not be null")
+    @Pattern(
+        regexp = "^[A-Z]{4}$",
+        message = "Prefix must be exactly 4 uppercase letters"
+    )
     private String prefix;
     @NotNull (message ="number must not be null")
     private int number;
@@ -30,9 +35,9 @@ public class EquipmentInformationDTO {
     @NotNull (message =" equipment class code cannot be null")
     private String equipmentClassCode;
 
-    public EquipmentInformationDTO() {
+    public EquipmentDTO() {
     }
-    public EquipmentInformationDTO(String prefix, int number, int checkDigit, double insideHeight, double grossWeight, double payload, double tare, double insideLength, double insideWidth, double insideCubic, Year yearBuilt, String equipmentComment, String equipmentTypeCode, double equipmentTypeLength, double equipmentTypeTareWeight, String equipmentClassCode) {
+    public EquipmentDTO(String prefix, int number, int checkDigit, double insideHeight, double grossWeight, double payload, double tare, double insideLength, double insideWidth, double insideCubic, Year yearBuilt, String equipmentComment, String equipmentTypeCode, double equipmentTypeLength, double equipmentTypeTareWeight, String equipmentClassCode) {
         this.prefix = prefix;
         this.number = number;
         this.checkDigit = checkDigit;

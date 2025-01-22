@@ -1,18 +1,16 @@
 package com.DEVLOP.ContainerMovements.Application.Queries;
 
-import com.DEVLOP.ContainerMovements.Application.ApplicationMappers.IEquipmentApplicationMapper;
-import com.DEVLOP.ContainerMovements.Application.DTOS.EquipmentInformationDTO;
+import com.DEVLOP.ContainerMovements.Application.Mappers.IEquipmentMapper;
+import com.DEVLOP.ContainerMovements.Application.DTOS.EquipmentDTO;
 import com.DEVLOP.ContainerMovements.CustomExceptions.EquipmentNotFoundException;
 import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Repositories.EquipmentRepository;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 /**
@@ -21,12 +19,12 @@ import java.util.stream.Collectors;
 @Service //tag para a camada de aplicação
 public class EquipmentQuery {
     private final EquipmentRepository equipmentRepositoryImplementation;
-    private final IEquipmentApplicationMapper iEquipmentApplicationMapper;
+    private final IEquipmentMapper iEquipmentMapper;
 
     @Autowired//annotation for automatic injection of required field
-    public EquipmentQuery(EquipmentRepository equipmentRepositoryImplementation, @Qualifier("IEquipmentApplicationMapperImpl") IEquipmentApplicationMapper iEquipmentApplicationMapper){
+    public EquipmentQuery(EquipmentRepository equipmentRepositoryImplementation, @Qualifier("IEquipmentMapperImpl") IEquipmentMapper iEquipmentMapper){
         this.equipmentRepositoryImplementation = equipmentRepositoryImplementation;
-        this.iEquipmentApplicationMapper = iEquipmentApplicationMapper;
+        this.iEquipmentMapper = iEquipmentMapper;
     }
 
     /**
@@ -35,9 +33,10 @@ public class EquipmentQuery {
      * @return List of equipment entities
      */
     private List<Equipment> getAllEquipments() {
+        //try and catch method
         List<Equipment> equipmentList = equipmentRepositoryImplementation.findAll();
         if (equipmentList == null || equipmentList.isEmpty()) {
-            throw new EquipmentNotFoundException("No equipments in database!");
+            return new ArrayList<Equipment>();
         }
         return equipmentList;
     }
@@ -49,8 +48,8 @@ public class EquipmentQuery {
      * @param equipmentList
      * @return List of equipment DTO's
      */
-    private List<EquipmentInformationDTO> getAllEquipmentDTO (List<Equipment> equipmentList){
-        return equipmentList.stream().map(iEquipmentApplicationMapper::toDTO).collect(Collectors.toList());
+    private List<EquipmentDTO> getAllEquipmentDTO (List<Equipment> equipmentList){
+        return equipmentList.stream().map(iEquipmentMapper::toDTO).collect(Collectors.toList());
     }
 
     /**
@@ -59,30 +58,34 @@ public class EquipmentQuery {
      *
      * @return list of equipment information DTO's
      */
-    public List<EquipmentInformationDTO> fetchAndMapEquipments(){
+    public List<EquipmentDTO> fetchAndMapEquipments(){
         //o que faz sentido aqui a nivel de performance? Ter o metodo nested na return call ou criar um objeto que é retornado?
             return getAllEquipmentDTO(getAllEquipments());
     }
 
 
 
-    //faz um pedido asincrono dos dados de owner e line para o kafka
-    //for each equipment in the equipment list above, return the values from kafka
-    //implementação kafka fica para depois
+    //retorna o equipamento por prefixo e envia para frontend
+    private EquipmentDTO mapEquipmentToDTO(Equipment eq){
+        //compensa me mais criar um objeto ou chamar a resposta só?
+        return iEquipmentMapper.toDTO(eq);
+    }
+    //null error management
+    private Equipment fetchEquipmentByPrefix (String prefix){
+        return equipmentRepositoryImplementation.findByPrefix(prefix);
+    }
 
-    //validação DTO
-    //Valid DTO - public boolean
-    /**
-     * Equipment
-     * id not null
-     * number not null
-     * check digit not null
-     * equipment type code not null
-     * equipment class code not null
+    public EquipmentDTO getEqDTOByPrefix(String prefix){
+        Equipment eq = fetchEquipmentByPrefix(prefix);
+        return mapEquipmentToDTO(eq);
+    }
+
+
+
+
+
+    /*
+    tem de poder editar o equipamento excepto campos bloqueados
+    fazer lock no frontend ou no backend
      */
-
-    //quando os dados sao retornados transforma em DTO
-    //envia para o controller (web api)
-
-
 }

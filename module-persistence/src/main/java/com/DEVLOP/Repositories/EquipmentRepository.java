@@ -1,8 +1,7 @@
 package com.DEVLOP.Repositories;
 import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Interfaces.IEquipmentRepository;
-import com.DEVLOP.PersistenceMappers.IEquipmentPersistenceMapper;
-import org.springframework.beans.factory.annotation.Qualifier;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,13 +12,12 @@ import java.util.List;
  * Implements the {@link IEquipmentRepository} from the domain module
  */
 @Repository
-public class EquipmentRepository implements IEquipmentRepository{
+public class
+EquipmentRepository implements IEquipmentRepository{
     private final IJpaEquipmentRepository iJpaEquipmentRepository;
-    private final IEquipmentPersistenceMapper iEquipmentPersistenceMapper;
 
-    public EquipmentRepository(IJpaEquipmentRepository iJpaEquipmentRepository, @Qualifier("IEquipmentPersistenceMapperImpl") IEquipmentPersistenceMapper iEquipmentPersistenceMapper){
+    public EquipmentRepository(IJpaEquipmentRepository iJpaEquipmentRepository){
         this.iJpaEquipmentRepository = iJpaEquipmentRepository;
-        this.iEquipmentPersistenceMapper = iEquipmentPersistenceMapper;
     }
 
     /**
@@ -29,6 +27,25 @@ public class EquipmentRepository implements IEquipmentRepository{
     @Override
     public List<Equipment> findAll(){
         return iJpaEquipmentRepository.findAll();
+    }
+
+
+    //retornar um equipamento por prefixo
+    @Override
+    public Equipment findByPrefix(String prefix){
+        return iJpaEquipmentRepository.findEquipmentByPrefix(prefix);
+    }
+
+    @Override
+    public Equipment findByID(int id){
+        return iJpaEquipmentRepository.findEquipmentById(id);
+    }
+
+    @Transactional
+    @Override
+    public void updateEquipment(Equipment eq) {
+        //nao tem de fazer esta verificação aqui, faz na application
+        iJpaEquipmentRepository.saveAndFlush(eq);
     }
 }
 

@@ -1,6 +1,6 @@
 package com.DEVLOP.UnitTests.Queries;
-import com.DEVLOP.ContainerMovements.Application.ApplicationMappers.IEquipmentApplicationMapper;
-import com.DEVLOP.ContainerMovements.Application.DTOS.EquipmentInformationDTO;
+import com.DEVLOP.ContainerMovements.Application.Mappers.IEquipmentMapper;
+import com.DEVLOP.ContainerMovements.Application.DTOS.EquipmentDTO;
 import com.DEVLOP.ContainerMovements.Application.Queries.EquipmentQuery;
 import com.DEVLOP.ContainerMovements.CustomExceptions.EquipmentNotFoundException;
 import com.DEVLOP.Entities.Equipment;
@@ -8,7 +8,6 @@ import com.DEVLOP.Entities.EquipmentClass;
 import com.DEVLOP.Entities.EquipmentType;
 import com.DEVLOP.Repositories.EquipmentRepository;
 import com.github.javafaker.Faker;
-import org.hibernate.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,9 +15,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+import static org.hibernate.validator.internal.util.Contracts.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -33,7 +32,7 @@ public class EquipmentQueryTest {
     @Mock
     private EquipmentRepository equipmentRepository;
     @Mock
-    private IEquipmentApplicationMapper mapper;
+    private IEquipmentMapper mapper;
     @InjectMocks
     private EquipmentQuery equipmentQuery;
     private Faker faker;
@@ -68,8 +67,8 @@ public class EquipmentQueryTest {
                 .thenAnswer(invocation -> mapToMockDTO(invocation.getArgument(0)));
 
         // Call the method under test
-        List<EquipmentInformationDTO> result = equipmentQuery.fetchAndMapEquipments();
-        for (EquipmentInformationDTO e : result){
+        List<EquipmentDTO> result = equipmentQuery.fetchAndMapEquipments();
+        for (EquipmentDTO e : result){
             System.out.println(e.toString());
         }
 
@@ -89,11 +88,15 @@ public class EquipmentQueryTest {
      */
     @Test
     void fetchAndMapEquipmentsObjectNotFound(){
-        when(equipmentRepository.findAll()).thenReturn(null);
-        EquipmentNotFoundException exception = assertThrows(
-                EquipmentNotFoundException.class, () -> equipmentQuery.fetchAndMapEquipments()
-        );
-        assertEquals("No equipments in database!", exception.getMessage());
+        // Mock the repository to return an empty list
+        when(equipmentRepository.findAll()).thenReturn(new ArrayList<>());
+
+        // Call the method under test
+        List<EquipmentDTO> result = equipmentQuery.fetchAndMapEquipments();
+
+        // Assert that the result is an empty list
+        assertNotNull(result, "Result should not be null");
+        assertTrue(result.isEmpty(), "Result list should be empty");
     }
 
     /**
@@ -127,8 +130,8 @@ public class EquipmentQueryTest {
         return equipmentList;
     }
     //private map to DTO
-    private EquipmentInformationDTO mapToMockDTO(Equipment equipment) {
-        EquipmentInformationDTO dto = new EquipmentInformationDTO();
+    private EquipmentDTO mapToMockDTO(Equipment equipment) {
+        EquipmentDTO dto = new EquipmentDTO();
         dto.setCheckDigit(equipment.getCheckDigit());
         dto.setNumber(equipment.getNumber());
         dto.setPrefix(equipment.getPrefix());

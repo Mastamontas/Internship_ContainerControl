@@ -1,8 +1,8 @@
 package com.DEVLOP.UnitTests.Mappers;
 
-import com.DEVLOP.ContainerMovements.Application.ApplicationMappers.IEquipmentApplicationMapper;
-import com.DEVLOP.ContainerMovements.Application.ApplicationMappers.IEquipmentApplicationMapperImpl;
-import com.DEVLOP.ContainerMovements.Application.DTOS.EquipmentInformationDTO;
+import com.DEVLOP.ContainerMovements.Application.Mappers.IEquipmentMapper;
+import com.DEVLOP.ContainerMovements.Application.DTOS.EquipmentDTO;
+import com.DEVLOP.ContainerMovements.Application.Mappers.IEquipmentMapperImpl;
 import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Entities.EquipmentClass;
 import com.DEVLOP.Entities.EquipmentType;
@@ -12,13 +12,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ApplicationMapperTest {
-    private IEquipmentApplicationMapper mapper;
+    private IEquipmentMapper mapper;
     private Faker faker;
 
     @BeforeEach
     void setUp (){
         //porque é que aqui é impl
-        mapper = new IEquipmentApplicationMapperImpl();
+        mapper = new IEquipmentMapperImpl();
         faker = new Faker();
     }
 
@@ -26,7 +26,7 @@ public class ApplicationMapperTest {
     @Test
     void testToDTO(){
         Equipment testEquipment = generateRandomEquipment();
-        EquipmentInformationDTO dto = mapper.toDTO(testEquipment);
+        EquipmentDTO dto = mapper.toDTO(testEquipment);
         assertEquals(testEquipment.getEquipmentTypeID().getEquipmentTypeCode(), dto.getEquipmentTypeCode());
         assertEquals(testEquipment.getEquipmentTypeID().getEquipmentTypeLength(), dto.getEquipmentTypeLength());
         assertEquals(testEquipment.getEquipmentTypeID().getEquipmentTypeTareWeight(), dto.getEquipmentTypeTareWeight());

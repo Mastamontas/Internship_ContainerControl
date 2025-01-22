@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -68,15 +68,16 @@ public class RestControllerTest {
      * - The error message in the response matches the expected "No equipments in database!".
      */
     @Test
-    public void getAllEquipmentReturnException() {
+    public void getAllEquipmentReturnEmptyList() {
         String baseUrl = "http://localhost:" + port + "/getAllEquipments";
-        try {
-            restTemplate.getForEntity(baseUrl, String.class);
-            Assertions.fail("Expected EquipmentNotFoundException");
-        } catch (HttpClientErrorException e) {
-            Assertions.assertThat(e.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-            Assertions.assertThat(e.getResponseBodyAsString()).isEqualTo("No equipments in database!");
-        }
+        // Call the API
+        ResponseEntity<String> response = restTemplate.getForEntity(baseUrl, String.class);
+
+        // Assert the response status is OK
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        // Assert the response body is an empty JSON array
+        Assertions.assertThat(response.getBody()).isEqualTo("[]");
     }
 
 /*    //not yet implemented as it returns nothing so the test fails

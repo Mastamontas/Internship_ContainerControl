@@ -1,6 +1,6 @@
 package com.DEVLOP.Web.Controllers;
 
-import com.DEVLOP.ContainerMovements.Application.DTOS.EquipmentInformationDTO;
+import com.DEVLOP.ContainerMovements.Application.DTOS.EquipmentDTO;
 import com.DEVLOP.ContainerMovements.Application.Queries.EquipmentQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,10 +30,18 @@ public class EquipmentController {
      * Retrieves all equipment details from the system.
      * This endpoint handles HTTP GET requests to "/getAllEquipments".
      *
-     * @return A list of {@link EquipmentInformationDTO} containing details of all equipment.
+     * @return A list of {@link EquipmentDTO} containing details of all equipment.
      */
     @GetMapping("/getAllEquipments")
-    public List<EquipmentInformationDTO> getAllEquipments(){
+    public List<EquipmentDTO> getAllEquipments(){
         return equipmentQuery.fetchAndMapEquipments();
+    }
+    @GetMapping("/getPrefix")
+    public EquipmentDTO getEqByPrefix(String prefix){
+        return equipmentQuery.getEqDTOByPrefix(prefix);
+    }
+    @GetMapping("/updateEquipment")
+    public void updateEquipment(EquipmentDTO eqDTO){
+
     }
 }
