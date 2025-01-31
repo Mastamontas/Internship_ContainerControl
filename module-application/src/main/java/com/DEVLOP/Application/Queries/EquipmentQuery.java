@@ -1,5 +1,4 @@
 package com.DEVLOP.Application.Queries;
-
 import com.DEVLOP.Application.Mappers.IEquipmentMapper;
 import com.DEVLOP.Application.DTOS.EquipmentDTO;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
@@ -13,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
-
-
 /**
  * Class for returning all the equipment in the system
  */
@@ -29,40 +26,16 @@ public class EquipmentQuery implements IQueries<EquipmentDTO> {
         this.iEquipmentMapper = iEquipmentMapper;
     }
 
-    /**
-     * Returns all equipments from a repository or an equipment not found exception
-     *
-     * @return List of equipment entities
-     */
-    private List<Equipment> getAllEquipments() {
-        List<Equipment> equipmentList = equipmentRepository.findAll();
-        if (equipmentList == null || equipmentList.isEmpty()) {
-            return new ArrayList<>();
-        }
-        return equipmentList;
-    }
-
+    //returns assync equipment list DTO
     @Override
     public CompletableFuture<List<EquipmentDTO>> findAllAsync() {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                System.out.println("entered here");
-                return fetchAndMapEquipments();
+                return returnMappedEquipDTOList();
             } catch (Exception ex) {
-                System.err.println("Error occurred while fetching equipment: " + ex.getMessage());
                 return new ArrayList<>();
             }
         });
-    }
-
-    /**
-     * Maps a list of equipment entities to a list of equipment DTO's
-     *
-     * @param equipmentList
-     * @return List of equipment DTO's
-     */
-    private List<EquipmentDTO> getAllEquipmentDTO (List<Equipment> equipmentList){
-        return equipmentList.stream().map(iEquipmentMapper::toDTO).collect(Collectors.toList());
     }
 
     /**
@@ -71,25 +44,41 @@ public class EquipmentQuery implements IQueries<EquipmentDTO> {
      *
      * @return list of equipment information DTO's
      */
-    public List<EquipmentDTO> fetchAndMapEquipments(){
-        return getAllEquipmentDTO(getAllEquipments());
+    private List<EquipmentDTO> returnMappedEquipDTOList(){
+        return mapToEquipmentDTOList(fetchEquipmentListFromRepo());
     }
 
-
-
-
-    private EquipmentDTO mapEquipmentToDTO(Equipment eq){
-        return iEquipmentMapper.toDTO(eq);
+    /**
+     * Maps a list of equipment entities to a list of equipment DTO's
+     *
+     * @param equipmentList
+     * @return List of equipment DTO's
+     */
+    private List<EquipmentDTO> mapToEquipmentDTOList (List<Equipment> equipmentList){
+        return equipmentList.stream().map(iEquipmentMapper::toDTO).collect(Collectors.toList());
     }
 
-    private Equipment fetchEquipmentByPrefix (String prefix){
-        return equipmentRepository.findByPrefix(prefix);
+    /**
+     * Returns all equipments from a repository or an equipment not found exception
+     *
+     * @return List of equipment entities
+     */
+    private List<Equipment> fetchEquipmentListFromRepo() {
+        List<Equipment> equipmentList = equipmentRepository.findAll();
+        if (equipmentList == null || equipmentList.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return equipmentList;
     }
 
+    /***************PARA FAZER REFACTOR/INCOMPLETO***************************/
     //refactor nome para getEquipmentDTOByEquipmentPrefix
     public EquipmentDTO getEqDTOByPrefix(String prefix){
         Equipment eq = fetchEquipmentByPrefix(prefix);
-        return mapEquipmentToDTO(eq);
+        return iEquipmentMapper.toDTO(eq);
+    }
+    private Equipment fetchEquipmentByPrefix (String prefix){
+        return equipmentRepository.findByPrefix(prefix);
     }
 
 }
