@@ -1,7 +1,7 @@
 package com.DEVLOP.Web.ControllerExceptions;
 
 
-import com.DEVLOP.ContainerMovements.CustomExceptions.EquipmentNotFoundException;
+import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

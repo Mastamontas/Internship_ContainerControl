@@ -7,11 +7,12 @@
     <artifactId>DEVLOP_ContainerControl_Project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
+
   <groupId>com.DEVLOP</groupId>
   <artifactId>module-webApp</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>module-WebApp</name>
-  <url>http://maven.apache.org</url>
+
 
   <dependencies>
     <dependency>

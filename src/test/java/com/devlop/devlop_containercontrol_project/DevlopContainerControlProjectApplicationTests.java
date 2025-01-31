@@ -1,4 +1,4 @@
-package com.devlop.devlop_containercontrol_project;
+package com.DEVLOP.devlop_containercontrol_project;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,8 +1,7 @@
 package com.DEVLOP.UnitTests.Queries;
-import com.DEVLOP.ContainerMovements.Application.Mappers.IEquipmentMapper;
-import com.DEVLOP.ContainerMovements.Application.DTOS.EquipmentDTO;
-import com.DEVLOP.ContainerMovements.Application.Queries.EquipmentQuery;
-import com.DEVLOP.ContainerMovements.CustomExceptions.EquipmentNotFoundException;
+import com.DEVLOP.Application.Mappers.IEquipmentMapper;
+import com.DEVLOP.Application.DTOS.EquipmentDTO;
+import com.DEVLOP.Application.Queries.EquipmentQuery;
 import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Entities.EquipmentClass;
 import com.DEVLOP.Entities.EquipmentType;
@@ -19,7 +18,6 @@ import java.util.List;
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.hibernate.validator.internal.util.Contracts.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 

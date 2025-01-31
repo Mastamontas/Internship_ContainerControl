@@ -1,12 +1,14 @@
 package com.DEVLOP.Web.Controllers;
 
-import com.DEVLOP.ContainerMovements.Application.DTOS.EquipmentDTO;
-import com.DEVLOP.ContainerMovements.Application.Queries.EquipmentQuery;
+
+
+import com.DEVLOP.Application.DTOS.EquipmentDTO;
+import com.DEVLOP.Application.Queries.EquipmentQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * REST controller for handling requests related to equipment operations.
@@ -33,15 +35,11 @@ public class EquipmentController {
      * @return A list of {@link EquipmentDTO} containing details of all equipment.
      */
     @GetMapping("/getAllEquipments")
-    public List<EquipmentDTO> getAllEquipments(){
-        return equipmentQuery.fetchAndMapEquipments();
+    public CompletableFuture<List<EquipmentDTO>> getAllEquipments(){
+        return equipmentQuery.findAllAsync();
     }
     @GetMapping("/getPrefix")
     public EquipmentDTO getEqByPrefix(String prefix){
         return equipmentQuery.getEqDTOByPrefix(prefix);
-    }
-    @GetMapping("/updateEquipment")
-    public void updateEquipment(EquipmentDTO eqDTO){
-
     }
 }

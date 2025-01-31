@@ -1,4 +1,4 @@
-package com.DEVLOP.ContainerMovements.CustomExceptions;
+package com.DEVLOP.CustomExceptions;
 
 import com.DEVLOP.Entities.Equipment;
 import org.hibernate.ObjectNotFoundException;

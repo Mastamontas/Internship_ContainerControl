@@ -1,8 +1,8 @@
 package com.DEVLOP.UnitTests.Mappers;
 
-import com.DEVLOP.ContainerMovements.Application.Mappers.IEquipmentMapper;
-import com.DEVLOP.ContainerMovements.Application.DTOS.EquipmentDTO;
-import com.DEVLOP.ContainerMovements.Application.Mappers.IEquipmentMapperImpl;
+import com.DEVLOP.Application.Mappers.IEquipmentMapper;
+import com.DEVLOP.Application.DTOS.EquipmentDTO;
+import com.DEVLOP.Application.Mappers.IEquipmentMapperImpl;
 import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Entities.EquipmentClass;
 import com.DEVLOP.Entities.EquipmentType;

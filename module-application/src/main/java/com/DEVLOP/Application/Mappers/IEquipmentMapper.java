@@ -1,5 +1,5 @@
-package com.DEVLOP.ContainerMovements.Application.Mappers;
-import com.DEVLOP.ContainerMovements.Application.DTOS.EquipmentDTO;
+package com.DEVLOP.Application.Mappers;
+import com.DEVLOP.Application.DTOS.EquipmentDTO;
 import com.DEVLOP.Entities.Equipment;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,4 +1,5 @@
-package com.DEVLOP.ContainerMovements.Application.DTOS;
+package com.DEVLOP.Application.DTOS;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;

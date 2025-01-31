@@ -86,6 +86,9 @@ stages:
           - script: echo "Deploying the application..."
             displayName: 'Deploy Step'
 
+  - template: module-core/module-core.yml
+    parameters:
+      MODULE: "module-core"
   - template: module-domain/module-domain.yml
     parameters:
       MODULE: "module-domain"
