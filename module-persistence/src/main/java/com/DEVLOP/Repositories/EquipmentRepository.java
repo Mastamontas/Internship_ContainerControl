@@ -3,9 +3,13 @@ import com.DEVLOP.Entities.Equipment;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+
 @Repository
 public class EquipmentRepository  {
     private final IJpaEquipmentRepository iJpaEquipmentRepository;
@@ -23,10 +27,8 @@ public class EquipmentRepository  {
         return iJpaEquipmentRepository.findAll();
     }
 
-
-    //retornar um equipamento por prefixo
-    public Equipment findByPrefix(String prefix){
-        return iJpaEquipmentRepository.findEquipmentByPrefix(prefix);
+    public Optional<Equipment> findEquipmentByUniqueDetails(@Param("prefix") String prefix, @Param("checkDigit")int checkDigit, @Param("number") int number){
+        return iJpaEquipmentRepository.findByPrefixAndCheckDigitAndNumber(prefix,checkDigit, number);
     }
 
     public Equipment findByID(int id){
@@ -35,7 +37,6 @@ public class EquipmentRepository  {
 
     @Transactional
     public void updateEquipment(Equipment eq) {
-        //nao tem de fazer esta verificação aqui, faz na application
         iJpaEquipmentRepository.saveAndFlush(eq);
     }
 }

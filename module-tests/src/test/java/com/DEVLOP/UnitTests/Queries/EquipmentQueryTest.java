@@ -2,6 +2,7 @@ package com.DEVLOP.UnitTests.Queries;
 import com.DEVLOP.Application.Mappers.IEquipmentMapper;
 import com.DEVLOP.Application.DTOS.EquipmentDTO;
 import com.DEVLOP.Application.Queries.EquipmentQuery;
+import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
 import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Entities.EquipmentClass;
 import com.DEVLOP.Entities.EquipmentType;
@@ -14,13 +15,21 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.hibernate.validator.internal.util.Contracts.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+/*
+TODO
+Refactor test names for corresponding classes
+clean classes
+ */
 /**
  * Unit test class for testing the {@link EquipmentQuery} class.
  * This class tests the fetch and map functionality of the EquipmentQuery,
@@ -46,26 +55,24 @@ public class EquipmentQueryTest {
     }
 
     /**
-     * Test for the {@link EquipmentQuery#fetchAndMapEquipments()} method.
      * This test verifies that the method returns a valid list of DTOs by
      * converting a list of mock equipment entities using the mapper.
      * It checks that the result is not null and the correct number of items is returned.
      */
     @Test//return correct equipment list and dto
-    void fetchAndMapEquipmentsReturnsValidDTOList (){
-        int runTimes = faker.number().numberBetween(5,100);
+    void findAllAsyncReturnsValidDTOList (){
+        int runTimes = faker.number().numberBetween(1,10);
         // Create a mock list of Equipment
         List<Equipment> mockEquipmentList = generateMockEquipment(runTimes);
 
-        // Stub the repository to return the mock list
         when(equipmentRepository.findAll()).thenReturn(mockEquipmentList);
 
-        // Stub the mapper to convert Equipment to DTO
+
         when(mapper.toDTO(any(Equipment.class)))
                 .thenAnswer(invocation -> mapToMockDTO(invocation.getArgument(0)));
 
-        // Call the method under test
-        List<EquipmentDTO> result = equipmentQuery.fetchAndMapEquipments();
+        CompletableFuture<List<EquipmentDTO>> futureList = equipmentQuery.findAllAsync();
+        List<EquipmentDTO> result = futureList.join(); //join waits for completion and returns value
         for (EquipmentDTO e : result){
             System.out.println(e.toString());
         }
@@ -85,16 +92,78 @@ public class EquipmentQueryTest {
      *
      */
     @Test
-    void fetchAndMapEquipmentsObjectNotFound(){
+    void findAllAsyncObjectNotFound(){
         // Mock the repository to return an empty list
         when(equipmentRepository.findAll()).thenReturn(new ArrayList<>());
 
-        // Call the method under test
-        List<EquipmentDTO> result = equipmentQuery.fetchAndMapEquipments();
+        CompletableFuture<List<EquipmentDTO>> futureList = equipmentQuery.findAllAsync();
+        List<EquipmentDTO> result = futureList.join(); //join waits for completion and returns value
 
         // Assert that the result is an empty list
         assertNotNull(result, "Result should not be null");
         assertTrue(result.isEmpty(), "Result list should be empty");
+    }
+    /**
+     * Test for returning test by unique details
+     * Test for when the query returns null, return the correct exception
+     */
+    @Test
+    void returnEqDTOByUniqueDetailsAsync_WhenEquipmentExists_ShouldReturnDTO() throws ExecutionException, InterruptedException {
+        // Generate a single mock Equipment
+        List<Equipment> mockEquipments = generateMockEquipment(1);
+        Equipment mockEquipment = mockEquipments.get(0);
+
+        // Convert it to DTO
+        EquipmentDTO mockEquipmentDTO = mapToMockDTO(mockEquipment);
+
+        // Mock repository and mapper behavior
+        when(equipmentRepository.findEquipmentByUniqueDetails(mockEquipment.getPrefix(), mockEquipment.getCheckDigit(), mockEquipment.getNumber()))
+                .thenReturn(mockEquipment);
+        when(mapper.toDTO(mockEquipment)).thenReturn(mockEquipmentDTO);
+
+        // Call the method asynchronously
+        CompletableFuture<EquipmentDTO> resultFuture = equipmentQuery.returnEqDTOByUniqueDetailsAsync(
+                mockEquipment.getPrefix(),
+                mockEquipment.getCheckDigit(),
+                mockEquipment.getNumber()
+        );
+        EquipmentDTO result = resultFuture.get(); // Wait for completion
+
+        // Assertions
+        assertNotNull(result, "Result should not be null");
+        assertEquals(mockEquipmentDTO.getPrefix(), result.getPrefix(), "Prefix should match");
+        assertEquals(mockEquipmentDTO.getCheckDigit(), result.getCheckDigit(), "CheckDigit should match");
+        assertEquals(mockEquipmentDTO.getNumber(), result.getNumber(), "Number should match");
+
+        // Verify repository and mapper interactions
+        verify(equipmentRepository, times(1)).findEquipmentByUniqueDetails(mockEquipment.getPrefix(), mockEquipment.getCheckDigit(), mockEquipment.getNumber());
+        verify(mapper, times(1)).toDTO(mockEquipment);
+    }
+
+    @Test
+    void returnEqDTOByUniqueDetailsAsync_WhenEquipmentNotFound_ShouldThrowException(){
+        // Generate a mock Equipment but don’t return it from repository
+        List<Equipment> mockEquipments = generateMockEquipment(1);
+        Equipment mockEquipment = mockEquipments.get(0);
+
+        // Mock repository to return null
+        when(equipmentRepository.findEquipmentByUniqueDetails(mockEquipment.getPrefix(), mockEquipment.getCheckDigit(), mockEquipment.getNumber()))
+                .thenReturn(null);
+
+        // Call the method asynchronously
+        CompletableFuture<EquipmentDTO> resultFuture = equipmentQuery.returnEqDTOByUniqueDetailsAsync(
+                mockEquipment.getPrefix(),
+                mockEquipment.getCheckDigit(),
+                mockEquipment.getNumber()
+        );
+
+        // Assert exception
+        ExecutionException thrown = assertThrows(ExecutionException.class, resultFuture::get);
+        assertTrue(thrown.getCause() instanceof EquipmentNotFoundException, "Should throw EquipmentNotFoundException");
+
+        // Verify repository was called but mapper was never used
+        verify(equipmentRepository, times(1)).findEquipmentByUniqueDetails(mockEquipment.getPrefix(), mockEquipment.getCheckDigit(), mockEquipment.getNumber());
+        verifyNoInteractions(mapper);
     }
 
     /**
@@ -127,7 +196,6 @@ public class EquipmentQueryTest {
         }
         return equipmentList;
     }
-    //private map to DTO
     private EquipmentDTO mapToMockDTO(Equipment equipment) {
         EquipmentDTO dto = new EquipmentDTO();
         dto.setCheckDigit(equipment.getCheckDigit());

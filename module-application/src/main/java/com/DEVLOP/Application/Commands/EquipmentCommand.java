@@ -2,7 +2,9 @@ package com.DEVLOP.Application.Commands;
 
 import com.DEVLOP.Application.Mappers.IEquipmentMapper;
 import com.DEVLOP.Application.DTOS.EquipmentDTO;
+import com.DEVLOP.CustomExceptions.EquipmentMappingException;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
+import com.DEVLOP.CustomExceptions.EquipmentUpdateException;
 import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Interfaces.ICommands;
 import com.DEVLOP.Repositories.EquipmentRepository;
@@ -13,9 +15,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.CompletableFuture;
-
+/*
+injeto aqui a queries para ir buscar os equipamentos? Ou acedo diretamente ao repositorio?
+ */
 @Service
-public class EquipmentCommand {
+public class EquipmentCommand implements ICommands<EquipmentDTO> {
 
     private final IEquipmentMapper iEquipmentMapper;
     private final EquipmentRepository equipmentRepository;
@@ -26,26 +30,37 @@ public class EquipmentCommand {
         this.equipmentRepository = equipmentRepository;
     }
 
-    private Equipment mapUpdatedDTOToEq(@Valid EquipmentDTO eqDTO){
-        Equipment eq = fetchEquipmentByPrefix(eqDTO.getPrefix());
-        return iEquipmentMapper.updateEquipmentFromDTO(eqDTO, eq);
-    }
-
-    private Equipment fetchEquipmentByPrefix (String prefix){
-        try{
-            return equipmentRepository.findByPrefix(prefix);
-        } catch (EquipmentNotFoundException e){
-            throw new EquipmentNotFoundException("No equipment has that prefix");
-        }
-    }
-
+    /*
+    nomenclatura desta função tem de ser pensada, porque herda o metodo da classe generica
+     */
     @Transactional
-    public void updateEquipment(EquipmentDTO eqDTO){
-        try{
-            Equipment eq = mapUpdatedDTOToEq(eqDTO);
-            equipmentRepository.updateEquipment(eq);
-        } catch (EquipmentNotFoundException e){
-            throw new EquipmentNotFoundException("Unsucessfull equipment update" + e.getMessage());
+    public CompletableFuture<Void> updateAsync(EquipmentDTO equipmentDTO){
+        return CompletableFuture.runAsync(()->{
+           try{
+               Equipment eq = getAndMapEquipment(equipmentDTO);
+               equipmentRepository.updateEquipment(eq);
+           } catch (Exception e){
+               throw new EquipmentUpdateException("failed to update equipment", e);
+           }
+        }).thenRun(()->{
+            System.out.println("update was performed successfully");
+        });
+    }
+
+    private Equipment getAndMapEquipment(@Valid EquipmentDTO eqDTO){
+        Equipment eq = fetchEquipmentFromRepoByUniqueDetails(eqDTO.getPrefix(), eqDTO.getCheckDigit(), eqDTO.getNumber());
+        Equipment updatedEq = iEquipmentMapper.updateEquipmentFromDTO(eqDTO, eq);
+        if (updatedEq == null) {
+            throw new EquipmentMappingException("Mapping failed: updated equipment is null!");
         }
+        return updatedEq;
+    }
+
+
+    private Equipment fetchEquipmentFromRepoByUniqueDetails (String prefix, int checkDigit, int number){
+        return equipmentRepository.findEquipmentByUniqueDetails(prefix, checkDigit, number)
+                .orElseThrow(()->
+                        new EquipmentNotFoundException(
+                                String.format("No equipment found for details: Prefix=%s, CheckDigit=%d, Number=%d", prefix, checkDigit, number)));
     }
 }

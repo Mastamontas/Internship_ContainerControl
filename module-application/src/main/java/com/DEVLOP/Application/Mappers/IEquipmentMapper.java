@@ -1,6 +1,7 @@
 package com.DEVLOP.Application.Mappers;
 import com.DEVLOP.Application.DTOS.EquipmentDTO;
 import com.DEVLOP.Entities.Equipment;
+import jakarta.validation.Valid;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -18,7 +19,7 @@ public interface IEquipmentMapper {
     EquipmentDTO toDTO(Equipment equipment);
 
 
-    //definir mapeamentos
+    //only utility would be the creation of new equipments form the frontend, which may not be the case
     @Mapping(source="equipmentTypeCode", target="equipmentTypeID.equipmentTypeCode")
     @Mapping(source="equipmentTypeLength", target="equipmentTypeID.equipmentTypeLength")
     @Mapping(source="equipmentTypeTareWeight", target="equipmentTypeID.equipmentTypeTareWeight")
@@ -31,5 +32,5 @@ public interface IEquipmentMapper {
     @Mapping(source = "equipmentTypeLength", target = "equipmentTypeID.equipmentTypeLength")
     @Mapping(source = "equipmentTypeTareWeight", target = "equipmentTypeID.equipmentTypeTareWeight")
     @Mapping(source = "equipmentClassCode", target = "equipmentTypeID.equipmentClassID.equipmentClassCode")
-    Equipment updateEquipmentFromDTO(EquipmentDTO eqDTO, @MappingTarget Equipment equipment);
+    Equipment updateEquipmentFromDTO(@Valid EquipmentDTO eqDTO, @MappingTarget Equipment equipment);
 }
