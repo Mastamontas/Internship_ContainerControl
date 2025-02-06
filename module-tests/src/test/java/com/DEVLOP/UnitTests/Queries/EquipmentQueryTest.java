@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.hibernate.validator.internal.util.Contracts.assertTrue;
@@ -46,7 +47,6 @@ public class EquipmentQueryTest {
     }
 
     /**
-     * Test for the {@link EquipmentQuery#fetchAndMapEquipments()} method.
      * This test verifies that the method returns a valid list of DTOs by
      * converting a list of mock equipment entities using the mapper.
      * It checks that the result is not null and the correct number of items is returned.
@@ -65,10 +65,8 @@ public class EquipmentQueryTest {
                 .thenAnswer(invocation -> mapToMockDTO(invocation.getArgument(0)));
 
         // Call the method under test
-        List<EquipmentDTO> result = equipmentQuery.fetchAndMapEquipments();
-        for (EquipmentDTO e : result){
-            System.out.println(e.toString());
-        }
+        CompletableFuture<List<EquipmentDTO>> futureResult = equipmentQuery.findAllAsync();
+        List<EquipmentDTO> result = futureResult.join();
 
         // Assertions
         assertNotNull(result, "Result should not be null");
@@ -90,7 +88,8 @@ public class EquipmentQueryTest {
         when(equipmentRepository.findAll()).thenReturn(new ArrayList<>());
 
         // Call the method under test
-        List<EquipmentDTO> result = equipmentQuery.fetchAndMapEquipments();
+        CompletableFuture<List<EquipmentDTO>> futureResult = equipmentQuery.findAllAsync();
+        List<EquipmentDTO> result = futureResult.join();
 
         // Assert that the result is an empty list
         assertNotNull(result, "Result should not be null");
