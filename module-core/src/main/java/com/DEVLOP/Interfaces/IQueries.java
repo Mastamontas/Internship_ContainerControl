@@ -8,11 +8,4 @@ find all
 get by id
  */
 public interface IQueries<T> {
-    CompletableFuture<List<T>> findAllAsync();
-    /*
-    only general queries that serve all entities
-    find by ID async
-     */
-    //CompletableFuture<T> returnByIDAsync(int id);
-    
 }

@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -71,7 +72,7 @@ public class EquipmentQueryTest {
         when(mapper.toDTO(any(Equipment.class)))
                 .thenAnswer(invocation -> mapToMockDTO(invocation.getArgument(0)));
 
-        CompletableFuture<List<EquipmentDTO>> futureList = equipmentQuery.findAllAsync();
+        CompletableFuture<List<EquipmentDTO>> futureList = equipmentQuery.findAllEquipmentsAsync();
         List<EquipmentDTO> result = futureList.join(); //join waits for completion and returns value
         for (EquipmentDTO e : result){
             System.out.println(e.toString());
@@ -96,7 +97,7 @@ public class EquipmentQueryTest {
         // Mock the repository to return an empty list
         when(equipmentRepository.findAll()).thenReturn(new ArrayList<>());
 
-        CompletableFuture<List<EquipmentDTO>> futureList = equipmentQuery.findAllAsync();
+        CompletableFuture<List<EquipmentDTO>> futureList = equipmentQuery.findAllEquipmentsAsync();
         List<EquipmentDTO> result = futureList.join(); //join waits for completion and returns value
 
         // Assert that the result is an empty list
@@ -118,7 +119,7 @@ public class EquipmentQueryTest {
 
         // Mock repository and mapper behavior
         when(equipmentRepository.findEquipmentByUniqueDetails(mockEquipment.getPrefix(), mockEquipment.getCheckDigit(), mockEquipment.getNumber()))
-                .thenReturn(mockEquipment);
+                .thenReturn(Optional.of(mockEquipment));
         when(mapper.toDTO(mockEquipment)).thenReturn(mockEquipmentDTO);
 
         // Call the method asynchronously
@@ -148,7 +149,7 @@ public class EquipmentQueryTest {
 
         // Mock repository to return null
         when(equipmentRepository.findEquipmentByUniqueDetails(mockEquipment.getPrefix(), mockEquipment.getCheckDigit(), mockEquipment.getNumber()))
-                .thenReturn(null);
+                .thenReturn(Optional.empty());
 
         // Call the method asynchronously
         CompletableFuture<EquipmentDTO> resultFuture = equipmentQuery.returnEqDTOByUniqueDetailsAsync(

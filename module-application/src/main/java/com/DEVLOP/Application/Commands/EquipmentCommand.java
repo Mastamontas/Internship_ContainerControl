@@ -6,6 +6,7 @@ import com.DEVLOP.CustomExceptions.EquipmentMappingException;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
 import com.DEVLOP.CustomExceptions.EquipmentUpdateException;
 import com.DEVLOP.Entities.Equipment;
+import com.DEVLOP.Interfaces.Commands.IEquipmentCommands;
 import com.DEVLOP.Interfaces.ICommands;
 import com.DEVLOP.Repositories.EquipmentRepository;
 import jakarta.transaction.Transactional;
@@ -19,7 +20,7 @@ import java.util.concurrent.CompletableFuture;
 injeto aqui a queries para ir buscar os equipamentos? Ou acedo diretamente ao repositorio?
  */
 @Service
-public class EquipmentCommand implements ICommands<EquipmentDTO> {
+public class EquipmentCommand implements IEquipmentCommands {
 
     private final IEquipmentMapper iEquipmentMapper;
     private final EquipmentRepository equipmentRepository;
@@ -34,7 +35,8 @@ public class EquipmentCommand implements ICommands<EquipmentDTO> {
     nomenclatura desta função tem de ser pensada, porque herda o metodo da classe generica
      */
     @Transactional
-    public CompletableFuture<Void> updateAsync(EquipmentDTO equipmentDTO){
+    @Override
+    public CompletableFuture<Void> UpdateEquipmentAsync(EquipmentDTO equipmentDTO){
         return CompletableFuture.runAsync(()->{
            try{
                Equipment eq = getAndMapEquipment(equipmentDTO);

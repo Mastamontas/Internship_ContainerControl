@@ -4,6 +4,7 @@ import com.DEVLOP.Application.DTOS.EquipmentDTO;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
 import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Interfaces.IQueries;
+import com.DEVLOP.Interfaces.Queries.IEquipmentQueries;
 import com.DEVLOP.Repositories.EquipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,18 +16,18 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 /*
 TODO
-Return equipment by unique details check digit, prefix, number. These 3 return the equipment
-when returned, it can be updated. Check logic for updating equipment
+Change method naming to Pascal Case
+Create fing equipment by ID
 create tests for the updated equipment
 also allow for the returned equipment to query all movements (next feature Last movements)
-clean classes and try to change name of async function
+
 
  */
 /**
  * Class for returning all the equipment in the system
  */
 @Service
-public class EquipmentQuery implements IQueries<EquipmentDTO> {
+public class EquipmentQuery implements IEquipmentQueries {
     private final EquipmentRepository equipmentRepository;
     private final IEquipmentMapper iEquipmentMapper;
 
@@ -38,7 +39,7 @@ public class EquipmentQuery implements IQueries<EquipmentDTO> {
 
     //returns assync equipment list DTO
     @Override
-    public CompletableFuture<List<EquipmentDTO>> findAllAsync() {
+    public CompletableFuture<List<EquipmentDTO>> findAllEquipmentsAsync() {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 return returnMappedEquipDTOList();
@@ -82,7 +83,9 @@ public class EquipmentQuery implements IQueries<EquipmentDTO> {
     }
 
     /***************PARA FAZER REFACTOR/INCOMPLETO***************************/
-
+    /*
+    dynamic query - return partial results according to user input
+     */
     public CompletableFuture<EquipmentDTO> returnEqDTOByUniqueDetailsAsync(String prefix, int checkDigit, int number){
         return CompletableFuture.supplyAsync(()->{
             Equipment eq = fetchEquipmentByUniqueDetails(prefix, checkDigit, number);

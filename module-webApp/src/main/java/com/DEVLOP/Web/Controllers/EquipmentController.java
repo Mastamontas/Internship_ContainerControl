@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ import java.util.concurrent.CompletableFuture;
  * REST controller for handling requests related to equipment operations.
  * This class exposes endpoints for interacting with equipment data.
  */
+@Slf4j
 @RestController
 @RequestMapping("/equipment")
 @Tag(name ="Equipment", description = "Endpoints for managing equipment data")
@@ -45,18 +47,20 @@ public class EquipmentController {
             summary = "Get all equipment",
             description = "Retrieves all equipment details from the system."
     )
-    public CompletableFuture<List<EquipmentDTO>> getAllEquipments(){
-        return equipmentQuery.findAllAsync();
+    public CompletableFuture<List<EquipmentDTO>> GetAllEquipments(){
+        log.info("returned all equipments from database");
+        return equipmentQuery.findAllEquipmentsAsync();
     }
     @GetMapping("/{prefix}/{checkDigit}/{number}")
     @Operation(
             summary = "Get equipment by details",
             description = "Retrieve an equipment item by its unique details."
     )
-    public CompletableFuture<EquipmentDTO> getEqByUniqueDetails(
+    public CompletableFuture<EquipmentDTO> GetEqByUniqueDetails(
             @Parameter(description = "Prefix of equipment") @PathVariable ("prefix") String prefix,
             @Parameter(description = "Check digit") @PathVariable ("checkDigit") int checkDigit,
             @Parameter(description = "Equipment number") @PathVariable ("number") int number){
+        log.info("returned equipment {}{}{}", prefix, checkDigit, number);
         return equipmentQuery.returnEqDTOByUniqueDetailsAsync(prefix, checkDigit, number);
     }
     /*
@@ -68,11 +72,9 @@ public class EquipmentController {
             summary = "Updates existing equipment",
             description = "receives a equipment DTO, gets the database reference, and updates fields"
     )
-    public CompletableFuture<Void> updateEquipmentAsync(@Valid @RequestBody EquipmentDTO eqDTO){
-       return equipmentCommand.updateAsync(eqDTO).exceptionally(ex -> {
-           //por o logger
-           System.out.println("Error updating equipment");
-           //custom response
+    public CompletableFuture<Void> UpdateEquipmentAsync(@Valid @RequestBody EquipmentDTO eqDTO){
+       return equipmentCommand.UpdateEquipmentAsync(eqDTO).exceptionally(ex -> {
+           log.error("Equipment was not updated");
            return null;
        });
     }
