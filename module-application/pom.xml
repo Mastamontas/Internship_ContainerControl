@@ -17,6 +17,11 @@
   <dependencies>
     <dependency>
       <groupId>com.DEVLOP</groupId>
+      <artifactId>module-core</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.DEVLOP</groupId>
       <artifactId>module-domain</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </dependency>

@@ -20,12 +20,12 @@ services:
       retries: 3
       start_period: 120s
 
-  mysql:
+  mysql: #container do sql
     image: mysql:latest  # Use official MySQL image version 8
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}  # Root password for MySQL
       MYSQL_DATABASE: ContainerControl  # The database that should be created
-      MYSQL_USER: pedro.monteiro
+      MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}  # User's password
     ports:
       - "3307:3306"  # Exposes MySQL default port

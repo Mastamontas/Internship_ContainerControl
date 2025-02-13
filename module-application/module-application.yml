@@ -1,0 +1,6 @@
+.module-domain:
+  variables:
+    MODULE: "module-application"
+  only:
+    changes:
+      - "module-application/**/*"
