@@ -1,14 +1,18 @@
 package com.DEVLOP.Interfaces.Commands;
 
 import com.DEVLOP.Application.DTOS.EquipmentDTO;
+import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Interfaces.ICommands;
 
 import java.util.concurrent.CompletableFuture;
-
-public interface IEquipmentCommands extends ICommands<EquipmentDTO> {
+/*
+todo
+methods in commands are not async
+ */
+public interface IEquipmentCommands extends ICommands<Equipment> {
     /*
     create async
     delete async
      */
-    CompletableFuture<Void> UpdateEquipmentAsync(EquipmentDTO eqDTO);
+    CompletableFuture<Equipment> UpdateEquipment(int id, EquipmentDTO eqDTO);
 }

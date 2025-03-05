@@ -24,10 +24,10 @@
     <module>module-core</module>
     <module>module-persistence</module>
     <module>module-application</module>
-    <module>module-IoC</module>
+   <!-- <module>module-IoC</module>-->
     <module>module-webApp</module>
     <module>module-tests</module>
-    <module>module-service</module>
+    <!--<module>module-service</module>-->
   </modules>
 
   <!--properties POM parent-->
@@ -218,27 +218,69 @@
         <artifactId>logback-core</artifactId>
         <version>1.5.16</version>
       </dependency>
-
-
-
-
     </dependencies>
-
   </dependencyManagement>
+
+  <!--Profiles for maven-->
+  <!--this profile is just to run integration tests, where docker dependency is required-->
+  <profiles>
+    <profile>
+      <id>integration-tests</id>
+      <activation>
+        <property>
+          <name>!skipIntegrationTests</name>
+        </property>
+      </activation>
+      <build>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <version>3.5.2</version>
+            </plugin>
+          </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+<!--build default-->
   <build>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <version>3.3.4</version>
+<!--        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>-->
+        <configuration>
+          <excludes>
+            <exclude>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+            </exclude>
+          </excludes>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.5.2</version>
+        <configuration>
+          <excludes>
+            <exclude>**/*IntegrationTest.java</exclude>
+          </excludes>
+        </configuration>
       </plugin>
-      <!--plugin para por na persistence-->
-      <plugin>
+
+
+
+      <!--plugin liquibase para por na persistence-->
+      <!--<plugin>
         <groupId>org.liquibase</groupId>
         <artifactId>liquibase-maven-plugin</artifactId>
         <version>4.29.2</version>
@@ -254,7 +296,7 @@
           <referencePassword>${liquibase.password}</referencePassword>
           <goal>diff</goal>
         </configuration>
-      </plugin>
+      </plugin>-->
     </plugins>
   </build>
 </project>

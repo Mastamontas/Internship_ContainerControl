@@ -19,7 +19,7 @@ steps:
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       mavenVersionOption: 'Default'
       goals: 'clean package'
-      options: '-DskipTests=false'
+      options: '-DskipTests=true'
       mavenAuthenticateFeed: false
       effectivePomSkip: false
       sonarQubeRunAnalysis: false

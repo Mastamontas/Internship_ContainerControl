@@ -3,9 +3,10 @@ import com.DEVLOP.Application.Mappers.IEquipmentMapper;
 import com.DEVLOP.Application.DTOS.EquipmentDTO;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
 import com.DEVLOP.Entities.Equipment;
-import com.DEVLOP.Interfaces.IQueries;
 import com.DEVLOP.Interfaces.Queries.IEquipmentQueries;
 import com.DEVLOP.Repositories.EquipmentRepository;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,10 @@ import java.util.stream.Collectors;
 /*
 TODO
 Change method naming to Pascal Case
-Create fing equipment by ID
-create tests for the updated equipment
-also allow for the returned equipment to query all movements (next feature Last movements)
-
-
+comment functions
+verificar se estrutura find all esta correta
  */
+
 /**
  * Class for returning all the equipment in the system
  */
@@ -35,14 +34,19 @@ public class EquipmentQuery implements IEquipmentQueries {
     public EquipmentQuery(EquipmentRepository equipmentRepository, @Qualifier("IEquipmentMapperImpl") IEquipmentMapper iEquipmentMapper){
         this.equipmentRepository = equipmentRepository;
         this.iEquipmentMapper = iEquipmentMapper;
-    }
 
-    //returns assync equipment list DTO
+    }
+    /*
+    todo
+    ver se esta função é melhor ser uma page
+     */
+
     @Override
-    public CompletableFuture<List<EquipmentDTO>> findAllEquipmentsAsync() {
+    @Transactional
+    public CompletableFuture<List<@Valid EquipmentDTO>> FindAllEquipmentsAsync() {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                return returnMappedEquipDTOList();
+                return ReturnMappedEquipDTOList();
             } catch (Exception ex) {
                 return new ArrayList<>();
             }
@@ -55,8 +59,8 @@ public class EquipmentQuery implements IEquipmentQueries {
      *
      * @return list of equipment information DTO's
      */
-    private List<EquipmentDTO> returnMappedEquipDTOList(){
-        return mapToEquipmentDTOList(fetchEquipmentListFromRepo());
+    private List<EquipmentDTO> ReturnMappedEquipDTOList(){
+        return MapToEquipmentDTOList(FetchEquipmentListFromRepo());
     }
 
     /**
@@ -65,8 +69,8 @@ public class EquipmentQuery implements IEquipmentQueries {
      * @param equipmentList
      * @return List of equipment DTO's
      */
-    private List<EquipmentDTO> mapToEquipmentDTOList (List<Equipment> equipmentList){
-        return equipmentList.stream().map(iEquipmentMapper::toDTO).collect(Collectors.toList());
+    private List<EquipmentDTO> MapToEquipmentDTOList(List<Equipment> equipmentList){
+        return equipmentList.stream().map(iEquipmentMapper::MaptoEquipmentDto).collect(Collectors.toList());
     }
 
     /**
@@ -74,35 +78,52 @@ public class EquipmentQuery implements IEquipmentQueries {
      *
      * @return List of equipment entities
      */
-    private List<Equipment> fetchEquipmentListFromRepo() {
-        List<Equipment> equipmentList = equipmentRepository.findAll();
+    private List<Equipment> FetchEquipmentListFromRepo() {
+        List<Equipment> equipmentList = equipmentRepository.FindAll();
         if (equipmentList == null || equipmentList.isEmpty()) {
             return new ArrayList<>();
         }
         return equipmentList;
     }
 
-    /***************PARA FAZER REFACTOR/INCOMPLETO***************************/
+
     /*
-    dynamic query - return partial results according to user input
+    confirmar com filipe se isto é boa pratica, tem mapper e fetch equipment nested
+    alternativa é chamar so uma função que faca o mapping automatico
      */
-    public CompletableFuture<EquipmentDTO> returnEqDTOByUniqueDetailsAsync(String prefix, int checkDigit, int number){
-        return CompletableFuture.supplyAsync(()->{
-            Equipment eq = fetchEquipmentByUniqueDetails(prefix, checkDigit, number);
-            return iEquipmentMapper.toDTO(eq);
-        });
+    @Override
+    @Transactional
+    public CompletableFuture<EquipmentDTO> GetEquipmentByIDAsync(int id){
+        return CompletableFuture.supplyAsync(()-> iEquipmentMapper.MaptoEquipmentDto(FetchEquipmentByID(id)));
     }
 
-    //this function is redundant
-    /*private EquipmentDTO mapEqToEqDTOByUniqueDetails(String prefix, int checkDigit, int number){
-        Equipment eq = fetchEquipmentByUniqueDetails(prefix,checkDigit,number);
-        return iEquipmentMapper.toDTO(eq);
+
+    private Equipment FetchEquipmentByID(int id){
+        Optional<Equipment> optionalEquipment = equipmentRepository.FindByID(id);
+        if (optionalEquipment.isPresent()) {
+            return optionalEquipment.get();
+        } else {
+            throw new EquipmentNotFoundException("No equipment found with ID " + id);
+        }
+    }
+
+    /*
+    todo
+    this method will have dynamic query - return partial results according to user input
+     *//*
+    public CompletableFuture<EquipmentDTO> ReturnEqDTOByUniqueDetailsAsync(String prefix, int checkDigit, int number){
+        return CompletableFuture.supplyAsync(()->{
+            Equipment eq = FetchEquipmentByUniqueDetails(prefix, checkDigit, number);
+            return iEquipmentMapper.MaptoEquipmentDto(eq);
+        });
     }*/
-
-
-    private Equipment fetchEquipmentByUniqueDetails (String prefix, int checkDigit, int number){
-        return equipmentRepository.findEquipmentByUniqueDetails(prefix, checkDigit, number).orElseThrow(() -> new EquipmentNotFoundException(
+    /*
+    todo
+    completar proxima branch
+     */
+    /*private Equipment FetchEquipmentByUniqueDetails(String prefix, int checkDigit, int number){
+        return equipmentRepository.FindEquipmentByUniqueDetails(prefix, checkDigit, number).orElseThrow(() -> new EquipmentNotFoundException(
                 String.format("No equipment found for details: Prefix=%s, CheckDigit=%d, Number=%d", prefix, checkDigit, number)
         ));
-    }
+    }*/
 }

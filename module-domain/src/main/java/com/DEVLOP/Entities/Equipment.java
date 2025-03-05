@@ -2,23 +2,26 @@ package com.DEVLOP.Entities;
 import java.time.Year;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-
+/*
+adicionar aqui lombok para remover boilerplate code
+faltam aqui enums da classe
+ */
 @Entity
 @Table(name = "Equipment")
 public class Equipment extends BaseEntity{
     @NotNull
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="Id", nullable = false, unique = true, updatable = false)
     private int id;
 
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "EquipmentTypeID", nullable = false)
-    private EquipmentType equipmentTypeID;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "EquipmentType", nullable = false)
+    private EquipmentType equipmentType;
 
     @NotNull
-    @Column(name = "Prefix", nullable = false,updatable = false)
+    @Column(name = "Prefix", nullable = false)
     private String prefix;
 
     @NotNull
@@ -44,8 +47,8 @@ public class Equipment extends BaseEntity{
     @Column(name = "InsideWidth")
     private double insideWidth;
 
-    @Column(name="EquipmentTareWeight")
-    private double equipmentTareWeight;
+    @Column(name="TareWeight")
+    private double tareWeight;
 
     //yearOfManufacture
     @Column(name = "YearOfManufacture")
@@ -86,12 +89,12 @@ public class Equipment extends BaseEntity{
         this.id = id;
     }
 
-    public EquipmentType getEquipmentTypeID() {
-        return equipmentTypeID;
+    public EquipmentType getEquipmentType() {
+        return equipmentType;
     }
 
-    public void setEquipmentTypeID(EquipmentType equipmentTypeID) {
-        this.equipmentTypeID = equipmentTypeID;
+    public void setEquipmentType(EquipmentType equipmentTypeID) {
+        this.equipmentType = equipmentTypeID;
     }
 
     public String getPrefix() {
@@ -158,12 +161,12 @@ public class Equipment extends BaseEntity{
         this.insideWidth = insideWidth;
     }
 
-    public double getEquipmentTareWeight() {
-        return equipmentTareWeight;
+    public double getTareWeight() {
+        return tareWeight;
     }
 
-    public void setEquipmentTareWeight(double equipmentTareWeight) {
-        this.equipmentTareWeight = equipmentTareWeight;
+    public void setTareWeight(double equipmentTareWeight) {
+        this.tareWeight = equipmentTareWeight;
     }
 
     public Year getYearOfManufacture() {
