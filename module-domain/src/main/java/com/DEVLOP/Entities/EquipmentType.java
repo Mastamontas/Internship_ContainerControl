@@ -2,19 +2,24 @@ package com.DEVLOP.Entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
+
 @Entity
 @Table(name = "EquipmentType")
 public class EquipmentType extends BaseEntity{
     @NotNull
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name ="Id", nullable = false, unique = true)
     private int id;
 
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "EquipmentClassID", nullable = false, unique = true)
-    private EquipmentClass equipmentClassID;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "EquipmentClass", nullable = false, unique = true)
+    private EquipmentClass equipmentClass;
+
+    @OneToMany(mappedBy = "equipmentType", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Equipment> equipments;
 
     @NotNull
     @Column(name = "EquipmentTypeCode", nullable = false, unique = true)
@@ -51,12 +56,12 @@ public class EquipmentType extends BaseEntity{
         this.id = id;
     }
 
-    public EquipmentClass getEquipmentClassID() {
-        return equipmentClassID;
+    public EquipmentClass getEquipmentClass() {
+        return equipmentClass;
     }
 
-    public void setEquipmentClassID(EquipmentClass equipmentClassID) {
-        this.equipmentClassID = equipmentClassID;
+    public void setEquipmentClass(EquipmentClass equipmentClassID) {
+        this.equipmentClass = equipmentClassID;
     }
 
     public String getEquipmentTypeCode() {
@@ -105,5 +110,13 @@ public class EquipmentType extends BaseEntity{
 
     public void setEquipmentTypeComments(String equipmentTypeComments) {
         this.equipmentTypeComments = equipmentTypeComments;
+    }
+
+    public List<Equipment> getEquipments() {
+        return equipments;
+    }
+
+    public void setEquipments(List<Equipment> equipments) {
+        this.equipments = equipments;
     }
 }

@@ -2,14 +2,23 @@ package com.DEVLOP.Entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
+
+/*
+todo
+verificar esta entidade porque tem um enum não atualizado
+ */
 @Entity
 @Table(name = "EquipmentClass")
 public class EquipmentClass extends BaseEntity {
     @NotNull
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "Id", nullable = false, unique = true)
     private int id;
+
+    @OneToMany(mappedBy = "equipmentClass", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private List<EquipmentType> equipmentTypes;
 
 
     @NotNull
@@ -65,12 +74,12 @@ public class EquipmentClass extends BaseEntity {
         this.equipmentClassType = equipmentClassType;
     }
 
-    /*public double getEquipmentClassTypeTare() {
-        return equipmentClassTypeTare;
+    public List<EquipmentType> getEquipmentTypes() {
+        return equipmentTypes;
     }
 
-    public void setEquipmentClassTypeTare(double equipmentClassTypeTare) {
-        this.equipmentClassTypeTare = equipmentClassTypeTare;
-    }*/
+    public void setEquipmentTypes(List<EquipmentType> equipmentTypes) {
+        this.equipmentTypes = equipmentTypes;
+    }
 }
 

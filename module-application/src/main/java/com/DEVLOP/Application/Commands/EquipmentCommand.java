@@ -4,7 +4,7 @@ import com.DEVLOP.Application.Mappers.IEquipmentMapper;
 import com.DEVLOP.Application.DTOS.EquipmentDTO;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
 import com.DEVLOP.Entities.Equipment;
-import com.DEVLOP.Interfaces.ICommands;
+import com.DEVLOP.Interfaces.Commands.IEquipmentCommands;
 import com.DEVLOP.Repositories.EquipmentRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.CompletableFuture;
 
 @Service
-public class EquipmentCommand {
+public class EquipmentCommand implements IEquipmentCommands {
 
     private final IEquipmentMapper iEquipmentMapper;
     private final EquipmentRepository equipmentRepository;
@@ -26,26 +26,16 @@ public class EquipmentCommand {
         this.equipmentRepository = equipmentRepository;
     }
 
-    private Equipment mapUpdatedDTOToEq(@Valid EquipmentDTO eqDTO){
-        Equipment eq = fetchEquipmentByPrefix(eqDTO.getPrefix());
-        return iEquipmentMapper.updateEquipmentFromDTO(eqDTO, eq);
-    }
-
-    private Equipment fetchEquipmentByPrefix (String prefix){
-        try{
-            return equipmentRepository.findByPrefix(prefix);
-        } catch (EquipmentNotFoundException e){
-            throw new EquipmentNotFoundException("No equipment has that prefix");
-        }
-    }
-
+    @Override
     @Transactional
-    public void updateEquipment(EquipmentDTO eqDTO){
-        try{
-            Equipment eq = mapUpdatedDTOToEq(eqDTO);
-            equipmentRepository.updateEquipment(eq);
-        } catch (EquipmentNotFoundException e){
-            throw new EquipmentNotFoundException("Unsucessfull equipment update" + e.getMessage());
-        }
+    public CompletableFuture<Equipment> UpdateEquipment(int id, @Valid EquipmentDTO equipmentDTO){
+        return CompletableFuture.supplyAsync(()-> {
+            Equipment eq = equipmentRepository.FindByID(id).orElseThrow(()->
+                    new EquipmentNotFoundException("Equipment with that ID is not found"));
+            return iEquipmentMapper.MapAndUpdateEquipmentFromEquipmentDto(equipmentDTO, eq);
+        }).thenApplyAsync(updatedEq ->{
+            equipmentRepository.SaveEquipmentInDb(updatedEq);
+            return updatedEq;
+        });
     }
 }

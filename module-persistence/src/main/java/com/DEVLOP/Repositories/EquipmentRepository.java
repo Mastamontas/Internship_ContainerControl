@@ -1,42 +1,100 @@
 package com.DEVLOP.Repositories;
 import com.DEVLOP.Entities.Equipment;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
+import com.DEVLOP.Entities.EquipmentClass;
+import com.DEVLOP.Entities.EquipmentType;
+import com.DEVLOP.Interfaces.IEquipmentClassRepository;
+import com.DEVLOP.Interfaces.IEquipmentRepository;
+import com.DEVLOP.Interfaces.IEquipmentTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+
+/*
+todo
+renomear storing equipments in db
+ */
 @Repository
 public class EquipmentRepository  {
-    private final IJpaEquipmentRepository iJpaEquipmentRepository;
+    private final IEquipmentRepository iEquipmentRepository;
+    private final IEquipmentClassRepository iEquipmentClassRepository;
+    private final IEquipmentTypeRepository iEquipmentTypeRepository;
 
     @Autowired
-    public EquipmentRepository(IJpaEquipmentRepository iJpaEquipmentRepository){
-        this.iJpaEquipmentRepository = iJpaEquipmentRepository;
+    public EquipmentRepository(IEquipmentRepository iEquipmentRepository,IEquipmentTypeRepository iEquipmentTypeRepository, IEquipmentClassRepository iEquipmentClassRepository){
+        this.iEquipmentRepository = iEquipmentRepository;
+        this.iEquipmentClassRepository = iEquipmentClassRepository;
+        this.iEquipmentTypeRepository = iEquipmentTypeRepository;
     }
 
     /**
      * Method to return all valid equipment entities from the database
      * @return list of equipment entities
      */
-    public List<Equipment> findAll(){
-        return iJpaEquipmentRepository.findAll();
+    public List<Equipment> FindAll(){
+        return iEquipmentRepository.findAll();
+    }
+
+    /*public Optional<Equipment> FindEquipmentByUniqueDetails(@Param("prefix") String prefix, @Param("checkDigit")int checkDigit, @Param("number") int number){
+        return iEquipmentRepository.FindByPrefixAndCheckDigitAndNumber(prefix,checkDigit, number);
+    }*/
+
+
+    public Optional<Equipment> FindByID(int id){
+        return iEquipmentRepository.findById(id);
+    }
+
+    /*
+    este method deveria ser optional? Para nao voltar como null? Ou so os retrieves é que sao optional
+     */
+    public Equipment SaveEquipmentInDb(Equipment eq){
+        iEquipmentRepository.save(eq);
+        iEquipmentRepository.flush();
+        return eq;
     }
 
 
-    //retornar um equipamento por prefixo
-    public Equipment findByPrefix(String prefix){
-        return iJpaEquipmentRepository.findEquipmentByPrefix(prefix);
+    /*
+    todo - REFACTOR
+    deve estar noutro repositorio - ficou aqui por conveniencia
+     */
+    public void SaveEquipmentClassInDb(EquipmentClass eqClass){
+        iEquipmentClassRepository.save(eqClass);
+        iEquipmentClassRepository.flush();
     }
 
-    public Equipment findByID(int id){
-        return iJpaEquipmentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    /*
+    todo - REFACTOR
+    caso igual ao de acima
+     */
+    public void SaveEquipmentTypeInDb(EquipmentType eqType){
+        System.out.println("saving equip type");
+        iEquipmentTypeRepository.save(eqType);
+        iEquipmentTypeRepository.flush();
     }
 
-    @Transactional
-    public void updateEquipment(Equipment eq) {
-        //nao tem de fazer esta verificação aqui, faz na application
-        iJpaEquipmentRepository.saveAndFlush(eq);
+    //tem de ser por id?
+    public void UpdateEquipment(Equipment eq) {
+        iEquipmentRepository.save(eq);
+        iEquipmentRepository.flush();
+    }
+
+    /*
+    todo
+    delete all equipments should soft delete entities, not erase them from db
+    imples tests should eventually return false to "isDeleted"
+     */
+    public void DeleteAllEquipments(){
+        iEquipmentRepository.deleteAll();
+        iEquipmentRepository.flush();
+
+        iEquipmentTypeRepository.deleteAll();
+        iEquipmentTypeRepository.flush();
+
+        iEquipmentClassRepository.deleteAll();
+        iEquipmentClassRepository.flush();
     }
 }
 

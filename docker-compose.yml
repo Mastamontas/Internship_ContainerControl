@@ -1,3 +1,4 @@
+#TODO - start docker container and run maven lifecycle in it, then start app
 
 services:
   web:

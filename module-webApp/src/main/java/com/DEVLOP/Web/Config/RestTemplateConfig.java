@@ -2,6 +2,7 @@ package com.DEVLOP.Web.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 /**
  * Configuration class for setting up the {@link RestTemplate} bean.
@@ -9,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
  * throughout the application.
  */
 @Configuration
+@EnableTransactionManagement
 public class RestTemplateConfig {
 
     /**
@@ -18,7 +20,7 @@ public class RestTemplateConfig {
      * @return A configured instance of {@link RestTemplate}.
      */
     @Bean
-    public RestTemplate restTemplate() {
+    public RestTemplate RestTemplate() {
         return new RestTemplate();
     }
 }

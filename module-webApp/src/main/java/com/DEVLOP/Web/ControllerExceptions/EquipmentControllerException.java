@@ -23,7 +23,7 @@ public class EquipmentControllerException {
      * @return A {@link ResponseEntity} containing the HTTP status (404) and the exception message.
      */
     @ExceptionHandler(EquipmentNotFoundException.class)
-    public ResponseEntity<String> handleEquipmentListNotFound(EquipmentNotFoundException ex){
+    public ResponseEntity<String> HandleEquipmentListNotFound(EquipmentNotFoundException ex){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
