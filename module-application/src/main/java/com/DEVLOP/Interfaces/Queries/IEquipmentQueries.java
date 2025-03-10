@@ -1,6 +1,6 @@
 package com.DEVLOP.Interfaces.Queries;
 
-import com.DEVLOP.Application.DTOS.EquipmentDTO;
+import com.DEVLOP.Application.DTOS.EquipmentDto;
 import com.DEVLOP.Interfaces.IQueries;
 
 import java.util.List;
@@ -10,12 +10,12 @@ todo
 refactor nomes de metodos para pascal case
 
  */
-public interface IEquipmentQueries extends IQueries<EquipmentDTO> {
+public interface IEquipmentQueries extends IQueries<EquipmentDto> {
     /*
     methods:
     FindAllEquipmentsAsync
     FindEquipmentByIDAsync
      */
-    CompletableFuture<List<EquipmentDTO>> FindAllEquipmentsAsync();
-    CompletableFuture<EquipmentDTO> GetEquipmentByIDAsync(int id);
+    CompletableFuture<List<EquipmentDto>> FindAllEquipmentsAsync();
+    CompletableFuture<EquipmentDto> GetEquipmentByIDAsync(int id);
 }

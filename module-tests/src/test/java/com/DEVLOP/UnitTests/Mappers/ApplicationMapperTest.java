@@ -1,7 +1,7 @@
 package com.DEVLOP.UnitTests.Mappers;
 
+import com.DEVLOP.Application.DTOS.EquipmentDto;
 import com.DEVLOP.Application.Mappers.IEquipmentMapper;
-import com.DEVLOP.Application.DTOS.EquipmentDTO;
 import com.DEVLOP.Application.Mappers.IEquipmentMapperImpl;
 import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Entities.EquipmentClass;
@@ -49,7 +49,7 @@ public class ApplicationMapperTest {
     @Test
     void testToDTO_ReturnValidDTO(){
         Equipment testEquipment = generateRandomEquipment();
-        EquipmentDTO dto = mapper.MaptoEquipmentDto(testEquipment);
+        EquipmentDto dto = mapper.MaptoEquipmentDto(testEquipment);
         /*
         todo
         add more verifications to this test as it only reveals the explicit mapped entities
@@ -69,7 +69,7 @@ public class ApplicationMapperTest {
      */
     @Test
     void testToEquipment_ReturnValidEquipment(){
-        EquipmentDTO eqDTO = generateRandomEquipmentDTO();
+        EquipmentDto eqDTO = generateRandomEquipmentDTO();
         Equipment eq = mapper.MapEquipmentDtoToEquipmentEntity(eqDTO);
     }
 
@@ -88,7 +88,7 @@ public class ApplicationMapperTest {
         String originalComment = eq.getComment();
         System.out.println(originalComment);
         String originalPrefix = eq.getPrefix();
-        EquipmentDTO eqDTOFromDB= mapper.MaptoEquipmentDto(eq);
+        EquipmentDto eqDTOFromDB= mapper.MaptoEquipmentDto(eq);
         double newTareValue = 21.00;
         String newComment = "New Comment";
         eqDTOFromDB.setTareWeight(newTareValue);
@@ -149,8 +149,8 @@ public class ApplicationMapperTest {
     /*
     not generate random, generate a dto from an existing entity
      */
-    private EquipmentDTO generateRandomEquipmentDTO(){
-        EquipmentDTO dto = new EquipmentDTO();
+    private EquipmentDto generateRandomEquipmentDTO(){
+        EquipmentDto dto = new EquipmentDto();
         /*
         hard coded, we dont fetch from the persistence because this tests only the mapper
          */

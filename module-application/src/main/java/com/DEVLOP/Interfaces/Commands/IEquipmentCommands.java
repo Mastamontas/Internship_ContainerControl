@@ -1,6 +1,6 @@
 package com.DEVLOP.Interfaces.Commands;
 
-import com.DEVLOP.Application.DTOS.EquipmentDTO;
+import com.DEVLOP.Application.DTOS.EquipmentDto;
 import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Interfaces.ICommands;
 
@@ -14,5 +14,5 @@ public interface IEquipmentCommands extends ICommands<Equipment> {
     create async
     delete async
      */
-    CompletableFuture<Equipment> UpdateEquipment(int id, EquipmentDTO eqDTO);
+    CompletableFuture<Equipment> UpdateEquipment(int id, EquipmentDto eqDTO);
 }

@@ -1,5 +1,5 @@
 package com.DEVLOP.Application.Mappers;
-import com.DEVLOP.Application.DTOS.EquipmentDTO;
+import com.DEVLOP.Application.DTOS.EquipmentDto;
 import com.DEVLOP.Entities.Equipment;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -31,7 +31,7 @@ public interface IEquipmentMapper {
     @Mapping(source= "equipmentType.equipmentTypeLength", target="equipmentTypeLength")
     @Mapping(source= "equipmentType.equipmentTypeTareWeight", target="equipmentTypeTareWeight")
     @Mapping(source= "equipmentType.equipmentClass.equipmentClassCode", target="equipmentClassCode")
-    EquipmentDTO MaptoEquipmentDto(Equipment equipment);
+    EquipmentDto MaptoEquipmentDto(Equipment equipment);
 
 
 
@@ -51,7 +51,7 @@ public interface IEquipmentMapper {
     @Mapping(source = "equipmentTypeLength", target = "equipmentType.equipmentTypeLength")
     @Mapping(source = "equipmentTypeTareWeight", target = "equipmentType.equipmentTypeTareWeight")
     @Mapping(source = "equipmentClassCode", target = "equipmentType.equipmentClass.equipmentClassCode")
-    Equipment MapEquipmentDtoToEquipmentEntity(EquipmentDTO eqDTO);
+    Equipment MapEquipmentDtoToEquipmentEntity(EquipmentDto eqDTO);
 
 
     @Mapping(source = "id", target ="id")
@@ -70,5 +70,5 @@ public interface IEquipmentMapper {
     @Mapping(source = "equipmentTypeLength", target = "equipmentType.equipmentTypeLength")
     @Mapping(source = "equipmentTypeTareWeight", target = "equipmentType.equipmentTypeTareWeight")
     @Mapping(source = "equipmentClassCode", target = "equipmentType.equipmentClass.equipmentClassCode")
-    Equipment MapAndUpdateEquipmentFromEquipmentDto(EquipmentDTO eqDTO, @MappingTarget Equipment equipment);
+    Equipment MapAndUpdateEquipmentFromEquipmentDto(EquipmentDto eqDTO, @MappingTarget Equipment equipment);
 }

@@ -1,7 +1,7 @@
 package com.DEVLOP.Application.Commands;
 
 import com.DEVLOP.Application.Mappers.IEquipmentMapper;
-import com.DEVLOP.Application.DTOS.EquipmentDTO;
+import com.DEVLOP.Application.DTOS.EquipmentDto;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
 import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Interfaces.Commands.IEquipmentCommands;
@@ -28,7 +28,7 @@ public class EquipmentCommand implements IEquipmentCommands {
 
     @Override
     @Transactional
-    public CompletableFuture<Equipment> UpdateEquipment(int id, @Valid EquipmentDTO equipmentDTO){
+    public CompletableFuture<Equipment> UpdateEquipment(int id, @Valid EquipmentDto equipmentDTO){
         return CompletableFuture.supplyAsync(()-> {
             Equipment eq = equipmentRepository.FindByID(id).orElseThrow(()->
                     new EquipmentNotFoundException("Equipment with that ID is not found"));

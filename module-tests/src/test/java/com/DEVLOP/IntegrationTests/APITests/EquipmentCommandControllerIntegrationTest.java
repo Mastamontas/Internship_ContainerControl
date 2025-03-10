@@ -2,7 +2,7 @@ package com.DEVLOP.IntegrationTests.APITests;
 
 import com.DEVLOP.Application.Commands.EquipmentCommand;
 
-import com.DEVLOP.Application.DTOS.EquipmentDTO;
+import com.DEVLOP.Application.DTOS.EquipmentDto;
 import com.DEVLOP.Application.Mappers.IEquipmentMapperImpl;
 import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Factories.EquipmentFactory;
@@ -63,7 +63,7 @@ public class EquipmentCommandControllerIntegrationTest {
     private ObjectMapper objectMapper;
 
     private Equipment equipment;
-    private EquipmentDTO equipmentDTO;
+    private EquipmentDto equipmentDTO;
     @BeforeEach
     public void setUp() {
         equipment = EquipmentFactory.CreateEquipment();

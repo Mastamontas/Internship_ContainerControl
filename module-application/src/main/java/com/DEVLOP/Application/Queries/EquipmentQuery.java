@@ -1,6 +1,6 @@
 package com.DEVLOP.Application.Queries;
 import com.DEVLOP.Application.Mappers.IEquipmentMapper;
-import com.DEVLOP.Application.DTOS.EquipmentDTO;
+import com.DEVLOP.Application.DTOS.EquipmentDto;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
 import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Interfaces.Queries.IEquipmentQueries;
@@ -43,7 +43,7 @@ public class EquipmentQuery implements IEquipmentQueries {
 
     @Override
     @Transactional
-    public CompletableFuture<List<@Valid EquipmentDTO>> FindAllEquipmentsAsync() {
+    public CompletableFuture<List<@Valid EquipmentDto>> FindAllEquipmentsAsync() {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 return ReturnMappedEquipDTOList();
@@ -59,7 +59,7 @@ public class EquipmentQuery implements IEquipmentQueries {
      *
      * @return list of equipment information DTO's
      */
-    private List<EquipmentDTO> ReturnMappedEquipDTOList(){
+    private List<EquipmentDto> ReturnMappedEquipDTOList(){
         return MapToEquipmentDTOList(FetchEquipmentListFromRepo());
     }
 
@@ -69,7 +69,7 @@ public class EquipmentQuery implements IEquipmentQueries {
      * @param equipmentList
      * @return List of equipment DTO's
      */
-    private List<EquipmentDTO> MapToEquipmentDTOList(List<Equipment> equipmentList){
+    private List<EquipmentDto> MapToEquipmentDTOList(List<Equipment> equipmentList){
         return equipmentList.stream().map(iEquipmentMapper::MaptoEquipmentDto).collect(Collectors.toList());
     }
 
@@ -93,7 +93,7 @@ public class EquipmentQuery implements IEquipmentQueries {
      */
     @Override
     @Transactional
-    public CompletableFuture<EquipmentDTO> GetEquipmentByIDAsync(int id){
+    public CompletableFuture<EquipmentDto> GetEquipmentByIDAsync(int id){
         return CompletableFuture.supplyAsync(()-> iEquipmentMapper.MaptoEquipmentDto(FetchEquipmentByID(id)));
     }
 
