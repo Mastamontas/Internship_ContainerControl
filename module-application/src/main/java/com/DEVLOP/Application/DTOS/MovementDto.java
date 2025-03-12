@@ -2,46 +2,48 @@ package com.DEVLOP.Application.DTOS;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
+@Data
 public class MovementDto {
     @NotNull
     private int id;//id movimento
+
     //equipment
     @NotNull (message = "Prefix must not be null")
     @Pattern(
             regexp = "^[A-Z]{4}$",
             message = "Prefix must be exactly 4 uppercase letters"
     )
-    private String prefix;
+    private String prefix; //equipamento
     @NotNull (message ="number must not be null")
-    private int number;
+    private int number; //equipamento
     @NotNull (message ="check digit must not be null")
-    private int checkDigit;
-    @NotNull
-    private int equipmentTypeID;
+    private int checkDigit; //equipamento
     @NotNull (message =" equipment type code must not be null")
-    private String equipmentTypeCode;
+    private String equipmentTypeCode; //equipment type
     @NotNull (message = "equipment type length must not be null")
-    private double equipmentTypeLength;
+    private double equipmentTypeLength; //equipment type
 
     //movement
-    private String movementKey;
-    private int movementCode;
+    private String movementKey; //movement type?
+    private int movementCode; //vem de movement type?
     private String movementStatus; //enum
-    private LocalDateTime date;
-    private String equipmentServiceCode;
-    private String conditionCode;
+    private LocalDateTime date; //igual a mov entity
+    private String equipmentServiceCode;//vem de equipment service
+    private String conditionCode; //vem de equipment condition
     private String movementBound;//enum
-    private String shippingCode;
-    private boolean transhipment;
-    private boolean isEmpty;
-    private String stewageLocation;
-    private int sealNumberA;
-    private int sealNumberB;
-    private String comments;
+    private String shippingCode;//este vem de onde?
+    private boolean transhipment;//de onde vem?
+    private boolean isEmpty;//movement type
+    private String stowageLocation;//de onde vem?
+    private int sealNumberA;//de onde vem este?
+    private int sealNumberB;//de onde vem este?
+    private String comments; //vem de movement entity
+
+    //transport
     private String transportDetails;
     private String transportReference;
     private String transportResponsibility;//enum
@@ -49,14 +51,14 @@ public class MovementDto {
     private String vehicleReference;
 
     //location
-    private int fromCode;
-    private String fromName;
-    private int toCode;
-    private String toName;
-    private int finalCode;
-    private String finalName;
-    private int restitutionCode;
-    private String restitutionName;
+    private int fromCode; //evento externo
+    private String fromName; //evento externo
+    private int toCode; //evento externo
+    private String toName; //evento externo
+    private int finalCode; //evento externo
+    private String finalName; //evento externo
+    private int restitutionCode; //evento externo
+    private String restitutionName; //evento externo
 
     //depot
     private int depotCode;
@@ -105,10 +107,5 @@ public class MovementDto {
     private String username;
     private LocalDate auditionDate;
     private LocalDateTime time;
-    /*
-    user id
-    date
-    time
-     */
 
 }

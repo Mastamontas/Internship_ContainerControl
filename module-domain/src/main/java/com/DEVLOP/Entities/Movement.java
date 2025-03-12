@@ -23,6 +23,7 @@ public class Movement extends BaseEntity{
     @Getter @Setter
     @Column(name ="Date", nullable = false)
     private LocalDateTime date;
+
     //event information
     @Getter @Setter
     @Column(name = "BusinessUnitID", nullable = false)
@@ -97,6 +98,7 @@ public class Movement extends BaseEntity{
     @Getter @Setter
     @Column(name = "MovementToID")
     private String movementToID;
+
     //event information
     @Getter @Setter
     @Column(name = "MovementFinalID")
@@ -115,7 +117,7 @@ public class Movement extends BaseEntity{
     @Column(name = "MovementTransport", nullable = false)
     private String movementTransport;
 
-    //event informaiton
+    //event information
     @Getter @Setter
     @Column(name = "EquipmentOwnerID", nullable = false)
     private int equipmentOwnerID;
@@ -125,7 +127,7 @@ public class Movement extends BaseEntity{
     private int movementDays;
 
     @Getter @Setter
-    @Column(name = "isMovementLast", nullable = false)
+    @Column(name = "IsMovementLast", nullable = false)
     private boolean isMovementLast;
 
     @Getter @Setter

@@ -1,68 +1,34 @@
 package com.DEVLOP.Entities;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "MovementType")
 public class MovementType extends BaseEntity{
+
     @Id
+    @Getter @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false, unique = true)
-    private Long id;
+    private int id;
 
-    //movementTypeCode
-    //primary key desta entidade, tem de ser unique
+    @Getter @Setter
     @Column(name = "MovementTypeCode", nullable = false)
     private String movementTypeCode;
-    //movementTypeName
+
+    @Getter @Setter
     @Column(name = "MovementTypeName", nullable = false)
     private String movementTypeName;
-    //movementTypeComments
+
+    @Getter @Setter
     @Column(name = "MovementTypeComments", nullable = false)
     private String movementTypeComments;
-    //movementTypeEmpty
-    @Column(name = "MovementTypeEmpty", nullable = false)
-    private boolean movementTypeEmpty;
+
+    @Getter @Setter
+    @Column(name = "IsMovementTypeEmpty", nullable = false)
+    private boolean isMovementTypeEmpty;
 
     public MovementType() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getMovementTypeCode() {
-        return movementTypeCode;
-    }
-
-    public void setMovementTypeCode(String movementTypeCode) {
-        this.movementTypeCode = movementTypeCode;
-    }
-
-    public String getMovementTypeName() {
-        return movementTypeName;
-    }
-
-    public void setMovementTypeName(String movementTypeName) {
-        this.movementTypeName = movementTypeName;
-    }
-
-    public String getMovementTypeComments() {
-        return movementTypeComments;
-    }
-
-    public void setMovementTypeComments(String movementTypeComments) {
-        this.movementTypeComments = movementTypeComments;
-    }
-
-    public boolean isMovementTypeEmpty() {
-        return movementTypeEmpty;
-    }
-
-    public void setMovementTypeEmpty(boolean movementTypeEmpty) {
-        this.movementTypeEmpty = movementTypeEmpty;
     }
 }
