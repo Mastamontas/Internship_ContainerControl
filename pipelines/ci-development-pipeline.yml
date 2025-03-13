@@ -3,7 +3,7 @@
 trigger:
   branches:
     include:
-      - master # neste caso é master, depois de PR mudar ficheiro master para DEV
+      - development # neste caso é master, depois de PR mudar ficheiro master para DEV
 pool:
   vmImage: 'ubuntu-latest' #ubuntu image for the agent
 

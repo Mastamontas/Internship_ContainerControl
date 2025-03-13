@@ -44,7 +44,8 @@ public class Movement extends BaseEntity{
     @JoinColumn(name = "EquipmentTypeID", nullable = false)
     private EquipmentType equipmentType;
 
-    @ManyToOne
+    //verificar se movementType existe quando se persiste um movement
+    @ManyToOne(cascade = CascadeType.MERGE)
     @Getter @Setter
     @JoinColumn(name = "MovementTypeID", nullable = false, unique = true)
     private MovementType movementType;
@@ -54,22 +55,24 @@ public class Movement extends BaseEntity{
     @Column(name = "BookingEquipmentID")
     private int bookingEquipmentID;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @Getter @Setter
     @JoinColumn(name = "EquipmentServiceID", nullable = false)
     private EquipmentService equipmentService;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @Getter @Setter
     @JoinColumn(name ="EquipmentConditionID", nullable = false)
     private EquipmentCondition equipmentCondition;
 
-    @ManyToOne
+
+
+    @ManyToOne(cascade = CascadeType.MERGE)
     @Getter @Setter
     @JoinColumn(name ="EquipmentLeasingID", nullable = false)
     private EquipmentLeasing equipmentLeasing;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @Getter @Setter
     @JoinColumn(name="TransportMeansID", nullable = false)
     private TransportMeans transportMeans;
@@ -83,26 +86,27 @@ public class Movement extends BaseEntity{
     private String movementOfHire;
 
     @Getter @Setter
-    @Column(name = "MovementComment", nullable = false)
+    @Column(name = "MovementComment")
     private String movementComment;
 
     @Getter @Setter
-    @Column(name = "EquipmentStatusID", nullable = false)
-    private String equipmentStatusID;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "EquipmentStatusID", nullable = false)
+    private EquipmentStatus equipmentStatus;
 
     //event information
     @Getter @Setter
     @Column(name = "MovementFromID")
-    private String movementFromID;
+    private int movementFromID;
     //event information
     @Getter @Setter
     @Column(name = "MovementToID")
-    private String movementToID;
+    private int movementToID;
 
     //event information
     @Getter @Setter
     @Column(name = "MovementFinalID")
-    private String movementFinalID;
+    private int movementFinalID;
     //event information
     @Getter @Setter
     @Column(name = "MovementRestitutionCode", nullable = false)

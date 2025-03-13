@@ -7,29 +7,37 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public interface iMovementMapper {
+public interface IMovementMapper {
     /*
     movement entity para dto
     movement dto para entity
      */
 
     //movement
+    /*
+    movement key?
+    movement status
+    equipment condition/condition code- equipment condition entity
+     */
     @Mapping(source="id", target = "id")
     @Mapping(source="date", target="date")
-    @Mapping(source="", target="")
+    @Mapping(source="movementType.movementTypeCode", target="movementCode")
+    @Mapping(source="movementType.isMovementTypeEmpty", target="isEmpty")
+    @Mapping(source="movementComment", target="comments")
+    @Mapping(source="transportResponsibility", target="transportResponsibility")
     //equipment maps
     @Mapping(source ="equipment.prefix", target="prefix")
     @Mapping(source="equipment.number", target="number")
     @Mapping(source="equipment.checkDigit", target="checkDigit")
+    //equipment service maps
+    @Mapping(source="equipmentService.equipmentServiceCode", target="equipmentServiceCode")
     //equipment type maps
     @Mapping(source="equipmentType.equipmentTypeCode", target = "equipmentTypeCode")
     @Mapping(source="equipmentType.equipmentTypeLength", target= "equipmentTypeLength")
-    //movement type maps
-    //equipment service maps
-    //equipment condition maps
-    //equipment leasing maps
-    //transport means maps
+    @Mapping(source = "equipmentCondition.physicalConditionCode", target="conditionCode")
+    @Mapping(source ="movementType.isMovementTypeEmpty", target ="isEmpty")
     MovementDto MapToMovementDto(Movement movement);
-    Movement MapToMovementEntity(MovementDto movementDto);
+
+    //Movement MapToMovementEntity(MovementDto movementDto);
 
 }

@@ -34,21 +34,19 @@ public class MovementDto {
     private LocalDateTime date; //igual a mov entity
     private String equipmentServiceCode;//vem de equipment service
     private String conditionCode; //vem de equipment condition
-    private String movementBound;//enum
-    private String shippingCode;//este vem de onde?
-    private boolean transhipment;//de onde vem?
+    private String movementBound;//vem de outra tabela
+    private String shippingCode;//vem de outra tabela
+    private boolean transhipment;//outra tabela
     private boolean isEmpty;//movement type
-    private String stowageLocation;//de onde vem?
-    private int sealNumberA;//de onde vem este?
-    private int sealNumberB;//de onde vem este?
+    private String stowageLocation;//outra tabela
+    private int sealNumberA;//outra tabela
+    private int sealNumberB;//outra tabela
     private String comments; //vem de movement entity
-
-    //transport
-    private String transportDetails;
-    private String transportReference;
+    private String transportDetails;//outra tabela
+    private String transportReference;//outra tabela
     private String transportResponsibility;//enum
-    private String haulier;
-    private String vehicleReference;
+    private String haulier;//outra tabela
+    private String vehicleReference;//outra tabela
 
     //location
     private int fromCode; //evento externo
@@ -61,12 +59,12 @@ public class MovementDto {
     private String restitutionName; //evento externo
 
     //depot
-    private int depotCode;
-    private String areaCode;
-    private String locationCode;
-    private String street;
-    private String row;
-    private String stack;
+    private int depotCode;//outra tabela
+    private String areaCode;//outra tabela
+    private String locationCode;//outra tabela
+    private String street;//outra tabela
+    private String row;//outra tabela
+    private String stack;//outra tabela
 
     //companies
     private String companyLine;

@@ -22,7 +22,7 @@ public class MovementType extends BaseEntity{
     private String movementTypeName;
 
     @Getter @Setter
-    @Column(name = "MovementTypeComments", nullable = false)
+    @Column(name = "MovementTypeComments")
     private String movementTypeComments;
 
     @Getter @Setter

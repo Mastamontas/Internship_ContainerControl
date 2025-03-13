@@ -31,7 +31,7 @@ public class EquipmentStatus extends BaseEntity{
     private String equipmentStatusLevel2;
 
     @Getter @Setter
-    @Column(name = "EquipmentStatusComments", nullable = false)
+    @Column(name = "EquipmentStatusComments")
     private String equipmentStatusComments;
 
     public EquipmentStatus() {
