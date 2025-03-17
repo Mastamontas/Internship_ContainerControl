@@ -26,8 +26,8 @@ public class MovementType extends BaseEntity{
     private String movementTypeComments;
 
     @Getter @Setter
-    @Column(name = "IsMovementTypeEmpty", nullable = false)
-    private boolean isMovementTypeEmpty;
+    @Column(name = "IsEmpty")
+    private boolean isEmpty;
 
     public MovementType() {
     }

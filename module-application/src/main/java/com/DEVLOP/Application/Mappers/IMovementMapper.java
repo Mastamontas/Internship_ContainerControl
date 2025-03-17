@@ -22,7 +22,7 @@ public interface IMovementMapper {
     @Mapping(source="id", target = "id")
     @Mapping(source="date", target="date")
     @Mapping(source="movementType.movementTypeCode", target="movementCode")
-    @Mapping(source="movementType.isMovementTypeEmpty", target="isEmpty")
+    //@Mapping(source="movementType.isEmpty", target="isEmpty")
     @Mapping(source="movementComment", target="comments")
     @Mapping(source="transportResponsibility", target="transportResponsibility")
     //equipment maps
@@ -35,7 +35,6 @@ public interface IMovementMapper {
     @Mapping(source="equipmentType.equipmentTypeCode", target = "equipmentTypeCode")
     @Mapping(source="equipmentType.equipmentTypeLength", target= "equipmentTypeLength")
     @Mapping(source = "equipmentCondition.physicalConditionCode", target="conditionCode")
-    @Mapping(source ="movementType.isMovementTypeEmpty", target ="isEmpty")
     MovementDto MapToMovementDto(Movement movement);
 
     //Movement MapToMovementEntity(MovementDto movementDto);

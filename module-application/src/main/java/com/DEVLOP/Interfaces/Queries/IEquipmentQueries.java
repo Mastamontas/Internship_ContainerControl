@@ -11,11 +11,6 @@ refactor nomes de metodos para pascal case
 
  */
 public interface IEquipmentQueries extends IQueries<EquipmentDto> {
-    /*
-    methods:
-    FindAllEquipmentsAsync
-    FindEquipmentByIDAsync
-     */
     CompletableFuture<List<EquipmentDto>> FindAllEquipmentsAsync();
     CompletableFuture<EquipmentDto> GetEquipmentByIDAsync(int id);
 }

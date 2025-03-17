@@ -21,12 +21,13 @@ public class MovementFactory {
         //SETUP
         //base entity sets
         Movement movement = new Movement();
+        movement.setCreatedOn(LocalDateTime.now());
 
         //create movement type
         MovementType randomMovementType = new MovementType();
         randomMovementType.setMovementTypeCode(faker.letterify(faker.lorem().characters(3,true)));
         randomMovementType.setMovementTypeName(faker.letterify(faker.lorem().characters(6,true)));
-        randomMovementType.setMovementTypeEmpty(false);
+        randomMovementType.setEmpty(false);
 
         //create Equipment service
         EquipmentService randomEquipmentService = new EquipmentService();
@@ -52,8 +53,9 @@ public class MovementFactory {
         TransportMeans randomTransportMeans = new TransportMeans();
 
         //set database relationships
-        movement.setEquipment(preExistingEquipment);
-        movement.setEquipmentType(preExistingEquipment.getEquipmentType());
+        movement.setMovementType(randomMovementType);
+        movement.setEquipment(preExistingEquipment);//mudar nome
+        movement.setEquipmentType(preExistingEquipment.getEquipmentType());//mudar nome para ser igual
         movement.setEquipmentService(randomEquipmentService);
         movement.setEquipmentCondition(randomEquimentCondition);
         movement.setEquipmentLeasing(randomEquipmentLeasing);

@@ -13,6 +13,7 @@ import lombok.Setter;
 @Table(name = "Movement")
 @NoArgsConstructor
 public class Movement extends BaseEntity{
+
     @NotNull
     @Getter @Setter
     @Id
@@ -34,20 +35,20 @@ public class Movement extends BaseEntity{
     @Column(name = "AccessUserID", nullable = false)
     private int accessUserID;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @Getter @Setter
     @JoinColumn(name ="EquipmentID", nullable = false)
     private Equipment equipment;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @Getter @Setter
     @JoinColumn(name = "EquipmentTypeID", nullable = false)
     private EquipmentType equipmentType;
 
     //verificar se movementType existe quando se persiste um movement
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @Getter @Setter
-    @JoinColumn(name = "MovementTypeID", nullable = false, unique = true)
+    @JoinColumn(name = "MovementTypeID", nullable = false)
     private MovementType movementType;
 
     //message event
@@ -55,24 +56,24 @@ public class Movement extends BaseEntity{
     @Column(name = "BookingEquipmentID")
     private int bookingEquipmentID;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @Getter @Setter
     @JoinColumn(name = "EquipmentServiceID", nullable = false)
     private EquipmentService equipmentService;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @Getter @Setter
     @JoinColumn(name ="EquipmentConditionID", nullable = false)
     private EquipmentCondition equipmentCondition;
 
 
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @Getter @Setter
     @JoinColumn(name ="EquipmentLeasingID", nullable = false)
     private EquipmentLeasing equipmentLeasing;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @Getter @Setter
     @JoinColumn(name="TransportMeansID", nullable = false)
     private TransportMeans transportMeans;
@@ -90,7 +91,7 @@ public class Movement extends BaseEntity{
     private String movementComment;
 
     @Getter @Setter
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "EquipmentStatusID", nullable = false)
     private EquipmentStatus equipmentStatus;
 
@@ -137,4 +138,5 @@ public class Movement extends BaseEntity{
     @Getter @Setter
     @Column(name = "ShipmentUCN", nullable = false)
     private String shipmentUCN;
+
 }

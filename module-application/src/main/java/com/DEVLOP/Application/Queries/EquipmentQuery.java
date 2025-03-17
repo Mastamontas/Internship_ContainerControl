@@ -46,7 +46,7 @@ public class EquipmentQuery implements IEquipmentQueries {
     public CompletableFuture<List<@Valid EquipmentDto>> FindAllEquipmentsAsync() {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                return ReturnMappedEquipDTOList();
+                return ReturnMappedEquipDTOList();//remover função chamar a outra
             } catch (Exception ex) {
                 return new ArrayList<>();
             }
@@ -58,6 +58,10 @@ public class EquipmentQuery implements IEquipmentQueries {
      * returns the list of equipment DTO's or throws {@link EquipmentNotFoundException}
      *
      * @return list of equipment information DTO's
+     */
+    /*
+    TODO
+    função inutil e repetitiva, retirar e chamar so mapTOEquipDTOList
      */
     private List<EquipmentDto> ReturnMappedEquipDTOList(){
         return MapToEquipmentDTOList(FetchEquipmentListFromRepo());
@@ -97,7 +101,9 @@ public class EquipmentQuery implements IEquipmentQueries {
         return CompletableFuture.supplyAsync(()-> iEquipmentMapper.MaptoEquipmentDto(FetchEquipmentByID(id)));
     }
 
-
+    /*
+    faz sentido eu por esta classe publica para poder ser acedida pelo
+     */
     private Equipment FetchEquipmentByID(int id){
         Optional<Equipment> optionalEquipment = equipmentRepository.FindByID(id);
         if (optionalEquipment.isPresent()) {

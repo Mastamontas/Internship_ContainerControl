@@ -34,8 +34,10 @@ Change naming conventions to Pascal Case
 /*
 todo - URGENTE
 mockar para unit tests
+apagar redundancias deste test porque já existe um equipment factory
+
  */
-public class ApplicationMapperTest {
+public class EquipmentMapperTest {
     private IEquipmentMapper mapper;
     private Faker faker;
 

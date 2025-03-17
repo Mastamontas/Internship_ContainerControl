@@ -39,11 +39,12 @@ public class MovementQueryController {
             summary = "Returns a list of movements from an equipment id",
             description = "asynchronously returns a list of movements DTOs according to the ID of the input equipment"
     )
-    public CompletableFuture<ResponseEntity<List<MovementDto>>> GetmMovementsOfEquipment(@Parameter(description = "Id of equipment") @PathVariable("id") int id){
-        return movementQuery.ReturnEquipmentMovementsAsync(id).thenApply(movementDtos -> ResponseEntity.ok(movementDtos)).exceptionally(
+    public CompletableFuture<ResponseEntity<List<MovementDto>>> GetMovementsOfEquipment(@Parameter(description = "Id of equipment") @PathVariable("id") int id){
+        return movementQuery.ReturnEquipmentMovementsAsync(id).thenApply(movementDtos -> ResponseEntity.ok(movementDtos))
+                .exceptionally(
                 ex ->{
-                    log.error("could not retrieve equipment with ID {} due to error {}",id, ex.getMessage());
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                    log.error("could not retrieve movements for equipment with ID {} due to error {}",id, ex.getMessage());
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
                 }
         );
     }
