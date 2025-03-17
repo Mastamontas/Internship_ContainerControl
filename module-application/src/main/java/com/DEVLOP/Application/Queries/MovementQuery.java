@@ -40,10 +40,6 @@ public class MovementQuery implements IMovementQuery {
         this.equipmentRepository = equipmentRepository;
     }
 
-    /*
-    todo
-    refactor exception handling
-     */
     @Override
     @Transactional
     public CompletableFuture<List<MovementDto>> ReturnEquipmentMovementsAsync(int id){
@@ -69,7 +65,6 @@ public class MovementQuery implements IMovementQuery {
             throw new CompletionException(new RuntimeException("Unexpected error retrieving movements", ex));
         });
     }
-
     private List<MovementDto> MapMovementList(Equipment eq){ //refactor
         return Optional.ofNullable(movementRepository.GetMovementsOfEquipment(eq))
                 .orElse(Collections.emptyList()) // Prevents NullPointerException
@@ -78,15 +73,8 @@ public class MovementQuery implements IMovementQuery {
                 .map(mapper::MapToMovementDto) // Stream mapping for cleaner code
                 .toList();
     }
-
-
     private Equipment GetEquipment(int id) {
         return equipmentRepository.FindByID(id)
                 .orElseThrow(() -> new EquipmentNotFoundException("No equipment found with ID " + id));
     }
-
-    //get equipment
-    //get movements
-    //map movements
-    //return async to the API
 }

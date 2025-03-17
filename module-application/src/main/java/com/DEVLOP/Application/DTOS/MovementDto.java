@@ -12,19 +12,14 @@ public class MovementDto {
     private int id;//id movimento
 
     //equipment
-    //@NotNull (message = "Prefix must not be null")
     @Pattern(
             regexp = "^[A-Z]{4}$",
             message = "Prefix must be exactly 4 uppercase letters"
     )
     private String prefix; //equipamento
-    //@NotNull (message ="number must not be null")
     private int number; //equipamento
-    //@NotNull (message ="check digit must not be null")
     private int checkDigit; //equipamento
-    //@NotNull (message =" equipment type code must not be null")
     private String equipmentTypeCode; //equipment type
-    //@NotNull (message = "equipment type length must not be null")
     private double equipmentTypeLength; //equipment type
 
     //movement

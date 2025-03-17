@@ -46,14 +46,6 @@ public class MovementRepositoryIntegrationTest {
         registry.add("spring.datasource.password", mysql::getPassword);
     }
 
-    /*
-    setup
-
-    criar um equipamento
-    criar 3 movimentos
-
-    testar retorno lista, criação movimento, apagar movimentos
-     */
     @BeforeEach
     public void SetUp(){
         Equipment testEquipment = EquipmentFactory.CreateEquipment();
@@ -66,17 +58,6 @@ public class MovementRepositoryIntegrationTest {
             movementRepository.PersistMovement(testMovement);
         });
     }
-    @Test //todo:refactor or delete method
-    public void FindAMovement(){
-        List<Movement> movements = movementRepository.FindAllMovements();
-        for (Movement m : movements){
-            System.out.println(m.getDate());
-            System.out.println(m.getEquipment().getId());
-            System.out.println(m.getEquipment().getPrefix());
-        }
-
-    }
-
     @Test
     public void ReturnsListByDateOrder(){
         //setup ir buscar equipamento com id 3

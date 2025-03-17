@@ -68,7 +68,6 @@ public class MovementQueryControllerIntegrationTest {
     @Test
     public void GetMovementsOfEquipment() throws Exception{
         //act
-        //preciso um ID
         MvcResult mvcResult = mockMvc.perform(get("/v1/movements/{id}",1))
                 .andExpect(request().asyncStarted())
                 .andReturn();

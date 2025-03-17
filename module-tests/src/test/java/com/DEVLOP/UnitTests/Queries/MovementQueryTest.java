@@ -28,13 +28,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class MovementQueryTest {
-    /*
-    mockar dependencias
-    depende do objeto vindo da persistence depende do mapper
-    teste ao que retorna
-
-
-     */
     @Mock
     private IMovementMapperImpl mapper;
     @Mock
@@ -82,7 +75,6 @@ public class MovementQueryTest {
         verify(mapper, times(1)).MapToMovementDto(testMovement);
     }
 
-    //todo - more tests
     @Test
     public void ReturnEquipmentMovementAsyncTest_EquipmentNotFound() {
         // Arrange: Equipment ID does not exist
@@ -125,7 +117,7 @@ public class MovementQueryTest {
 
     @Test
     public void ReturnEquipmentMovementAsyncTest_UnexpectedError() {
-        // Arrange: Simulate an unexpected error
+        // Arrange: Simulate error
         when(equipmentRepository.FindByID(3)).thenReturn(Optional.of(testEquipment));
         when(movementRepository.GetMovementsOfEquipment(testEquipment)).thenThrow(new RuntimeException("Database error"));
 
