@@ -18,6 +18,8 @@ public class EquipmentType extends BaseEntity{
     @JoinColumn(name = "EquipmentClass", nullable = false, unique = true)
     private EquipmentClass equipmentClass;
 
+
+    //ver se esta relação faz sentido estar aqui na entidade
     @OneToMany(mappedBy = "equipmentType", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Equipment> equipments;
 

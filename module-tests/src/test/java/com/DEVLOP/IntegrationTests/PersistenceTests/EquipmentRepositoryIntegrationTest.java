@@ -57,6 +57,7 @@ public class EquipmentRepositoryIntegrationTest {
         equipmentRepository.DeleteAllEquipments();
         IntStream.rangeClosed(1,3).forEach(i->{
             Equipment equipment = EquipmentFactory.CreateEquipment();
+            //repensar agrupar funções para persistencia de tipos de equipamentos
             equipmentRepository.SaveEquipmentClassInDb(equipment.getEquipmentType().getEquipmentClass());
             equipmentRepository.SaveEquipmentTypeInDb(equipment.getEquipmentType());
             equipmentRepository.SaveEquipmentInDb(equipment);

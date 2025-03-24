@@ -3,9 +3,8 @@ trigger:
   branches:
     include:
       - master
-
 pool:
-  vmImage: 'ubuntu-latest' # Ubuntu image for the agent
+  vmImage: 'ubuntu-latest' #ubuntu image for the agent
 
 steps:
   - task: Maven@4

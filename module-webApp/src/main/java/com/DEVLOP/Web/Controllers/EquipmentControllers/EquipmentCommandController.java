@@ -1,7 +1,7 @@
 package com.DEVLOP.Web.Controllers.EquipmentControllers;
 
 import com.DEVLOP.Application.Commands.EquipmentCommand;
-import com.DEVLOP.Application.DTOS.EquipmentDTO;
+import com.DEVLOP.Application.DTOS.EquipmentDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -54,7 +54,7 @@ public class EquipmentCommandController {
             summary = "Updates existing equipment",
             description = "receives a equipment DTO, gets the database reference, and updates fields"
     )
-    public CompletableFuture<ResponseEntity<String>> UpdateEquipment(@PathVariable("id") int id, @Valid @RequestBody EquipmentDTO eqDTO) {
+    public CompletableFuture<ResponseEntity<String>> UpdateEquipment(@PathVariable("id") int id, @Valid @RequestBody EquipmentDto eqDTO) {
         return equipmentCommand.UpdateEquipment(id, eqDTO)
                 .thenApply(updatedEquipment -> ResponseEntity.ok("Equipment was updated successfully"))
                 .exceptionally(ex -> {

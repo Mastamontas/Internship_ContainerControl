@@ -6,13 +6,17 @@ package com.DEVLOP.Entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 //mapped superclass permite que estas colunas passem para as entidades que a herdem
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
+    @Setter
     @Getter
     @Column(name = "CreatedOn", nullable = false, updatable = false)
     private LocalDateTime createdOn;
@@ -25,15 +29,10 @@ public abstract class BaseEntity implements Serializable {
 
     public BaseEntity() {
     }
-
-    public void setCreatedOn(LocalDateTime createdOn) {
-        this.createdOn = createdOn;
+    @PrePersist
+    protected void OnCreate(){
+        this.createdOn = LocalDateTime.now();
+        this.lastUpdated = LocalDateTime.now();
     }
 
-    public void setLastUpdated(LocalDateTime lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
 }

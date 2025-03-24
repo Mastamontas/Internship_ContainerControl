@@ -1,6 +1,6 @@
 package com.DEVLOP.Application.Queries;
 import com.DEVLOP.Application.Mappers.IEquipmentMapper;
-import com.DEVLOP.Application.DTOS.EquipmentDTO;
+import com.DEVLOP.Application.DTOS.EquipmentDto;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
 import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Interfaces.Queries.IEquipmentQueries;
@@ -43,10 +43,10 @@ public class EquipmentQuery implements IEquipmentQueries {
 
     @Override
     @Transactional
-    public CompletableFuture<List<@Valid EquipmentDTO>> FindAllEquipmentsAsync() {
+    public CompletableFuture<List<@Valid EquipmentDto>> FindAllEquipmentsAsync() {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                return ReturnMappedEquipDTOList();
+                return ReturnMappedEquipDTOList();//remover função chamar a outra
             } catch (Exception ex) {
                 return new ArrayList<>();
             }
@@ -59,7 +59,11 @@ public class EquipmentQuery implements IEquipmentQueries {
      *
      * @return list of equipment information DTO's
      */
-    private List<EquipmentDTO> ReturnMappedEquipDTOList(){
+    /*
+    TODO
+    função inutil e repetitiva, retirar e chamar so mapTOEquipDTOList
+     */
+    private List<EquipmentDto> ReturnMappedEquipDTOList(){
         return MapToEquipmentDTOList(FetchEquipmentListFromRepo());
     }
 
@@ -69,7 +73,7 @@ public class EquipmentQuery implements IEquipmentQueries {
      * @param equipmentList
      * @return List of equipment DTO's
      */
-    private List<EquipmentDTO> MapToEquipmentDTOList(List<Equipment> equipmentList){
+    private List<EquipmentDto> MapToEquipmentDTOList(List<Equipment> equipmentList){
         return equipmentList.stream().map(iEquipmentMapper::MaptoEquipmentDto).collect(Collectors.toList());
     }
 
@@ -93,11 +97,13 @@ public class EquipmentQuery implements IEquipmentQueries {
      */
     @Override
     @Transactional
-    public CompletableFuture<EquipmentDTO> GetEquipmentByIDAsync(int id){
+    public CompletableFuture<EquipmentDto> GetEquipmentByIDAsync(int id){
         return CompletableFuture.supplyAsync(()-> iEquipmentMapper.MaptoEquipmentDto(FetchEquipmentByID(id)));
     }
 
-
+    /*
+    faz sentido eu por esta classe publica para poder ser acedida pelo
+     */
     private Equipment FetchEquipmentByID(int id){
         Optional<Equipment> optionalEquipment = equipmentRepository.FindByID(id);
         if (optionalEquipment.isPresent()) {

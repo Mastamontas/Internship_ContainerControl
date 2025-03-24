@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import java.time.Year;
 @Data
-public class EquipmentDTO {
+public class EquipmentDto {
     @NotNull
     private int id;
     @NotNull (message = "Prefix must not be null")
@@ -38,9 +38,9 @@ public class EquipmentDTO {
     @NotNull (message =" equipment class code cannot be null")
     private String equipmentClassCode;
 
-    public EquipmentDTO() {
+    public EquipmentDto() {
     }
-    public EquipmentDTO(String prefix, int number, int checkDigit, double insideHeight, double grossWeight, double payload, double tare, double insideLength, double insideWidth, double insideCubic, Year yearOfManufacture, String comment, String equipmentTypeCode, double equipmentTypeLength, double equipmentTypeTareWeight, String equipmentClassCode) {
+    public EquipmentDto(String prefix, int number, int checkDigit, double insideHeight, double grossWeight, double payload, double tare, double insideLength, double insideWidth, double insideCubic, Year yearOfManufacture, String comment, String equipmentTypeCode, double equipmentTypeLength, double equipmentTypeTareWeight, String equipmentClassCode) {
         this.prefix = prefix;
         this.number = number;
         this.checkDigit = checkDigit;

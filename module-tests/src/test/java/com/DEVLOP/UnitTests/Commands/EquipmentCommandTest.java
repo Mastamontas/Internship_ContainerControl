@@ -1,7 +1,7 @@
 package com.DEVLOP.UnitTests.Commands;
 
 import com.DEVLOP.Application.Commands.EquipmentCommand;
-import com.DEVLOP.Application.DTOS.EquipmentDTO;
+import com.DEVLOP.Application.DTOS.EquipmentDto;
 import com.DEVLOP.Application.Mappers.IEquipmentMapper;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
 import com.DEVLOP.Entities.Equipment;
@@ -41,7 +41,7 @@ public class EquipmentCommandTest {
     private EquipmentCommand equipmentCommand;
     private Faker faker;
     private Equipment existingEquipment;
-    private EquipmentDTO equipmentDTO;
+    private EquipmentDto equipmentDTO;
     private Equipment updatedEquipment;
 
     @BeforeEach
@@ -126,8 +126,8 @@ public class EquipmentCommandTest {
         return equipmentList;
     }
 
-    private EquipmentDTO mapToMockDTO(Equipment equipment) {
-        EquipmentDTO dto = new EquipmentDTO();
+    private EquipmentDto mapToMockDTO(Equipment equipment) {
+        EquipmentDto dto = new EquipmentDto();
         dto.setId(equipment.getId());
         dto.setCheckDigit(equipment.getCheckDigit());
         dto.setNumber(equipment.getNumber());

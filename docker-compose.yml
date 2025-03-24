@@ -7,7 +7,7 @@ services:
       - "8080:8080"  # Exposes port 8080 (for the Spring Boot app) to the host machine
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/ContainerControl  # Connection URL to MySQL
-      - SPRING_DATASOURCE_USERNAME=pedro.monteiro  # MySQL username
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}  # MySQL username
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}  # MySQL password (make sure to set this)
     depends_on:
       mysql:  # Ensures that MySQL starts before the web service starts

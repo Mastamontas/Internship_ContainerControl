@@ -1,6 +1,6 @@
 package com.DEVLOP.Web.Controllers.EquipmentControllers;
 
-import com.DEVLOP.Application.DTOS.EquipmentDTO;
+import com.DEVLOP.Application.DTOS.EquipmentDto;
 import com.DEVLOP.Application.Queries.EquipmentQuery;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -63,7 +63,7 @@ public class EquipmentQueryController {
      * Retrieves all equipment details from the system.
      * This endpoint handles HTTP GET requests to "/getAllEquipments".
      *
-     * @return A list of {@link EquipmentDTO} containing details of all equipment.
+     * @return A list of {@link EquipmentDto} containing details of all equipment.
      */
     @GetMapping("/")
     @Async
@@ -71,13 +71,13 @@ public class EquipmentQueryController {
             summary = "Get all equipment",
             description = "Retrieves all equipment details from the system."
     )
-    public CompletableFuture<ResponseEntity<List<EquipmentDTO>>> GetAllEquipments(){
+    public CompletableFuture<ResponseEntity<List<EquipmentDto>>> GetAllEquipments(){
         log.info("Returning all equipment from database");
         return equipmentQuery.FindAllEquipmentsAsync()
                 .thenApply(equipments -> {
                     if (equipments == null || equipments.isEmpty()) {
                         log.warn("No equipment found, returning empty JSON list");
-                        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(Collections.<EquipmentDTO>emptyList());
+                        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(Collections.<EquipmentDto>emptyList());
                     }
                     return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(equipments);
                 })
@@ -114,7 +114,7 @@ public class EquipmentQueryController {
             summary = "Returns an equipment by the id",
             description = "returns a equipment DTO according to the ID"
     )
-    public CompletableFuture<ResponseEntity<EquipmentDTO>> GetEquipmentByIDAsync(@Parameter(description = "Id of equipment") @PathVariable ("id") int id){
+    public CompletableFuture<ResponseEntity<EquipmentDto>> GetEquipmentByIDAsync(@Parameter(description = "Id of equipment") @PathVariable ("id") int id){
         return equipmentQuery.GetEquipmentByIDAsync(id).thenApply(equipmentDTO -> ResponseEntity.ok(equipmentDTO)).exceptionally(
                 ex ->{
                     log.error("could not retrieve equipment with ID {} due to error {}",id, ex.getMessage());

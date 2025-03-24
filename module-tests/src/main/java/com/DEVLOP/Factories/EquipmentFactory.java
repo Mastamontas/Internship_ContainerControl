@@ -23,7 +23,7 @@ public class EquipmentFactory {
     public static Equipment CreateEquipment() {
         //set up equipment class
         EquipmentClass eqClass = new EquipmentClass();
-        eqClass.setCreatedOn(LocalDateTime.now());
+        //eqClass.setCreatedOn(LocalDateTime.now());
         eqClass.setEquipmentClassCode(faker.lorem().characters(1, 3));
         eqClass.setEquipmentClassName(faker.lorem().characters(1, 5));
         eqClass.setEquipmentClassType(faker.lorem().characters(1, 5));
@@ -31,7 +31,7 @@ public class EquipmentFactory {
         EquipmentType eqType = new EquipmentType();
         //setup equipment class in equipment type
         eqType.setEquipmentClass(eqClass);
-        eqType.setCreatedOn(LocalDateTime.now());
+        //eqType.setCreatedOn(LocalDateTime.now());
         eqType.setEquipmentTypeCode(faker.code().isbn10());
         eqType.setEquipmentTypeName(faker.lorem().fixedString(7));
         eqType.setEquipmentTypeLength(faker.number().randomDouble(3, 1, 100));
@@ -42,7 +42,7 @@ public class EquipmentFactory {
         eq.setPrefix(faker.letterify("????").toUpperCase());
         eq.setNumber(faker.number().numberBetween(1, 99));
         eq.setCheckDigit(faker.number().numberBetween(1, 10));
-        eq.setCreatedOn(LocalDateTime.now());
+        //eq.setCreatedOn(LocalDateTime.now());
         //set up equipment type in equipment
         eq.setEquipmentType(eqType);
         return eq;

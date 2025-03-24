@@ -8,4 +8,5 @@ find all
 get by id
  */
 public interface IQueries<T> {
+    //Optional<T> FindByID(int id)
 }
