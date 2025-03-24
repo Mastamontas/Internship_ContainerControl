@@ -1,7 +1,4 @@
 package com.DEVLOP.IntegrationTests.PersistenceTests;
-
-
-
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
 import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Factories.EquipmentFactory;
@@ -22,17 +19,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.*;
-
-//classe para testar implementações EquipmentRepository - integration tests for persistence
-/*
-todo
-nomenclatura
-arrange
-act
-assert
-test containers aqui
-
- */
 @AutoConfigureMockMvc
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -58,9 +44,9 @@ public class EquipmentRepositoryIntegrationTest {
         IntStream.rangeClosed(1,3).forEach(i->{
             Equipment equipment = EquipmentFactory.CreateEquipment();
             //repensar agrupar funções para persistencia de tipos de equipamentos
-            equipmentRepository.SaveEquipmentClassInDb(equipment.getEquipmentType().getEquipmentClass());
-            equipmentRepository.SaveEquipmentTypeInDb(equipment.getEquipmentType());
-            equipmentRepository.SaveEquipmentInDb(equipment);
+            equipmentRepository.PersistEquipmentClass(equipment.getEquipmentType().getEquipmentClass());
+            equipmentRepository.PersistEquipmentType(equipment.getEquipmentType());
+            equipmentRepository.PersistEquipment(equipment);
         });
     }
 

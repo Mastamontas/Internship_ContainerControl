@@ -1,6 +1,6 @@
 package com.DEVLOP.IntegrationTests.APITests;
 
-import com.DEVLOP.Application.Commands.EquipmentCommand;
+
 
 import com.DEVLOP.Application.DTOS.EquipmentDto;
 import com.DEVLOP.Application.Mappers.IEquipmentMapperImpl;
@@ -25,16 +25,10 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-/*
-todo
-test container
-integration test:
-should only call the command from the frontend
- */
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) //important for test containers
 @AutoConfigureMockMvc
 @Testcontainers
@@ -54,8 +48,6 @@ public class EquipmentCommandControllerIntegrationTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private EquipmentCommand equipmentCommand;
-    @Autowired
     private IEquipmentMapperImpl mapper;
     @Autowired
     private EquipmentRepository equipmentRepository;
@@ -67,9 +59,9 @@ public class EquipmentCommandControllerIntegrationTest {
     @BeforeEach
     public void setUp() {
         equipment = EquipmentFactory.CreateEquipment();
-        equipmentRepository.SaveEquipmentClassInDb(equipment.getEquipmentType().getEquipmentClass());
-        equipmentRepository.SaveEquipmentTypeInDb(equipment.getEquipmentType());
-        equipment = equipmentRepository.SaveEquipmentInDb(equipment); // Save to the database
+        equipmentRepository.PersistEquipmentClass(equipment.getEquipmentType().getEquipmentClass());
+        equipmentRepository.PersistEquipmentType(equipment.getEquipmentType());
+        equipment = equipmentRepository.PersistEquipment(equipment); // Save to the database
         equipmentDTO = mapper.MaptoEquipmentDto(equipment);
     }
 

@@ -6,17 +6,11 @@ import com.DEVLOP.Interfaces.IEquipmentClassRepository;
 import com.DEVLOP.Interfaces.IEquipmentRepository;
 import com.DEVLOP.Interfaces.IEquipmentTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-/*
-todo
-renomear storing equipments in db
-alterar base de dados para fazer automaticamente persists a relações com equipamento
- */
 @Repository
 public class EquipmentRepository  {
     private final IEquipmentRepository iEquipmentRepository;
@@ -47,31 +41,19 @@ public class EquipmentRepository  {
         return iEquipmentRepository.findById(id);
     }
 
-    /*
-    este method deveria ser optional? Para nao voltar como null? Ou so os retrieves é que sao optional
-     */
-    public Equipment SaveEquipmentInDb(Equipment eq){
+
+    public Equipment PersistEquipment(Equipment eq){
         iEquipmentRepository.save(eq);
         iEquipmentRepository.flush();
         return eq;
     }
 
-
-    /*
-    todo - REFACTOR
-    deve estar noutro repositorio - ficou aqui por conveniencia
-     */
-    public void SaveEquipmentClassInDb(EquipmentClass eqClass){
+    public void PersistEquipmentClass(EquipmentClass eqClass){
         iEquipmentClassRepository.save(eqClass);
         iEquipmentClassRepository.flush();
     }
 
-    /*
-    todo - REFACTOR
-    caso igual ao de acima
-     */
-    public void SaveEquipmentTypeInDb(EquipmentType eqType){
-        System.out.println("saving equip type");
+    public void PersistEquipmentType(EquipmentType eqType){
         iEquipmentTypeRepository.save(eqType);
         iEquipmentTypeRepository.flush();
     }

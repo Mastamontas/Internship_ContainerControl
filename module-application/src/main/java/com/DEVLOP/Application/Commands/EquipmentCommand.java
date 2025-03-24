@@ -14,10 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.CompletableFuture;
 
-/*
-todo
-refactor e limpeza de classe
- */
 @Service
 public class EquipmentCommand implements IEquipmentCommands {
 
@@ -38,7 +34,7 @@ public class EquipmentCommand implements IEquipmentCommands {
                     new EquipmentNotFoundException("Equipment with that ID is not found"));
             return iEquipmentMapper.MapAndUpdateEquipmentFromEquipmentDto(equipmentDTO, eq);
         }).thenApplyAsync(updatedEq ->{
-            equipmentRepository.SaveEquipmentInDb(updatedEq);
+            equipmentRepository.PersistEquipment(updatedEq);
             return updatedEq;
         });
     }

@@ -1,7 +1,6 @@
 package com.DEVLOP.UnitTests.Queries;
 
 import com.DEVLOP.Application.DTOS.MovementDto;
-import com.DEVLOP.Application.Mappers.IMovementMapper;
 import com.DEVLOP.Application.Mappers.IMovementMapperImpl;
 import com.DEVLOP.Application.Queries.MovementQuery;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
@@ -17,7 +16,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -62,7 +60,7 @@ public class MovementQueryTest {
 
         //act
         // Call the method
-        CompletableFuture<List<MovementDto>> futureResult = movementQuery.ReturnEquipmentMovementsAsync(1);
+        CompletableFuture<List<MovementDto>> futureResult = movementQuery.ReturnMovementListFromEquipAsync(1);
         // Assert the result
         List<MovementDto> result = futureResult.join(); // Get the async result
 
@@ -81,7 +79,7 @@ public class MovementQueryTest {
         when(equipmentRepository.FindByID(999)).thenReturn(Optional.empty());
 
         // Act & Assert
-        CompletableFuture<List<MovementDto>> futureResult = movementQuery.ReturnEquipmentMovementsAsync(999);
+        CompletableFuture<List<MovementDto>> futureResult = movementQuery.ReturnMovementListFromEquipAsync(999);
 
         CompletionException thrown = assertThrows(CompletionException.class, futureResult::join,
                 "Should throw ExecutionException wrapping EquipmentNotFoundException");
@@ -102,7 +100,7 @@ public class MovementQueryTest {
         when(movementRepository.GetMovementsOfEquipment(testEquipment)).thenReturn(Collections.emptyList());
 
         // Act
-        CompletableFuture<List<MovementDto>> futureResult = movementQuery.ReturnEquipmentMovementsAsync(2);
+        CompletableFuture<List<MovementDto>> futureResult = movementQuery.ReturnMovementListFromEquipAsync(2);
         List<MovementDto> result = futureResult.join(); // Get async result
 
         // Assert
@@ -122,7 +120,7 @@ public class MovementQueryTest {
         when(movementRepository.GetMovementsOfEquipment(testEquipment)).thenThrow(new RuntimeException("Database error"));
 
         // Act & Assert
-        CompletableFuture<List<MovementDto>> futureResult = movementQuery.ReturnEquipmentMovementsAsync(3);
+        CompletableFuture<List<MovementDto>> futureResult = movementQuery.ReturnMovementListFromEquipAsync(3);
 
         CompletionException thrown = assertThrows(CompletionException.class, futureResult::join,
                 "Should throw ExecutionException wrapping RuntimeException");

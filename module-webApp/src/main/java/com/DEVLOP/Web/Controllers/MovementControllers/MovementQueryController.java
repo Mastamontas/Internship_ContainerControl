@@ -1,6 +1,5 @@
 package com.DEVLOP.Web.Controllers.MovementControllers;
 
-import com.DEVLOP.Application.DTOS.EquipmentDto;
 import com.DEVLOP.Application.DTOS.MovementDto;
 import com.DEVLOP.Application.Queries.MovementQuery;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,7 +39,7 @@ public class MovementQueryController {
             description = "asynchronously returns a list of movements DTOs according to the ID of the input equipment"
     )
     public CompletableFuture<ResponseEntity<List<MovementDto>>> GetMovementsOfEquipment(@Parameter(description = "Id of equipment") @PathVariable("id") int id){
-        return movementQuery.ReturnEquipmentMovementsAsync(id).thenApply(movementDtos -> ResponseEntity.ok(movementDtos))
+        return movementQuery.ReturnMovementListFromEquipAsync(id).thenApply(movementDtos -> ResponseEntity.ok(movementDtos))
                 .exceptionally(
                 ex ->{
                     log.error("could not retrieve movements for equipment with ID {} due to error {}",id, ex.getMessage());

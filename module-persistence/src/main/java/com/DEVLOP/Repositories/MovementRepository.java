@@ -11,9 +11,7 @@ import java.util.Optional;
 
 @Repository
 public class MovementRepository {
-    /*
-    have to implement interfaces, not inject them
-     */
+
     private final IMovementRepository iMovementRepository;
 
     @Autowired
@@ -21,13 +19,10 @@ public class MovementRepository {
         this.iMovementRepository = iMovementRepository;
     }
 
+    //tem de ser minusculo por ser metodo repositorio Spring
     public List<Movement> GetMovementsOfEquipment(Equipment eq){
-        return iMovementRepository.findMovementByEquipmentOrderByDateDesc(eq);//tem de ser minusculo por ser metodo repositorio Spring
+        return iMovementRepository.findMovementByEquipmentOrderByDateDesc(eq);
     }
-    /*
-    return one
-    update
-     */
 
     public Optional<Movement> FindMovementById(int moveId){
         return iMovementRepository.findMovementById(moveId);

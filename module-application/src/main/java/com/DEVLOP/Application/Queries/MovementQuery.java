@@ -1,7 +1,7 @@
 package com.DEVLOP.Application.Queries;
 
 import com.DEVLOP.Application.DTOS.MovementDto;
-import com.DEVLOP.Application.Mappers.IMovementMapper;
+
 import com.DEVLOP.Application.Mappers.IMovementMapperImpl;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
 import com.DEVLOP.CustomExceptions.Movement.MovementNotFoundException;
@@ -13,17 +13,16 @@ import com.DEVLOP.Repositories.MovementRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
+
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+
 
 @Slf4j
 @Service
@@ -42,7 +41,7 @@ public class MovementQuery implements IMovementQuery {
 
     @Override
     @Transactional
-    public CompletableFuture<List<MovementDto>> ReturnEquipmentMovementsAsync(int id){
+    public CompletableFuture<List<MovementDto>> ReturnMovementListFromEquipAsync(int id){
         return CompletableFuture.supplyAsync(() -> {
             Equipment eq = GetEquipment(id);
             List<MovementDto> movements = MapMovementList(eq);//refactor method names
@@ -92,8 +91,5 @@ public class MovementQuery implements IMovementQuery {
         return equipmentRepository.FindByID(id)
                 .orElseThrow(() -> new EquipmentNotFoundException("No equipment found with ID " + id));
     }
-    /*
-    return a movement from an id of the equipment and movement
 
-     */
 }

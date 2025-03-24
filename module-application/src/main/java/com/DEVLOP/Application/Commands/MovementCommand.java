@@ -2,7 +2,6 @@ package com.DEVLOP.Application.Commands;
 
 import com.DEVLOP.Application.DTOS.MovementDto;
 import com.DEVLOP.Application.Mappers.IMovementMapper;
-import com.DEVLOP.Application.Mappers.IMovementMapperImpl;
 import com.DEVLOP.CustomExceptions.Movement.MovementNotFoundException;
 import com.DEVLOP.Entities.Movement;
 import com.DEVLOP.Interfaces.Commands.IMovementCommands;
@@ -18,6 +17,10 @@ import java.util.concurrent.CompletableFuture;
 public class MovementCommand implements IMovementCommands {
 
 
+
+    /*
+    why is field injection not recommended here (autowired recommendation) for mapper
+     */
     private final IMovementMapper mapper;
     private final MovementRepository movementRepository;
 

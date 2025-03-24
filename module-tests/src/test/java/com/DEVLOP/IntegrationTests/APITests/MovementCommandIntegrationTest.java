@@ -1,10 +1,7 @@
 package com.DEVLOP.IntegrationTests.APITests;
 
-import com.DEVLOP.Application.Commands.MovementCommand;
 import com.DEVLOP.Application.DTOS.MovementDto;
 import com.DEVLOP.Application.Mappers.IMovementMapper;
-import com.DEVLOP.Application.Mappers.IMovementMapperImpl;
-import com.DEVLOP.CustomExceptions.Movement.MovementNotFoundException;
 import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Entities.Movement;
 import com.DEVLOP.Factories.EquipmentFactory;
@@ -18,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -29,12 +25,9 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.util.concurrent.CompletableFuture;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -78,9 +71,9 @@ public class MovementCommandIntegrationTest {
     @BeforeEach
     public void setUp() {
         equipment = EquipmentFactory.CreateEquipment();
-        equipmentRepository.SaveEquipmentClassInDb(equipment.getEquipmentType().getEquipmentClass());
-        equipmentRepository.SaveEquipmentTypeInDb(equipment.getEquipmentType());
-        equipment = equipmentRepository.SaveEquipmentInDb(equipment);
+        equipmentRepository.PersistEquipmentClass(equipment.getEquipmentType().getEquipmentClass());
+        equipmentRepository.PersistEquipmentType(equipment.getEquipmentType());
+        equipment = equipmentRepository.PersistEquipment(equipment);
         movement = MovementFactory.CreateMovementEntity(equipment);
         movementRepository.PersistMovement(movement);
         movementDto = mapper.MapToMovementDto(movement);
