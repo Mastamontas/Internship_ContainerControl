@@ -7,14 +7,10 @@ import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Entities.Movement;
 import com.DEVLOP.Factories.EquipmentFactory;
 import com.DEVLOP.Factories.MovementFactory;
-import com.github.javafaker.Faker;
-import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.assertj.core.api.Assertions;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class MovementMapperTest {
@@ -55,5 +51,57 @@ public class MovementMapperTest {
 
         // Condition mappings
         assertEquals(mov.getEquipmentCondition().getPhysicalConditionCode(), movementDto.getConditionCode(), "Condition code should be mapped correctly");
+    }
+    @Test
+    public void MapsCorrectlyUpdatedMovementTest(){
+        //arrange
+        Equipment eq = EquipmentFactory.CreateEquipment();
+        eq.setId(1);
+        Movement mov = MovementFactory.CreateMovementEntity(eq);
+        mov.setId(1);
+        MovementDto testMovementDto = mapper.MapToMovementDto(mov);
+
+        //act
+        Movement newMove = mapper.MapToMovementEntity(testMovementDto);
+
+        //assert
+        assertEquals(newMove.getId(), mov.getId(), "Movement ID should match");
+        assertEquals(newMove.getEquipment().getId(), mov.getEquipment().getId(), "equipment ID from movement should match");
+        assertEquals(newMove.getEquipment().getPrefix(), mov.getEquipment().getPrefix(), "equipment prefix from movement should match");
+
+    }
+    @Test
+    public void MapsCorrectlyMovementDtoToEntityTest() {
+        //arrange
+        Equipment testEquipment = EquipmentFactory.CreateEquipment();
+        testEquipment.setId(1);
+        Movement testMovement = MovementFactory.CreateMovementEntity(testEquipment);
+        testMovement.setId(1);
+        MovementDto testMovementDto = mapper.MapToMovementDto(testMovement);
+
+        String oldPrefix = testMovement.getEquipment().getPrefix();
+        String oldEquipmentTypeCode = testMovement.getEquipment().getEquipmentType().getEquipmentTypeCode();
+        String oldMovementTypeCode = testMovement.getMovementType().getMovementTypeCode();
+        String oldConditionCode = testMovement.getEquipmentCondition().getPhysicalConditionCode();
+
+        //act
+        testMovementDto.setPrefix("AAA");
+        testMovementDto.setEquipmentTypeCode("Test");
+        testMovementDto.setMovementCode("AAA");
+        testMovementDto.setConditionCode("AAA");
+        Movement updatedMovement = mapper.ConvertMovementDtoToEntity(testMovementDto,testMovement);
+
+        //assert
+        assertNotNull(updatedMovement);
+        assertNotEquals(oldPrefix, updatedMovement.getEquipment().getPrefix());
+        assertNotEquals(oldEquipmentTypeCode, updatedMovement.getEquipment().getEquipmentType().getEquipmentTypeCode());
+        assertNotEquals(oldMovementTypeCode, updatedMovement.getMovementType().getMovementTypeCode());
+        assertNotEquals(oldConditionCode, updatedMovement.getEquipmentCondition().getPhysicalConditionCode());
+
+        assertEquals(testMovementDto.getPrefix(), updatedMovement.getEquipment().getPrefix());
+        assertEquals(testMovementDto.getEquipmentTypeCode(), updatedMovement.getEquipment().getEquipmentType().getEquipmentTypeCode());
+        assertEquals(testMovementDto.getMovementCode(), updatedMovement.getMovementType().getMovementTypeCode());
+        assertEquals(testMovementDto.getConditionCode(), updatedMovement.getEquipmentCondition().getPhysicalConditionCode());
+
     }
 }

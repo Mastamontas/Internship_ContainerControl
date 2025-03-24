@@ -135,5 +135,29 @@ public class MovementQueryTest {
         verify(equipmentRepository, times(1)).FindByID(3);
         verify(movementRepository, times(1)).GetMovementsOfEquipment(testEquipment);
     }
+    @Test
+    public void ReturnsMovementByIdAsyncTestSuccess(){
+        //arrange
+        when(movementRepository.FindMovementById(2)).thenReturn(Optional.of(testMovement));
+        when(mapper.MapToMovementDto(testMovement)).thenReturn(testMovementDto);
+
+        //act and assert
+        CompletableFuture<MovementDto> futureResult = movementQuery.ReturnMovementById(2);
+        MovementDto result = futureResult.join();
+
+        // Assert
+        assertNotNull(result, "Result should not be null");
+        assertEquals(testMovementDto, result, "Returned MovementDto should match the mapped DTO");
+
+        // Validate fields (assuming MovementDto has fields like id, name, etc.)
+        assertEquals(testMovementDto.getId(), result.getId(), "ID should match the expected DTO");
+        assertEquals(testMovementDto.getPrefix(), result.getPrefix(), "Name should match the expected DTO");
+        assertEquals(testMovementDto.getDate(), result.getDate(), "Date should match the expected DTO");
+
+        // Verify interactions
+        verify(movementRepository, times(1)).FindMovementById(2);
+        verify(mapper, times(1)).MapToMovementDto(testMovement);
+
+    }
 }
 

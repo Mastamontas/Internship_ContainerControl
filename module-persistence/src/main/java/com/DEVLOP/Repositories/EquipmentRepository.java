@@ -15,6 +15,7 @@ import java.util.Optional;
 /*
 todo
 renomear storing equipments in db
+alterar base de dados para fazer automaticamente persists a relações com equipamento
  */
 @Repository
 public class EquipmentRepository  {

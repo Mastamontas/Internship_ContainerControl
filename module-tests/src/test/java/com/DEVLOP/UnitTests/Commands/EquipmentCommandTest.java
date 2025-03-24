@@ -22,7 +22,6 @@ import java.util.concurrent.CompletionException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.*;
 
 /*
@@ -56,6 +55,7 @@ public class EquipmentCommandTest {
 
     }
 
+    //todo: refactor este test tá fraco
     @Test
     void testUpdateEquipmentAsync_UpdatesEquipmentCorrectly(){
         // Arrange

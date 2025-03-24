@@ -14,6 +14,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.CompletableFuture;
 
+/*
+todo
+refactor e limpeza de classe
+ */
 @Service
 public class EquipmentCommand implements IEquipmentCommands {
 

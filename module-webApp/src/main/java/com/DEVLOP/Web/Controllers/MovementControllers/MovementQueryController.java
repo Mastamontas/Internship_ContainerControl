@@ -24,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
 @RestController
 @EnableAsync
 @RequestMapping("/v1/movements")
-@Tag(name ="Movements", description = "Endpoints for querying movement data from equipments. Version 1")
+@Tag(name ="Movements", description = "Endpoints for querying movement data from movements. Version 1")
 public class MovementQueryController {
     public final MovementQuery movementQuery;
 
@@ -33,7 +33,7 @@ public class MovementQueryController {
         this.movementQuery = movementQuery;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/equipment/{id}")
     @Async
     @Operation(
             summary = "Returns a list of movements from an equipment id",

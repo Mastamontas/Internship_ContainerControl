@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class MovementRepository {
@@ -27,6 +28,10 @@ public class MovementRepository {
     return one
     update
      */
+
+    public Optional<Movement> FindMovementById(int moveId){
+        return iMovementRepository.findMovementById(moveId);
+    }
     //must have associated equipment
     public Movement PersistMovement(Movement movement){
         iMovementRepository.save(movement);
@@ -44,7 +49,9 @@ public class MovementRepository {
     public List<Movement> FindAllMovements(){
         return iMovementRepository.findAll();
     }
-
-
-
+    public Movement UpdateMovement(Movement mov){
+        iMovementRepository.save(mov);
+        iMovementRepository.flush();
+        return mov;
+    }
 }
