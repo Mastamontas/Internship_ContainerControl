@@ -43,5 +43,4 @@ public class MovementCommandController {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("movement was not updated");
                 });
     }
-
 }
