@@ -106,7 +106,7 @@ public class MovementQuery implements IMovementQuery {
     @Transactional
     public CompletableFuture<List<MovementDto>> ReturnFilteredMovementListAsync(Map<String,Object> filters){
         return CompletableFuture.supplyAsync(()->{
-            Specification<Movement> spec = movementSpecification.GetMovementSpecification(filters);
+            Specification<Movement> spec = movementSpecification.BuildSpecification(filters);
             List<Movement> filteredMovementList = movementRepository.ReturnFilteredMovementList(spec);
             return filteredMovementList.stream().map(mapper::MapToMovementDto).toList();
         });

@@ -55,4 +55,9 @@ public class MovementRepository {
         return iMovementRepository.findAll(spec);
     }
 
+    public String SaveMovementList(List<Movement> movementList){
+        iMovementRepository.saveAll(movementList);
+        return "Movement list has been saved";
+    }
+
 }
