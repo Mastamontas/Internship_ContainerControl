@@ -6,6 +6,7 @@ import com.DEVLOP.Interfaces.IEquipmentClassRepository;
 import com.DEVLOP.Interfaces.IEquipmentRepository;
 import com.DEVLOP.Interfaces.IEquipmentTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -95,6 +96,13 @@ public class EquipmentRepository  {
 
         iEquipmentClassRepository.deleteAll();
         iEquipmentClassRepository.flush();
+    }
+
+    /*
+    find equipments by specification
+     */
+    public void FilterEquipmentsBySpecification(Specification<Equipment> spec){
+        iEquipmentRepository.findAll(spec);
     }
 }
 
