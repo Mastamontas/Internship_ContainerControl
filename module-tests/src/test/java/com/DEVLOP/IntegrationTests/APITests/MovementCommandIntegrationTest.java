@@ -1,16 +1,18 @@
 package com.DEVLOP.IntegrationTests.APITests;
 
-
-
-import com.DEVLOP.Application.DTOS.EquipmentDto;
-import com.DEVLOP.Application.Mappers.IEquipmentMapperImpl;
+import com.DEVLOP.Application.DTOS.MovementDto;
+import com.DEVLOP.Application.Mappers.IMovementMapper;
 import com.DEVLOP.Entities.Equipment;
+import com.DEVLOP.Entities.Movement;
 import com.DEVLOP.Factories.EquipmentFactory;
+import com.DEVLOP.Factories.MovementFactory;
 import com.DEVLOP.Repositories.EquipmentRepository;
+import com.DEVLOP.Repositories.MovementRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -24,16 +26,16 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
-
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) //important for test containers
 @AutoConfigureMockMvc
 @Testcontainers
-public class EquipmentCommandControllerIntegrationTest {
-
+public class MovementCommandIntegrationTest {
     @Container
     private static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql:latest");
 
@@ -44,51 +46,80 @@ public class EquipmentCommandControllerIntegrationTest {
         registry.add("spring.datasource.password", mysql::getPassword);
 
     }
-    @Autowired
-    private MockMvc mockMvc;
 
     @Autowired
-    private IEquipmentMapperImpl mapper;
+    private MockMvc mockMvc; // Used to test REST endpoints
     @Autowired
     private EquipmentRepository equipmentRepository;
     @Autowired
+    private MovementRepository movementRepository;
+    @Autowired
     private ObjectMapper objectMapper;
+    @Qualifier("IMovementMapperImpl")
+    @Autowired
+    private IMovementMapper mapper;
 
     private Equipment equipment;
-    private EquipmentDto equipmentDTO;
+    private Movement movement;
+    private MovementDto movementDto;
+
+
+
+
+
+
     @BeforeEach
     public void setUp() {
         equipment = EquipmentFactory.CreateEquipment();
         equipmentRepository.PersistEquipmentClass(equipment.getEquipmentType().getEquipmentClass());
         equipmentRepository.PersistEquipmentType(equipment.getEquipmentType());
-        equipment = equipmentRepository.PersistEquipment(equipment); // Save to the database
-        equipmentDTO = mapper.MaptoEquipmentDto(equipment);
+        equipment = equipmentRepository.PersistEquipment(equipment);
+        movement = MovementFactory.CreateMovementEntity(equipment);
+        movementRepository.PersistMovement(movement);
+        movementDto = mapper.MapToMovementDto(movement);
     }
 
     @Test
-    public void UpdateEquipment_validInput_updatesDatabase() throws Exception {
-        //arrange
-        int id = equipment.getId();
-        equipmentDTO.setComment("Updated Comment");
+    public void testUpdateMovement_Success() throws Exception {
+        //ver se async comeca
+        int id = movement.getId();
+        movementDto.setComments("Updated comments");
+        // Act & Assert
 
-        //act
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/v1/equipments/{id}/update", id)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(equipmentDTO)))
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/v1/movements/{id}/update", id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(movementDto)))
+                .andExpect(request().asyncStarted()) // Verify async started
+                .andReturn(); // Capture the MvcResult
+        mockMvc.perform(asyncDispatch(mvcResult)) // Dispatch asynchronously
+                .andExpect(status().isOk())
+                .andExpect(content().string("Movement was updated"));
+
+        Movement updatedEquipment = movementRepository.FindMovementById(id).orElse(null);
+        assert updatedEquipment != null;
+        assertEquals("Updated comments", movementDto.getComments());
+    }
+
+
+
+    //test movement does not exist
+    @Test
+    public void testUpdateMovement_Failure() throws Exception {
+
+
+        // Act & Assert
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/v1/movements/{id}/update", 500)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(movementDto)))
                 .andExpect(request().asyncStarted()) // Verify async started
                 .andReturn(); // Capture the MvcResult
 
-
         mockMvc.perform(asyncDispatch(mvcResult)) // Dispatch asynchronously
-                .andExpect(status().isOk())
-                .andExpect(content().string("Equipment was updated successfully"));
-
-        //assert
-        Equipment updatedEquipment = equipmentRepository.FindByID(id).orElse(null);
-        assert updatedEquipment != null;
-        assertEquals("Updated Comment", updatedEquipment.getComment());
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("movement was not updated"));
     }
-    /*
-    falta teste de excepcao caso corra mal
-     */
+    //test no equipment in movement
+
+
 }

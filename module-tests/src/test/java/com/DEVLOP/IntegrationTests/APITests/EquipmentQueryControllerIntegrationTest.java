@@ -59,9 +59,9 @@ public class EquipmentQueryControllerIntegrationTest {
         equipmentRepository.DeleteAllEquipments();
         IntStream.rangeClosed(1,3).forEach(i->{
             Equipment equipment = EquipmentFactory.CreateEquipment();
-            equipmentRepository.SaveEquipmentClassInDb(equipment.getEquipmentType().getEquipmentClass());
-            equipmentRepository.SaveEquipmentTypeInDb(equipment.getEquipmentType());
-            equipmentRepository.SaveEquipmentInDb(equipment);
+            equipmentRepository.PersistEquipmentClass(equipment.getEquipmentType().getEquipmentClass());
+            equipmentRepository.PersistEquipmentType(equipment.getEquipmentType());
+            equipmentRepository.PersistEquipment(equipment);
         });
     }
 

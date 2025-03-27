@@ -15,12 +15,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
-/*
-TODO
-Change method naming to Pascal Case
-comment functions
-verificar se estrutura find all esta correta
- */
 
 /**
  * Class for returning all the equipment in the system
@@ -60,8 +54,7 @@ public class EquipmentQuery implements IEquipmentQueries {
      * @return list of equipment information DTO's
      */
     /*
-    TODO
-    função inutil e repetitiva, retirar e chamar so mapTOEquipDTOList
+    funciona mas é redundante, fazer refactor
      */
     private List<EquipmentDto> ReturnMappedEquipDTOList(){
         return MapToEquipmentDTOList(FetchEquipmentListFromRepo());
@@ -90,20 +83,12 @@ public class EquipmentQuery implements IEquipmentQueries {
         return equipmentList;
     }
 
-
-    /*
-    confirmar com filipe se isto é boa pratica, tem mapper e fetch equipment nested
-    alternativa é chamar so uma função que faca o mapping automatico
-     */
     @Override
     @Transactional
     public CompletableFuture<EquipmentDto> GetEquipmentByIDAsync(int id){
         return CompletableFuture.supplyAsync(()-> iEquipmentMapper.MaptoEquipmentDto(FetchEquipmentByID(id)));
     }
 
-    /*
-    faz sentido eu por esta classe publica para poder ser acedida pelo
-     */
     private Equipment FetchEquipmentByID(int id){
         Optional<Equipment> optionalEquipment = equipmentRepository.FindByID(id);
         if (optionalEquipment.isPresent()) {

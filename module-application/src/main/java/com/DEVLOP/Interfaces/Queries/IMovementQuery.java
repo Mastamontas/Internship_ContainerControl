@@ -7,5 +7,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public interface IMovementQuery extends IQueries<MovementDto> {
-    CompletableFuture<List<MovementDto>> ReturnEquipmentMovementsAsync(int id);
+    CompletableFuture<List<MovementDto>> ReturnMovementListFromEquipAsync(int id);
+    CompletableFuture<MovementDto> ReturnMovementById(int movementId);
 }
