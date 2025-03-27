@@ -10,15 +10,18 @@ import com.DEVLOP.Entities.Movement;
 import com.DEVLOP.Interfaces.Queries.IMovementQuery;
 import com.DEVLOP.Repositories.EquipmentRepository;
 import com.DEVLOP.Repositories.MovementRepository;
+import com.DEVLOP.Specifications.MovementSpecification;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
@@ -31,12 +34,15 @@ public class MovementQuery implements IMovementQuery {
     private final IMovementMapperImpl mapper;
     private final EquipmentRepository equipmentRepository;
 
+    private final MovementSpecification movementSpecification;
+
     @Autowired
     public MovementQuery(MovementRepository movementRepository, IMovementMapperImpl mapper,
-                         EquipmentRepository equipmentRepository){
+                         EquipmentRepository equipmentRepository,MovementSpecification movementSpecification){
         this.mapper = mapper;
         this.movementRepository = movementRepository;
         this.equipmentRepository = equipmentRepository;
+        this.movementSpecification = movementSpecification;
     }
 
     @Override
@@ -91,5 +97,18 @@ public class MovementQuery implements IMovementQuery {
         return equipmentRepository.FindByID(id)
                 .orElseThrow(() -> new EquipmentNotFoundException("No equipment found with ID " + id));
     }
-
+    /*
+    todo
+    exceptions
+    test
+     */
+    @Override
+    @Transactional
+    public CompletableFuture<List<MovementDto>> ReturnFilteredMovementListAsync(Map<String,Object> filters){
+        return CompletableFuture.supplyAsync(()->{
+            Specification<Movement> spec = movementSpecification.GetMovementSpecification(filters);
+            List<Movement> filteredMovementList = movementRepository.ReturnFilteredMovementList(spec);
+            return filteredMovementList.stream().map(mapper::MapToMovementDto).toList();
+        });
+    };
 }

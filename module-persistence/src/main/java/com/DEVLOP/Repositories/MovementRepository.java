@@ -4,6 +4,8 @@ import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Entities.Movement;
 import com.DEVLOP.Interfaces.IMovementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -49,4 +51,8 @@ public class MovementRepository {
         iMovementRepository.flush();
         return mov;
     }
+    public List<Movement> ReturnFilteredMovementList(Specification<Movement> spec){
+        return iMovementRepository.findAll(spec);
+    }
+
 }

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 @Component
 public class MovementSpecification extends AbstractSpecification<Movement> {
-
     public Specification<Movement> GetMovementSpecification(Map<String,Object> filters){
         return super.BuildSpecification(filters);
     }

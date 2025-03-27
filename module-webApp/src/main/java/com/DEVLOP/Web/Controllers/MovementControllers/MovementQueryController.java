@@ -11,12 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
@@ -46,5 +45,54 @@ public class MovementQueryController {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
                 }
         );
+    }
+
+    @GetMapping("/filter")
+    @Async
+    @Operation(
+            summary = "Returns filtered list of movements",
+            description = "Asynchronously returns a list of filtered movements according to the selected filters"
+    )
+    public CompletableFuture<ResponseEntity<List<MovementDto>>> ReturnFilteredMovementList(
+            @Parameter(description = "Equipment Prefix of the movement") @RequestParam(required = false) String prefix,
+            @Parameter(description = "Equipment number") @RequestParam(required = false) Integer number,
+            @Parameter(description = "Equipment type") @RequestParam(required = false) String equipmentType,
+            @Parameter(description = "Length of the equipment") @RequestParam(required = false) Integer length,
+            @Parameter(description = "Status of the movement") @RequestParam(required = false) String status,
+            @Parameter(description = "Comments on the movement") @RequestParam(required = false) String comments,
+            @Parameter(description = "Type of movement") @RequestParam(required = false) String movement,
+            @Parameter(description = "Shipping line") @RequestParam(required = false) String line,
+            @Parameter(description = "Vessel name") @RequestParam(required = false) String vessel,
+            @Parameter(description = "Voyage number") @RequestParam(required = false) String voyage,
+            @Parameter(description = "Origin location") @RequestParam(required = false) String from,
+            @Parameter(description = "Destination location") @RequestParam(required = false) String to,
+            @Parameter(description = "Final destination") @RequestParam(required = false) String finalDestination,
+            @Parameter(description = "Creation date (YYYY-MM-DD)") @RequestParam(required = false) String createDate,
+            @Parameter(description = "Notification code") @RequestParam(required = false) String notifyCode,
+            @Parameter(description = "Agent code") @RequestParam(required = false) String agentCode
+    ){
+        Map<String, Object> filters = new HashMap<>();
+        if (prefix != null) filters.put("prefix", prefix);
+        if (number != null) filters.put("number", number);
+        if (equipmentType != null) filters.put("equipmentType", equipmentType);
+        if (length != null) filters.put("length", length);
+        if (status != null) filters.put("status", status);
+        if (comments != null) filters.put("comments", comments);
+        if (movement != null) filters.put("movement", movement);
+        if (line != null) filters.put("line", line);
+        if (vessel != null) filters.put("vessel", vessel);
+        if (voyage != null) filters.put("voyage", voyage);
+        if (from != null) filters.put("from", from);
+        if (to != null) filters.put("to", to);
+        if (finalDestination != null) filters.put("final", finalDestination);
+        if (createDate != null) filters.put("createDate", createDate);
+        if (notifyCode != null) filters.put("notifyCode", notifyCode);
+        if (agentCode != null) filters.put("agentCode", agentCode);
+        return movementQuery.ReturnFilteredMovementListAsync(filters)
+                .thenApply(movementDtos -> ResponseEntity.ok(movementDtos))
+                .exceptionally(ex -> {
+                    log.error("Could not retrieve filtered movements due to error {}", ex.getMessage());
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+                });
     }
 }
