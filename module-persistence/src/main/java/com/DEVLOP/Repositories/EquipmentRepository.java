@@ -6,6 +6,7 @@ import com.DEVLOP.Interfaces.IEquipmentClassRepository;
 import com.DEVLOP.Interfaces.IEquipmentRepository;
 import com.DEVLOP.Interfaces.IEquipmentTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,11 +32,6 @@ public class EquipmentRepository  {
     public List<Equipment> FindAll(){
         return iEquipmentRepository.findAll();
     }
-
-    /*public Optional<Equipment> FindEquipmentByUniqueDetails(@Param("prefix") String prefix, @Param("checkDigit")int checkDigit, @Param("number") int number){
-        return iEquipmentRepository.FindByPrefixAndCheckDigitAndNumber(prefix,checkDigit, number);
-    }*/
-
 
     public Optional<Equipment> FindByID(int id){
         return iEquipmentRepository.findById(id);
@@ -79,5 +75,14 @@ public class EquipmentRepository  {
         iEquipmentClassRepository.deleteAll();
         iEquipmentClassRepository.flush();
     }
+
+    /*
+    return equipments by filter. eventually replaces the method to return all equipments
+     */
+    public List<Equipment> ReturnEquipmentListFiltered(Specification<Equipment> spec){
+        return iEquipmentRepository.findAll(spec);
+    }
+
+
 }
 

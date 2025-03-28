@@ -14,7 +14,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /*
@@ -86,26 +88,30 @@ public class EquipmentQueryController {
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).contentType(MediaType.APPLICATION_JSON).build();
                 });
     }
-    /*
-    todo
-    async function
-     */
-    /*@GetMapping("/{prefix}/{checkDigit}/{number}")
-    @Operation(
-            summary = "Get equipment by details",
-            description = "Retrieve an equipment item by its unique details."
-    )
-    public CompletableFuture<ResponseEntity<EquipmentDTO>> GetEqByUniqueDetails(
-            @Parameter(description = "Prefix of equipment") @PathVariable ("prefix") String prefix,
-            @Parameter(description = "Check digit") @PathVariable ("checkDigit") int checkDigit,
-            @Parameter(description = "Equipment number") @PathVariable ("number") int number){
-        log.info("returned equipment {}{}{}", prefix, checkDigit, number);
-        return equipmentQuery.ReturnEqDTOByUniqueDetailsAsync(prefix, checkDigit, number).thenApply(ResponseEntity::ok).exceptionally(ex ->{
-                log.error("Could not retrieve equipment with prefix {} , check digit {} and equipment number {} due to {}", prefix, checkDigit, number, ex.getMessage());
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        });
 
-    }*/
+    @GetMapping("/filter")
+    @Async
+    @Operation(
+            summary = "returns list of equipments filtered or not according to the filtered attributes",
+            description = "Returns equipment list. can be filtered by prefix, number or check digit"
+    )
+    public CompletableFuture<ResponseEntity<List<EquipmentDto>>> ReturnAllEquipmentsAsync(
+            @Parameter(description = "Equipment prefix") @RequestParam(required = false) String prefix,
+            @Parameter(description = "Equipment number") @RequestParam(required = false) Integer equipmentNumber,
+            @Parameter(description = "Equipment check digit") @RequestParam(required = false) Integer checkDigit
+    ){
+        Map<String, Object> filters = new HashMap<>();
+        if (prefix != null) filters.put("prefix", prefix);
+        if (equipmentNumber != null) filters.put("number", equipmentNumber);
+        if (checkDigit != null) filters.put("number", checkDigit);
+        return equipmentQuery.ReturnEquipmentsFilteredASync(filters).thenApply(equipmentDtos -> ResponseEntity.ok(equipmentDtos))
+                .exceptionally(ex ->{
+                    log.error("could not retrieve filtered equipments");
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+                });
+    }
+
+
 
 
     @GetMapping("/{id}")
