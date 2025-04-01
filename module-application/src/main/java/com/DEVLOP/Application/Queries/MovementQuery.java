@@ -48,7 +48,9 @@ public class MovementQuery implements IMovementQuery {
     @Override
     @Transactional
     public CompletableFuture<List<MovementDto>> ReturnMovementListFromEquipAsync(int id){
+        System.out.println("entering service method" + Thread.currentThread().getName());
         return CompletableFuture.supplyAsync(() -> {
+            System.out.println("inside service method" + Thread.currentThread().getName());
             Equipment eq = GetEquipment(id);
             List<MovementDto> movements = MapMovementList(eq);//refactor method names
             if (movements.isEmpty()) {

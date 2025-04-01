@@ -15,7 +15,7 @@ import java.util.Map;
 public class MovementSpecification extends AbstractSpecification<Movement> {
 
     private static final List<String> ALLOWED_FIELDS = Arrays.asList(
-            "equipment.prefix","equipment.number", "equipmentType.equipmentTypeCode","equipmentType.equipmentTypeLength"
+            "equipment.prefix","equipment.number", "equipmentType.equipmentTypeCode","equipmentType.equipmentTypeLength", "equipmentStatus.equipmentStatusCode"
     );
 
     @Override

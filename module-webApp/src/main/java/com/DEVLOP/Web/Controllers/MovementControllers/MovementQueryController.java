@@ -38,6 +38,7 @@ public class MovementQueryController {
             description = "asynchronously returns a list of movements DTOs according to the ID of the input equipment"
     )
     public CompletableFuture<ResponseEntity<List<MovementDto>>> GetMovementsOfEquipment(@Parameter(description = "Id of equipment") @PathVariable("id") int id){
+        System.out.println("outside " + Thread.currentThread().getName());
         return movementQuery.ReturnMovementListFromEquipAsync(id).thenApply(movementDtos -> ResponseEntity.ok(movementDtos))
                 .exceptionally(
                 ex ->{
@@ -64,12 +65,13 @@ public class MovementQueryController {
             @Parameter(description = "Shipping line") @RequestParam(required = false) String line,
             @Parameter(description = "Vessel name") @RequestParam(required = false) String vessel,
             @Parameter(description = "Voyage number") @RequestParam(required = false) String voyage,
-            @Parameter(description = "Origin location") @RequestParam(required = false) String from,
-            @Parameter(description = "Destination location") @RequestParam(required = false) String to,
+            @Parameter(description = "Origin location") @RequestParam(value ="fromLocation", required = false) String from,
+            @Parameter(description = "Destination location") @RequestParam(value ="toLocation",required = false) String to,
             @Parameter(description = "Final destination") @RequestParam(required = false) String finalDestination,
             @Parameter(description = "Creation date (YYYY-MM-DD)") @RequestParam(required = false) String createDate,
             @Parameter(description = "Notification code") @RequestParam(required = false) String notifyCode,
-            @Parameter(description = "Agent code") @RequestParam(required = false) String agentCode
+            @Parameter(description = "Agent code") @RequestParam(required = false) String agentCode,
+            @Parameter(description = "Equipment status code of movement") @RequestParam(required = false) String equipmentStatusCode
     ){
         Map<String, Object> filters = new HashMap<>();
         if (prefix != null) filters.put("prefix", prefix);
@@ -88,6 +90,8 @@ public class MovementQueryController {
         if (createDate != null) filters.put("createDate", createDate);
         if (notifyCode != null) filters.put("notifyCode", notifyCode);
         if (agentCode != null) filters.put("agentCode", agentCode);
+        if(equipmentStatusCode != null) filters.put("equipmentStatus.equipmentStatusCode", equipmentStatusCode);
+        log.info("Received filters: {}", filters);
         return movementQuery.ReturnFilteredMovementListAsync(filters)
                 .thenApply(movementDtos -> ResponseEntity.ok(movementDtos))
                 .exceptionally(ex -> {

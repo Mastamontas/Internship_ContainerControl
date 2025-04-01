@@ -7,8 +7,11 @@ import com.github.javafaker.Faker;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
 
 /*
 
@@ -44,7 +47,7 @@ public class MovementFactory {
         randomEquipmentLeasing.setLeasingContractName(faker.letterify(faker.lorem().characters(8,true)));
         //create equipment status
         EquipmentStatus randomEquipmentStatus = new EquipmentStatus();
-        randomEquipmentStatus.setEquipmentStatusCode(faker.letterify(faker.lorem().characters(8,true)));
+        randomEquipmentStatus.setEquipmentStatusCode(faker.random().nextBoolean() ? "IN_PROGRESS" : "COMPLETED");
         randomEquipmentStatus.setEquipmentStatusName(faker.letterify(faker.lorem().characters(8,true)));
         randomEquipmentStatus.setEquipmentStatusLevel1(faker.letterify(faker.lorem().characters(8,true)));
         randomEquipmentStatus.setEquipmentStatusLevel2(faker.letterify(faker.lorem().characters(8,true)));
@@ -83,7 +86,19 @@ public class MovementFactory {
 
 
     }
+    //pode receber um equipamento ou pode receber uma lista
+
+    public static List<Movement> CreateMovementList(Equipment equipment, int numberOfMovements){
+        List<Movement> movementList = new ArrayList<>();
+        IntStream.rangeClosed(1, numberOfMovements).forEach(i->{
+           Movement move = CreateMovementEntity(equipment);
+           movementList.add(move);
+        });
+        return movementList;
+    }
+
     // Helper method to convert Date to LocalDateTime
+    //todo maybe instead of date have local date time
     private static LocalDateTime convertToLocalDateTime(Date date) {
         return Instant.ofEpochMilli(date.getTime())
                 .atZone(ZoneId.systemDefault()) // Convert to system default timezone

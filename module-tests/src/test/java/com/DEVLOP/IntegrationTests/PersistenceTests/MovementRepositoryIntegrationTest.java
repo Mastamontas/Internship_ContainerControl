@@ -29,6 +29,10 @@ import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+/*
+todo feature add group movement
+ */
 @AutoConfigureMockMvc
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -51,29 +55,21 @@ public class MovementRepositoryIntegrationTest {
         registry.add("spring.datasource.url", mysql::getJdbcUrl);
         registry.add("spring.datasource.username", mysql::getUsername);
         registry.add("spring.datasource.password", mysql::getPassword);
-    }
-    private Equipment testEquipment;
-    private Equipment testEquipment2;
+    }private Equipment testEquipment;
+
 
     @BeforeEach
     public void SetUp(){
         testEquipment = EquipmentFactory.CreateEquipment();
-        testEquipment2 = EquipmentFactory.CreateEquipment();
 
         //mudar nome metodo para persistEquipment
         equipmentRepository.PersistEquipmentClass(testEquipment.getEquipmentType().getEquipmentClass());
         equipmentRepository.PersistEquipmentType(testEquipment.getEquipmentType());
         equipmentRepository.PersistEquipment(testEquipment);
 
-        equipmentRepository.PersistEquipmentClass(testEquipment2.getEquipmentType().getEquipmentClass());
-        equipmentRepository.PersistEquipmentType(testEquipment2.getEquipmentType());
-        equipmentRepository.PersistEquipment(testEquipment2);
-
         IntStream.rangeClosed(1,4).forEach(i->{
             Movement testMovement = MovementFactory.CreateMovementEntity(testEquipment);
-            Movement testMovement2 = MovementFactory.CreateMovementEntity(testEquipment2);
             movementRepository.PersistMovement(testMovement);
-            movementRepository.PersistMovement(testMovement2);
         });
     }
     @Test
@@ -115,14 +111,16 @@ public class MovementRepositoryIntegrationTest {
     /*
     test save all
     test return filtered movements
+    remove filters and it returns the entire unfiltered list
      */
     @Test
     public void ReturnAllMovementsFiltered(){
         //set up the spec
         Map<String, Object> filter1 = new HashMap<>();
         /*Map<String, Object> filter2 = new HashMap<>();*/
-        /*filter1.put("equipment.prefix",testEquipment.getPrefix());
-        filter2.put("equipment.prefix",testEquipment2.getPrefix());*/
+        filter1.put("equipment.prefix",testEquipment.getPrefix());
+        filter1.put("equipmentStatus.equipmentStatusCode", "IN_PROGRESS");
+        //filter2.put("equipment.prefix",testEquipment2.getPrefix());
 
         Specification<Movement> spec =  movementSpecification.BuildSpecification(filter1);
         /*Specification<Movement> spec2 =  movementSpecification.BuildSpecification(filter2);*/
@@ -138,7 +136,9 @@ public class MovementRepositoryIntegrationTest {
             System.out.println(mov.getId());
             System.out.println(mov.getDate());
         }*/
+        assertNotNull(moveList1);
     }
+
 
     /*
     todo
@@ -146,6 +146,7 @@ public class MovementRepositoryIntegrationTest {
     test no filters
     test error case
      */
+
 
 
 }

@@ -53,6 +53,7 @@ public class MovementQueryControllerIntegrationTest {
 
     @BeforeEach
     public void SetUp(){
+
         Equipment testEquipment = EquipmentFactory.CreateEquipment();
         //mudar nome metodo para persistEquipment
         equipmentRepository.PersistEquipmentClass(testEquipment.getEquipmentType().getEquipmentClass());
@@ -61,13 +62,14 @@ public class MovementQueryControllerIntegrationTest {
         IntStream.rangeClosed(1,4).forEach(i->{
             Movement testMovement = MovementFactory.CreateMovementEntity(testEquipment);
             movementRepository.PersistMovement(testMovement);
+            System.out.println(testMovement.getEquipmentStatus().getEquipmentStatusCode());
         });
     }
 
     @Test
     public void GetMovementsOfEquipment() throws Exception{
         //act
-        MvcResult mvcResult = mockMvc.perform(get("/v1/movements/{id}",1))
+        MvcResult mvcResult = mockMvc.perform(get("/v1/movements/equipment/{id}",1))
                 .andExpect(request().asyncStarted())
                 .andReturn();
 
@@ -80,5 +82,24 @@ public class MovementQueryControllerIntegrationTest {
                 .getContentAsString();
     }
 
+    //get movements filtered
+    //equipment status. equipment status code
+    @Test
+    public void GetFilteredMovements() throws Exception{
+
+        MvcResult mvcResult = mockMvc.perform(get("/v1/movements/filter")
+                        .param("equipmentStatus.equipmentStatusCode", "IN_PROGRESS"))
+                .andExpect(request().asyncStarted())
+                .andReturn();
+
+        // Assert: Validate response
+        mockMvc.perform(asyncDispatch(mvcResult))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+    }
 
 }

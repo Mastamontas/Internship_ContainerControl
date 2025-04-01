@@ -14,6 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class MovementMapperTest {
+    /*
+    Aqui tem de se colocar mocks?
+     */
     private IMovementMapper mapper;
 
     @BeforeEach
