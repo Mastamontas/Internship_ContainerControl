@@ -92,7 +92,7 @@ public class MovementMapperTest {
         testMovementDto.setEquipmentTypeCode("Test");
         testMovementDto.setMovementCode("AAA");
         testMovementDto.setConditionCode("AAA");
-        Movement updatedMovement = mapper.ConvertMovementDtoToEntity(testMovementDto,testMovement);
+        Movement updatedMovement = mapper.UpdateMovementEntity(testMovementDto,testMovement);
 
         //assert
         assertNotNull(updatedMovement);

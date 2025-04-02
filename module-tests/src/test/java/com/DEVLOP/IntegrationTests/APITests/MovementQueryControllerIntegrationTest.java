@@ -53,9 +53,7 @@ public class MovementQueryControllerIntegrationTest {
 
     @BeforeEach
     public void SetUp(){
-
         Equipment testEquipment = EquipmentFactory.CreateEquipment();
-        //mudar nome metodo para persistEquipment
         equipmentRepository.PersistEquipmentClass(testEquipment.getEquipmentType().getEquipmentClass());
         equipmentRepository.PersistEquipmentType(testEquipment.getEquipmentType());
         equipmentRepository.PersistEquipment(testEquipment);
@@ -82,8 +80,6 @@ public class MovementQueryControllerIntegrationTest {
                 .getContentAsString();
     }
 
-    //get movements filtered
-    //equipment status. equipment status code
     @Test
     public void GetFilteredMovements() throws Exception{
 

@@ -64,7 +64,7 @@ public class MovementCommandTest {
     public void MovementUpdateTestSuccess(){
         //arrange
         when(movementRepository.FindMovementById(2)).thenReturn(Optional.of(testMovement));
-        when(mapper.ConvertMovementDtoToEntity(updatedMovementDto, testMovement))
+        when(mapper.UpdateMovementEntity(updatedMovementDto, testMovement))
                 .thenReturn(updatedMovement);
         when(movementRepository.UpdateMovement(updatedMovement)).thenReturn(updatedMovement);
         // Act
@@ -77,7 +77,7 @@ public class MovementCommandTest {
 
         // Verify interactions
         verify(movementRepository, times(1)).FindMovementById(2);
-        verify(mapper, times(1)).ConvertMovementDtoToEntity(updatedMovementDto, testMovement);
+        verify(mapper, times(1)).UpdateMovementEntity(updatedMovementDto, testMovement);
         verify(movementRepository, times(1)).UpdateMovement(updatedMovement);
     }
 }

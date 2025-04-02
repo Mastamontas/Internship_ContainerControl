@@ -22,7 +22,7 @@ import java.util.concurrent.CompletableFuture;
 @RestController
 @EnableAsync
 @RequestMapping("/v1/movements")
-@Tag(name ="Movements", description = "Endpoints for querying movement data from movements. Version 1")
+@Tag(name ="Movement queries", description = "Endpoints for querying movement data from movements. Version 1")
 public class MovementQueryController {
     public final MovementQuery movementQuery;
 
@@ -35,7 +35,7 @@ public class MovementQueryController {
     @Async
     @Operation(
             summary = "Returns a list of movements from an equipment id",
-            description = "asynchronously returns a list of movements DTOs according to the ID of the input equipment"
+            description = "asynchronously returns a list of movements according to the ID of the input equipment. "
     )
     public CompletableFuture<ResponseEntity<List<MovementDto>>> GetMovementsOfEquipment(@Parameter(description = "Id of equipment") @PathVariable("id") int id){
         System.out.println("outside " + Thread.currentThread().getName());

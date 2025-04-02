@@ -65,6 +65,6 @@ public interface IMovementMapper {
     @Mapping(source="equipmentTypeCode", target = "equipmentType.equipmentTypeCode")
     @Mapping(source="equipmentTypeLength", target= "equipmentType.equipmentTypeLength")
     @Mapping(source = "conditionCode", target="equipmentCondition.physicalConditionCode")
-    Movement ConvertMovementDtoToEntity(MovementDto moveDto, @MappingTarget Movement move);
+    Movement UpdateMovementEntity(MovementDto moveDto, @MappingTarget Movement move);
 
 }

@@ -3,6 +3,7 @@ package com.DEVLOP.Web.Controllers.MovementControllers;
 import com.DEVLOP.Application.Commands.MovementCommand;
 import com.DEVLOP.Application.DTOS.MovementDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -14,13 +15,15 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @RestController
 @EnableAsync
 @RequestMapping("/v1/movements")
-@Tag(name ="Equipment", description = "Endpoints for controlling movement data. Version 1")
+@Tag(name ="Movement commands", description = "Endpoints for controlling movement data. Version 1")
 public class MovementCommandController {
 
     private final MovementCommand movementCommand;
@@ -43,4 +46,21 @@ public class MovementCommandController {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("movement was not updated");
                 });
     }
+    //has to receive the ID list from the user and update the fields we allow it to update
+    @PutMapping("/updateGroup")
+    @Async
+    @Operation(summary = "Updates group of movements. Requires set of id's and movementDto in the body. Returns updated movements selected",
+    description = "Receives a list of selected movement ID's and updates the selected fields.")
+    public CompletableFuture<ResponseEntity<List<MovementDto>>> ChangeGroupMovement(
+            @Parameter(description = "Id's of movements to update") @RequestParam List<Integer> movementIDs,
+            @Valid @RequestBody MovementDto newMovementData){
+        return movementCommand.ChangeGroupMovement(movementIDs,newMovementData).thenApply(ResponseEntity::ok).exceptionally(
+                ex -> {
+                    log.error("Error doing group movement");
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ArrayList<>());
+                }
+        );
+    };
+    //
+    //has to receive a body of a dto
 }

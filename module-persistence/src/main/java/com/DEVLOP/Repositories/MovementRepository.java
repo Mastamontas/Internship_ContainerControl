@@ -43,14 +43,18 @@ public class MovementRepository {
         iMovementRepository.deleteAll();
         iMovementRepository.flush();
     }
+    //refactor
+    //todo find out why this is being used
     public List<Movement> FindAllMovements(){
         return iMovementRepository.findAll();
     }
+
     public Movement UpdateMovement(Movement mov){
         iMovementRepository.save(mov);
         iMovementRepository.flush();
         return mov;
     }
+    //make this the general method for retrieving movement lists
     public List<Movement> ReturnFilteredMovementList(Specification<Movement> spec){
         return iMovementRepository.findAll(spec);
     }
@@ -59,5 +63,11 @@ public class MovementRepository {
         iMovementRepository.saveAll(movementList);
         return "Movement list has been saved";
     }
+    public List<Movement> ReturnMovementsByIDList(List<Integer> ids){
+        return iMovementRepository.findAllById(ids);
+    }
+
+
+
 
 }
