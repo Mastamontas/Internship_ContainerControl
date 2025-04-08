@@ -12,6 +12,8 @@ public class MovementDto {
     private int id;//id movimento
 
     //equipment
+
+    private int equipmentId;
     @Pattern(
             regexp = "^[A-Z]{4}$",
             message = "Prefix must be exactly 4 uppercase letters"

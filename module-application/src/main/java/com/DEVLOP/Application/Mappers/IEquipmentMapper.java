@@ -5,11 +5,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-/*
-todo
-adicionar lógica de verificação de integridade de dados no mapper também
- */
-
 /**
  * Mapper for conversion of persistence entities into data transfer objects
  */

@@ -6,7 +6,7 @@ import java.util.List;
 
 /*
 todo
-verificar esta entidade porque tem um enum não atualizado
+adicionar enums
  */
 @Entity
 @Table(name = "EquipmentClass")

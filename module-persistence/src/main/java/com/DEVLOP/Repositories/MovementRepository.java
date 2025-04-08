@@ -7,12 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class MovementRepository {
-    /*
-    have to implement interfaces, not inject them
-     */
+
     private final IMovementRepository iMovementRepository;
 
     @Autowired
@@ -20,13 +19,14 @@ public class MovementRepository {
         this.iMovementRepository = iMovementRepository;
     }
 
+    //tem de ser minusculo por ser metodo repositorio Spring
     public List<Movement> GetMovementsOfEquipment(Equipment eq){
-        return iMovementRepository.findMovementByEquipmentOrderByDateDesc(eq);//tem de ser minusculo por ser metodo repositorio Spring
+        return iMovementRepository.findMovementByEquipmentOrderByDateDesc(eq);
     }
-    /*
-    return one
-    update
-     */
+
+    public Optional<Movement> FindMovementById(int moveId){
+        return iMovementRepository.findMovementById(moveId);
+    }
     //must have associated equipment
     public Movement PersistMovement(Movement movement){
         iMovementRepository.save(movement);
@@ -44,7 +44,9 @@ public class MovementRepository {
     public List<Movement> FindAllMovements(){
         return iMovementRepository.findAll();
     }
-
-
-
+    public Movement UpdateMovement(Movement mov){
+        iMovementRepository.save(mov);
+        iMovementRepository.flush();
+        return mov;
+    }
 }

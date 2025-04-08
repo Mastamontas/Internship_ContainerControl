@@ -1,6 +1,5 @@
 package com.DEVLOP.Web.Controllers.MovementControllers;
 
-import com.DEVLOP.Application.DTOS.EquipmentDto;
 import com.DEVLOP.Application.DTOS.MovementDto;
 import com.DEVLOP.Application.Queries.MovementQuery;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,7 +23,7 @@ import java.util.concurrent.CompletableFuture;
 @RestController
 @EnableAsync
 @RequestMapping("/v1/movements")
-@Tag(name ="Movements", description = "Endpoints for querying movement data from equipments. Version 1")
+@Tag(name ="Movements", description = "Endpoints for querying movement data from movements. Version 1")
 public class MovementQueryController {
     public final MovementQuery movementQuery;
 
@@ -33,14 +32,14 @@ public class MovementQueryController {
         this.movementQuery = movementQuery;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/equipment/{id}")
     @Async
     @Operation(
             summary = "Returns a list of movements from an equipment id",
             description = "asynchronously returns a list of movements DTOs according to the ID of the input equipment"
     )
     public CompletableFuture<ResponseEntity<List<MovementDto>>> GetMovementsOfEquipment(@Parameter(description = "Id of equipment") @PathVariable("id") int id){
-        return movementQuery.ReturnEquipmentMovementsAsync(id).thenApply(movementDtos -> ResponseEntity.ok(movementDtos))
+        return movementQuery.ReturnMovementListFromEquipAsync(id).thenApply(movementDtos -> ResponseEntity.ok(movementDtos))
                 .exceptionally(
                 ex ->{
                     log.error("could not retrieve movements for equipment with ID {} due to error {}",id, ex.getMessage());

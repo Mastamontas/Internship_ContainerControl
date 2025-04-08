@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -56,9 +55,9 @@ public class MovementQueryControllerIntegrationTest {
     public void SetUp(){
         Equipment testEquipment = EquipmentFactory.CreateEquipment();
         //mudar nome metodo para persistEquipment
-        equipmentRepository.SaveEquipmentClassInDb(testEquipment.getEquipmentType().getEquipmentClass());
-        equipmentRepository.SaveEquipmentTypeInDb(testEquipment.getEquipmentType());
-        equipmentRepository.SaveEquipmentInDb(testEquipment);//PersistEquipment (todo:change method name)
+        equipmentRepository.PersistEquipmentClass(testEquipment.getEquipmentType().getEquipmentClass());
+        equipmentRepository.PersistEquipmentType(testEquipment.getEquipmentType());
+        equipmentRepository.PersistEquipment(testEquipment);
         IntStream.rangeClosed(1,4).forEach(i->{
             Movement testMovement = MovementFactory.CreateMovementEntity(testEquipment);
             movementRepository.PersistMovement(testMovement);
