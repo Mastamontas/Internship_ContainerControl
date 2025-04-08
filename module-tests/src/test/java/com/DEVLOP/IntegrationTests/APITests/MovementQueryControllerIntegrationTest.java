@@ -58,7 +58,7 @@ public class MovementQueryControllerIntegrationTest {
         equipmentRepository.PersistEquipmentType(testEquipment.getEquipmentType());
         equipmentRepository.PersistEquipment(testEquipment);
         IntStream.rangeClosed(1,4).forEach(i->{
-            Movement testMovement = MovementFactory.CreateMovementEntity(testEquipment);
+            Movement testMovement = MovementFactory.CreateMovement(testEquipment);
             movementRepository.PersistMovement(testMovement);
             System.out.println(testMovement.getEquipmentStatus().getEquipmentStatusCode());
         });

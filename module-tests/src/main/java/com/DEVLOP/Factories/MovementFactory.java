@@ -19,7 +19,7 @@ import java.util.stream.IntStream;
 public class MovementFactory {
     private static final Faker faker = new Faker();
     //classe tem de receber um equipamento pre existente para poder associar movimentos
-    public static Movement CreateMovementEntity(Equipment preExistingEquipment){
+    public static Movement CreateMovement(Equipment preExistingEquipment){
 
         //SETUP
         //base entity sets
@@ -91,7 +91,7 @@ public class MovementFactory {
     public static List<Movement> CreateMovementList(Equipment equipment, int numberOfMovements){
         List<Movement> movementList = new ArrayList<>();
         IntStream.rangeClosed(1, numberOfMovements).forEach(i->{
-           Movement move = CreateMovementEntity(equipment);
+           Movement move = CreateMovement(equipment);
            movementList.add(move);
         });
         return movementList;

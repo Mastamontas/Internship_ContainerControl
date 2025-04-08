@@ -24,12 +24,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) //important for test containers
@@ -63,18 +59,14 @@ public class MovementCommandIntegrationTest {
     private Movement movement;
     private MovementDto movementDto;
 
-
-
-
-
-
     @BeforeEach
     public void setUp() {
+        movementRepository.DeleteAllMovements();
         equipment = EquipmentFactory.CreateEquipment();
         equipmentRepository.PersistEquipmentClass(equipment.getEquipmentType().getEquipmentClass());
         equipmentRepository.PersistEquipmentType(equipment.getEquipmentType());
         equipment = equipmentRepository.PersistEquipment(equipment);
-        movement = MovementFactory.CreateMovementEntity(equipment);
+        movement = MovementFactory.CreateMovement(equipment);
         movementRepository.PersistMovement(movement);
         movementDto = mapper.MapToMovementDto(movement);
     }
@@ -101,13 +93,8 @@ public class MovementCommandIntegrationTest {
         assertEquals("Updated comments", movementDto.getComments());
     }
 
-
-
-    //test movement does not exist
     @Test
     public void testUpdateMovement_Failure() throws Exception {
-
-
         // Act & Assert
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/v1/movements/{id}/update", 500)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -119,7 +106,39 @@ public class MovementCommandIntegrationTest {
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("movement was not updated"));
     }
-    //test no equipment in movement
 
+    @Test
+    public void ChangeGroupMovementTest() throws Exception{
+        // Arrange - create 2 more movements for group update
+        Movement movement2 = MovementFactory.CreateMovement(equipment);
+        Movement movement3 = MovementFactory.CreateMovement(equipment);
 
+        movement2 = movementRepository.PersistMovement(movement2);
+        movement3 = movementRepository.PersistMovement(movement3);
+
+        // List of IDs to update
+        String queryParam = String.format("movementIDs=%d&movementIDs=%d&movementIDs=%d",
+                movement.getId(), movement2.getId(), movement3.getId());
+
+        // Build update payload
+        //create new movement dto
+        MovementDto updatedDto = new MovementDto();
+        updatedDto.setTransportResponsibility("Group update test");
+        updatedDto.setComments("Updated in bulk");
+
+        // Act: perform async call
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                        .patch("/v1/movements/updateGroup?" + queryParam)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedDto)))
+                .andExpect(request().asyncStarted())
+                .andReturn();
+
+        // Assert: dispatch async and validate response
+        mockMvc.perform(asyncDispatch(mvcResult))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(3)) // You updated 3 movements
+                .andExpect(jsonPath("$[0].transportResponsibility").value("Group update test"))
+                .andExpect(jsonPath("$[0].comments").value("Updated in bulk"));
+    }
 }

@@ -3,9 +3,7 @@ package com.DEVLOP.Application.Mappers;
 
 import com.DEVLOP.Application.DTOS.MovementDto;
 import com.DEVLOP.Entities.Movement;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface IMovementMapper {
@@ -48,6 +46,7 @@ public interface IMovementMapper {
     @Mapping(source = "conditionCode", target="equipmentCondition.physicalConditionCode")
     Movement MapToMovementEntity(MovementDto movementDto);//create new movements for specific equipments
 
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(source="id", target = "id")
     @Mapping(source="date", target="date")
     @Mapping(source="movementCode", target="movementType.movementTypeCode")

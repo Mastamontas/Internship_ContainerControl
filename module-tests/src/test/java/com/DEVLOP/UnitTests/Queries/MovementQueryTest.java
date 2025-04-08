@@ -15,7 +15,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -39,7 +38,7 @@ public class MovementQueryTest {
     private MovementQuery movementQuery;
 
     Equipment testEquipment = EquipmentFactory.CreateEquipment();//create equipment entity
-    Movement testMovement = MovementFactory.CreateMovementEntity(testEquipment);
+    Movement testMovement = MovementFactory.CreateMovement(testEquipment);
     MovementDto testMovementDto = new MovementDto();
     List<Equipment> testEquipmentList = EquipmentFactory.CreateEquipmentList(4);
     //so associada a este equipamento

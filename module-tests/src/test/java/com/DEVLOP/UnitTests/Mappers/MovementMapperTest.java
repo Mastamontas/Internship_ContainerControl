@@ -28,7 +28,7 @@ public class MovementMapperTest {
         //arrange
         Equipment eq = EquipmentFactory.CreateEquipment();
         eq.setId(1);
-        Movement mov = MovementFactory.CreateMovementEntity(eq);
+        Movement mov = MovementFactory.CreateMovement(eq);
         mov.setId(1);
         //act
         MovementDto movementDto = mapper.MapToMovementDto(mov);
@@ -60,7 +60,7 @@ public class MovementMapperTest {
         //arrange
         Equipment eq = EquipmentFactory.CreateEquipment();
         eq.setId(1);
-        Movement mov = MovementFactory.CreateMovementEntity(eq);
+        Movement mov = MovementFactory.CreateMovement(eq);
         mov.setId(1);
         MovementDto testMovementDto = mapper.MapToMovementDto(mov);
 
@@ -78,7 +78,7 @@ public class MovementMapperTest {
         //arrange
         Equipment testEquipment = EquipmentFactory.CreateEquipment();
         testEquipment.setId(1);
-        Movement testMovement = MovementFactory.CreateMovementEntity(testEquipment);
+        Movement testMovement = MovementFactory.CreateMovement(testEquipment);
         testMovement.setId(1);
         MovementDto testMovementDto = mapper.MapToMovementDto(testMovement);
 

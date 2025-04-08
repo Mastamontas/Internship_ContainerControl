@@ -27,8 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /*
 todo feature add group movement
@@ -68,7 +67,7 @@ public class MovementRepositoryIntegrationTest {
         equipmentRepository.PersistEquipment(testEquipment);
 
         IntStream.rangeClosed(1,4).forEach(i->{
-            Movement testMovement = MovementFactory.CreateMovementEntity(testEquipment);
+            Movement testMovement = MovementFactory.CreateMovement(testEquipment);
             movementRepository.PersistMovement(testMovement);
         });
     }
@@ -100,6 +99,7 @@ public class MovementRepositoryIntegrationTest {
         assertNotNull(mov3);
         assertNotNull(mov4);
     }
+    //todo improve this test
     @Test
     public void FindMovementByIDSuccessFail(){
         // Act & Assert - Check if the expected exception is thrown
@@ -108,46 +108,59 @@ public class MovementRepositoryIntegrationTest {
                     .orElseThrow(() -> new MovementNotFoundException("movement does not exist"));
         });
     }
-    /*
-    test save all
-    test return filtered movements
-    remove filters and it returns the entire unfiltered list
-     */
+
+    //todo clean test and improve assertions
     @Test
     public void ReturnAllMovementsFiltered(){
         //set up the spec
         Map<String, Object> filter1 = new HashMap<>();
-        /*Map<String, Object> filter2 = new HashMap<>();*/
         filter1.put("equipment.prefix",testEquipment.getPrefix());
         filter1.put("equipmentStatus.equipmentStatusCode", "IN_PROGRESS");
-        //filter2.put("equipment.prefix",testEquipment2.getPrefix());
-
         Specification<Movement> spec =  movementSpecification.BuildSpecification(filter1);
-        /*Specification<Movement> spec2 =  movementSpecification.BuildSpecification(filter2);*/
-
         List<Movement> moveList1 = movementRepository.ReturnFilteredMovementList(spec);
-        /*List<Movement> moveList2 = movementRepository.ReturnFilteredMovementList(spec2);*/
-
-        for (Movement mov : moveList1){
-            System.out.println(mov.getId());
-            System.out.println(mov.getDate());
-        }
-        /*for (Movement mov : moveList2){
-            System.out.println(mov.getId());
-            System.out.println(mov.getDate());
-        }*/
         assertNotNull(moveList1);
+
     }
 
+    @Test
+    public void ReturnMovementListByIDListTest(){
+        //arrange
+        List<Integer> idList = List.of(1,2,3);
+        //act
+        List<Movement> movementList = movementRepository.ReturnMovementsByIDList(idList);
+        //assert
+        assertNotNull(movementList);
+    }
+    @Test
+    public void ReturnMovementListByIDListTestException(){
+        //arrange
+        List<Integer> idList = List.of(99,100,101);
+        //act
+        List<Movement> movementList = movementRepository.ReturnMovementsByIDList(idList);
+        //assert
+        assertTrue(movementList.isEmpty());
+    }
+    @Test
+    public void SaveUpdatedMovementListTest(){
+        List<Integer> idList = List.of(1,2,3);
+        List<Movement> movementList = movementRepository.ReturnMovementsByIDList(idList);
+        for (Movement mov : movementList){
+            mov.setMovementDays(5);
+            mov.setMovementComment("Updated");
+        }
+        movementRepository.SaveMovementList(movementList);
+        List<Movement> updatedList = movementRepository.ReturnMovementsByIDList(idList);
 
-    /*
-    todo
-    test more filters
-    test no filters
-    test error case
-     */
+        // Assert - Check list size
+        assertNotNull(updatedList, "Updated list should not be null");
+        assertEquals(3, updatedList.size(), "Should return 3 updated movements");
 
+        // Assert - Check that each movement has been updated
+        for (Movement updated : updatedList) {
+            assertEquals(5, updated.getMovementDays(), "MovementDays should be updated to 5");
+            assertEquals("Updated", updated.getMovementComment(), "MovementComment should be 'Updated'");
+        }
 
-
+    }
 }
 
