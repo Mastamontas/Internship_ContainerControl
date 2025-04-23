@@ -1,11 +1,9 @@
 package com.DEVLOP.IntegrationTests.APITests;
 
-import com.DEVLOP.Entities.Equipment;
-import com.DEVLOP.Entities.Movement;
 import com.DEVLOP.Factories.EquipmentFactory;
 import com.DEVLOP.Factories.MovementFactory;
-import com.DEVLOP.Repositories.EquipmentRepository;
-import com.DEVLOP.Repositories.MovementRepository;
+import com.DEVLOP.Repositories.EquipmentRepo;
+import com.DEVLOP.Repositories.MovementRepo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) //important for test containers
 @AutoConfigureMockMvc
 @Testcontainers
-public class MovementQueryControllerIntegrationTest {
+public class MovementRepoQueryControllerIntegrationTest {
 
     @Container
     private static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql:latest");
@@ -44,26 +42,29 @@ public class MovementQueryControllerIntegrationTest {
     }
 
     @Autowired
-    private MovementRepository movementRepository;
+    private MovementRepo movementRepo;
     @Autowired
-    private EquipmentRepository equipmentRepository;
+    private EquipmentRepo equipment;
 
     @Autowired
     private MockMvc mockMvc;
 
     @BeforeEach
     public void SetUp(){
-        Equipment testEquipment = EquipmentFactory.CreateEquipment();
-        equipmentRepository.PersistEquipmentClass(testEquipment.getEquipmentType().getEquipmentClass());
-        equipmentRepository.PersistEquipmentType(testEquipment.getEquipmentType());
-        equipmentRepository.PersistEquipment(testEquipment);
+        com.DEVLOP.Entities.Equipment testEquipment = EquipmentFactory.CreateEquipment();
+        equipment.PersistEquipmentClass(testEquipment.getEquipmentType().getEquipmentClass());
+        equipment.PersistEquipmentType(testEquipment.getEquipmentType());
+        equipment.PersistEquipment(testEquipment);
         IntStream.rangeClosed(1,4).forEach(i->{
-            Movement testMovement = MovementFactory.CreateMovement(testEquipment);
-            movementRepository.PersistMovement(testMovement);
+            com.DEVLOP.Entities.Movement testMovement = MovementFactory.CreateMovement(testEquipment);
+            movementRepo.PersistMovement(testMovement);
             System.out.println(testMovement.getEquipmentStatus().getEquipmentStatusCode());
         });
     }
 
+    /*
+    todo: get por equipamento pela matricula (prefixo, number, check digit) campos obrigatorios
+     */
     @Test
     public void GetMovementsOfEquipment() throws Exception{
         //act

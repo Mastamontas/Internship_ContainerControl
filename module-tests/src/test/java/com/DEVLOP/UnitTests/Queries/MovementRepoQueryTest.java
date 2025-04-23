@@ -4,12 +4,10 @@ import com.DEVLOP.Application.DTOS.MovementDto;
 import com.DEVLOP.Application.Mappers.IMovementMapperImpl;
 import com.DEVLOP.Application.Queries.MovementQuery;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
-import com.DEVLOP.Entities.Equipment;
-import com.DEVLOP.Entities.Movement;
 import com.DEVLOP.Factories.EquipmentFactory;
 import com.DEVLOP.Factories.MovementFactory;
-import com.DEVLOP.Repositories.EquipmentRepository;
-import com.DEVLOP.Repositories.MovementRepository;
+import com.DEVLOP.Repositories.Equipment;
+import com.DEVLOP.Repositories.Movement;
 import com.DEVLOP.Specifications.MovementSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,18 +29,18 @@ public class MovementQueryTest {
     @Mock
     private MovementSpecification movementSpecification;
     @Mock
-    private MovementRepository movementRepository;
+    private Movement movement;
     @Mock
-    private EquipmentRepository equipmentRepository;
+    private Equipment equipment;
     @InjectMocks
     private MovementQuery movementQuery;
 
-    Equipment testEquipment = EquipmentFactory.CreateEquipment();//create equipment entity
-    Movement testMovement = MovementFactory.CreateMovement(testEquipment);
+    com.DEVLOP.Entities.Equipment testEquipment = EquipmentFactory.CreateEquipment();//create equipment entity
+    com.DEVLOP.Entities.Movement testMovement = MovementFactory.CreateMovement(testEquipment);
     MovementDto testMovementDto = new MovementDto();
-    List<Equipment> testEquipmentList = EquipmentFactory.CreateEquipmentList(4);
+    List<com.DEVLOP.Entities.Equipment> testEquipmentList = EquipmentFactory.CreateEquipmentList(4);
     //so associada a este equipamento
-    List<Movement> testMovementList = MovementFactory.CreateMovementList(testEquipment, 3);
+    List<com.DEVLOP.Entities.Movement> testMovementList = MovementFactory.CreateMovementList(testEquipment, 3);
 
     @BeforeEach
     public void SetUp(){
@@ -67,12 +65,12 @@ public class MovementQueryTest {
         //arrange
         Map<String, Object> filter = new HashMap<>();
         filter.put("equipment.prefix", testEquipment.getPrefix());
-        Specification<Movement> mockSpec = mock(Specification.class);
+        Specification<com.DEVLOP.Entities.Movement> mockSpec = mock(Specification.class);
 
         when(movementSpecification.BuildSpecification(filter)).thenReturn(mockSpec);
-        when(movementRepository.ReturnFilteredMovementList(mockSpec)).thenReturn(testMovementList);
-        when(mapper.MapToMovementDto(any(Movement.class))).thenAnswer(invocationOnMock -> {
-            Movement movement = invocationOnMock.getArgument(0);
+        when(movement.ReturnFilteredMovementList(mockSpec)).thenReturn(testMovementList);
+        when(mapper.MapToMovementDto(any(com.DEVLOP.Entities.Movement.class))).thenAnswer(invocationOnMock -> {
+            com.DEVLOP.Entities.Movement movement = invocationOnMock.getArgument(0);
             MovementDto movementDto = new MovementDto();
             movementDto.setPrefix(movement.getEquipment().getPrefix());
             return movementDto;
@@ -90,16 +88,16 @@ public class MovementQueryTest {
             assertEquals(testMovementList.get(i).getEquipment().getPrefix(), resultList.get(i).getPrefix(),
                     "Prefixes should match between entity and DTO");
         }
-        verify(movementRepository, times(1)).ReturnFilteredMovementList(mockSpec);
-        verify(mapper, times(testMovementList.size())).MapToMovementDto(any(Movement.class));
+        verify(movement, times(1)).ReturnFilteredMovementList(mockSpec);
+        verify(mapper, times(testMovementList.size())).MapToMovementDto(any(com.DEVLOP.Entities.Movement.class));
     }
 
     @Test
     public void ReturnEquipmentMovementAsyncTestSuccess(){
         //arrange
         // Mock dependencies
-        when(equipmentRepository.FindByID(1)).thenReturn(Optional.of(testEquipment));
-        when(movementRepository.GetMovementsOfEquipment(testEquipment))
+        when(equipment.FindByID(1)).thenReturn(Optional.of(testEquipment));
+        when(movement.GetMovementsOfEquipment(testEquipment))
                 .thenReturn(Arrays.asList(testMovement));
         when(mapper.MapToMovementDto(testMovement)).thenReturn(testMovementDto);
 
@@ -113,15 +111,15 @@ public class MovementQueryTest {
         assertEquals(1, result.size(), "List should contain 1 MovementDto");
         assertEquals(testMovementDto, result.get(0), "Returned MovementDto should match the mapped DTO");
         // Verify interactions
-        verify(equipmentRepository, times(1)).FindByID(1);
-        verify(movementRepository, times(1)).GetMovementsOfEquipment(testEquipment);
+        verify(equipment, times(1)).FindByID(1);
+        verify(movement, times(1)).GetMovementsOfEquipment(testEquipment);
         verify(mapper, times(1)).MapToMovementDto(testMovement);
     }
 
     @Test
     public void ReturnEquipmentMovementAsyncTest_EquipmentNotFound() {
         // Arrange: Equipment ID does not exist
-        when(equipmentRepository.FindByID(999)).thenReturn(Optional.empty());
+        when(equipment.FindByID(999)).thenReturn(Optional.empty());
 
         // Act & Assert
         CompletableFuture<List<MovementDto>> futureResult = movementQuery.ReturnMovementListFromEquipAsync(999);
@@ -134,15 +132,15 @@ public class MovementQueryTest {
 
         assertEquals("No equipment found with ID 999", thrown.getCause().getMessage());
 
-        verify(equipmentRepository, times(1)).FindByID(999);
-        verifyNoInteractions(movementRepository, mapper);
+        verify(equipment, times(1)).FindByID(999);
+        verifyNoInteractions(movement, mapper);
     }
 
     @Test
     public void ReturnEquipmentMovementAsyncTest_NoMovementsFound() {
         // Arrange: Equipment exists but has no movements
-        when(equipmentRepository.FindByID(2)).thenReturn(Optional.of(testEquipment));
-        when(movementRepository.GetMovementsOfEquipment(testEquipment)).thenReturn(Collections.emptyList());
+        when(equipment.FindByID(2)).thenReturn(Optional.of(testEquipment));
+        when(movement.GetMovementsOfEquipment(testEquipment)).thenReturn(Collections.emptyList());
 
         // Act
         CompletableFuture<List<MovementDto>> futureResult = movementQuery.ReturnMovementListFromEquipAsync(2);
@@ -153,16 +151,16 @@ public class MovementQueryTest {
         assertTrue(result.isEmpty(), "Result should be an empty list");
 
         // Verify interactions
-        verify(equipmentRepository, times(1)).FindByID(2);
-        verify(movementRepository, times(1)).GetMovementsOfEquipment(testEquipment);
+        verify(equipment, times(1)).FindByID(2);
+        verify(movement, times(1)).GetMovementsOfEquipment(testEquipment);
         verifyNoInteractions(mapper);
     }
 
     @Test
     public void ReturnEquipmentMovementAsyncTest_UnexpectedError() {
         // Arrange: Simulate error
-        when(equipmentRepository.FindByID(3)).thenReturn(Optional.of(testEquipment));
-        when(movementRepository.GetMovementsOfEquipment(testEquipment)).thenThrow(new RuntimeException("Database error"));
+        when(equipment.FindByID(3)).thenReturn(Optional.of(testEquipment));
+        when(movement.GetMovementsOfEquipment(testEquipment)).thenThrow(new RuntimeException("Database error"));
 
         // Act & Assert
         CompletableFuture<List<MovementDto>> futureResult = movementQuery.ReturnMovementListFromEquipAsync(3);
@@ -175,13 +173,13 @@ public class MovementQueryTest {
         assertEquals("Unexpected error retrieving movements", thrown.getCause().getMessage());
 
         // Verify interactions
-        verify(equipmentRepository, times(1)).FindByID(3);
-        verify(movementRepository, times(1)).GetMovementsOfEquipment(testEquipment);
+        verify(equipment, times(1)).FindByID(3);
+        verify(movement, times(1)).GetMovementsOfEquipment(testEquipment);
     }
     @Test
     public void ReturnsMovementByIdAsyncTestSuccess(){
         //arrange
-        when(movementRepository.FindMovementById(2)).thenReturn(Optional.of(testMovement));
+        when(movement.FindMovementById(2)).thenReturn(Optional.of(testMovement));
         when(mapper.MapToMovementDto(testMovement)).thenReturn(testMovementDto);
 
         //act and assert
@@ -198,7 +196,7 @@ public class MovementQueryTest {
         assertEquals(testMovementDto.getDate(), result.getDate(), "Date should match the expected DTO");
 
         // Verify interactions
-        verify(movementRepository, times(1)).FindMovementById(2);
+        verify(movement, times(1)).FindMovementById(2);
         verify(mapper, times(1)).MapToMovementDto(testMovement);
 
     }
