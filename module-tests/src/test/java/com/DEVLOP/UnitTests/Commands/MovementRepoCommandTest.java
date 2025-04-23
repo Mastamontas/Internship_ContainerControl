@@ -7,8 +7,8 @@ import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
 import com.DEVLOP.CustomExceptions.Movement.MovementNotFoundException;
 import com.DEVLOP.Factories.EquipmentFactory;
 import com.DEVLOP.Factories.MovementFactory;
-import com.DEVLOP.Repositories.Equipment;
-import com.DEVLOP.Repositories.Movement;
+import com.DEVLOP.Repositories.EquipmentRepo;
+import com.DEVLOP.Repositories.MovementRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -26,13 +26,13 @@ import java.util.concurrent.ExecutionException;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class MovementCommandTest {
+public class MovementRepoCommandTest {
     @Mock
-    private Movement movement;
+    private MovementRepo movementRepo;
     @Mock
     private IMovementMapper mapper;
     @Mock
-    private Equipment equipment;
+    private EquipmentRepo equipment;
 
     @InjectMocks
     private MovementCommand movementCommand;
@@ -155,10 +155,10 @@ public class MovementCommandTest {
     @Test
     public void MovementUpdateTestSuccess(){
         //arrange
-        when(movement.FindMovementById(1)).thenReturn(Optional.of(mockMovement));
+        when(movementRepo.FindMovementById(1)).thenReturn(Optional.of(mockMovement));
         when(mapper.UpdateMovementEntity(mockUpdatedMovementDto, mockMovement))
                 .thenReturn(mockUpdatedMovement);
-        when(movement.UpdateMovement(mockUpdatedMovement)).thenReturn(mockUpdatedMovement);
+        when(movementRepo.UpdateMovement(mockUpdatedMovement)).thenReturn(mockUpdatedMovement);
         // Act
         CompletableFuture<com.DEVLOP.Entities.Movement> futureResult = movementCommand.UpdateMovementAsync(mockMovement.getId(), mockUpdatedMovementDto);
         com.DEVLOP.Entities.Movement result = futureResult.join(); // Get the async result
@@ -168,22 +168,22 @@ public class MovementCommandTest {
         assertEquals(mockUpdatedMovement.getId(), result.getId(), "Updated movement ID should match");
 
         // Verify interactions
-        verify(movement, times(1)).FindMovementById(1);
+        verify(movementRepo, times(1)).FindMovementById(1);
         verify(mapper, times(1)).UpdateMovementEntity(mockUpdatedMovementDto, mockMovement);
-        verify(movement, times(1)).UpdateMovement(mockUpdatedMovement);
+        verify(movementRepo, times(1)).UpdateMovement(mockUpdatedMovement);
     }
     @Test
     public void GroupMovementChangedTestSuccess(){
         //arrange
         List<Integer> idList = List.of(2,3,4);
-        when(movement.ReturnMovementsByIDList(idList)).thenReturn(mockMovementList);
+        when(movementRepo.ReturnMovementsByIDList(idList)).thenReturn(mockMovementList);
         // Mock each movement update
         // Mock the mapper behavior (returning updated movements)
         when(mapper.UpdateMovementEntity(any(MovementDto.class), any(com.DEVLOP.Entities.Movement.class)))
                 .thenAnswer(invocation -> invocation.getArgument(1)); // Simply return the same movement, simulating an update
 
         // Mock repository save (returning the updated movement list)
-        when(movement.SaveMovementList(anyList())).thenReturn("Movement list has been saved");
+        when(movementRepo.SaveMovementList(anyList())).thenReturn("Movement list has been saved");
 
         // Mock DTO mapping after update
         when(mapper.MapToMovementDto(any(com.DEVLOP.Entities.Movement.class)))
@@ -198,9 +198,9 @@ public class MovementCommandTest {
         assertEquals(3, result.size(), "List should contain three updated movements");
 
         // Verify interactions (ensuring calls were made)
-        verify(movement, times(1)).ReturnMovementsByIDList(idList); //chamar a lista
+        verify(movementRepo, times(1)).ReturnMovementsByIDList(idList); //chamar a lista
         verify(mapper, times(3)).UpdateMovementEntity(any(MovementDto.class), any(com.DEVLOP.Entities.Movement.class)); //faz update aos elementos na lista
-        verify(movement, times(1)).SaveMovementList(anyList());
+        verify(movementRepo, times(1)).SaveMovementList(anyList());
         verify(mapper, times(3)).MapToMovementDto(any(com.DEVLOP.Entities.Movement.class));
     }
     @Test
@@ -209,7 +209,7 @@ public class MovementCommandTest {
         List<Integer> invalidIdList = List.of(99, 100, 101); // IDs that do not exist
 
         // Mock repository to return an empty list (no movements found)
-        when(movement.ReturnMovementsByIDList(invalidIdList)).thenReturn(new ArrayList<>());
+        when(movementRepo.ReturnMovementsByIDList(invalidIdList)).thenReturn(new ArrayList<>());
 
         // Act & Assert
         CompletableFuture<List<MovementDto>> futureResult = movementCommand.ChangeGroupMovement(invalidIdList, mockMovementDto);
@@ -225,7 +225,7 @@ public class MovementCommandTest {
         }
 
         // Verify interactions
-        verify(movement, times(1)).ReturnMovementsByIDList(invalidIdList);
+        verify(movementRepo, times(1)).ReturnMovementsByIDList(invalidIdList);
         verifyNoInteractions(mapper); // Mapper should not be called if movements are not found
     }
 
@@ -258,7 +258,7 @@ public class MovementCommandTest {
 
         // Capture the list passed to repository
         ArgumentCaptor<List<com.DEVLOP.Entities.Movement>> movementCaptor = ArgumentCaptor.forClass((Class) List.class);
-        when(movement.SaveMovementList(movementCaptor.capture()))
+        when(movementRepo.SaveMovementList(movementCaptor.capture()))
                 .thenReturn("Movement list has been saved");
 
         // Act
@@ -268,7 +268,7 @@ public class MovementCommandTest {
         // Assert
         assertEquals(3, result.size());
         verify(equipment).GetEquipmentListFromID(idList);
-        verify(movement).SaveMovementList(anyList());
+        verify(movementRepo).SaveMovementList(anyList());
         List<com.DEVLOP.Entities.Movement> savedMovements = movementCaptor.getValue();
         assertEquals(3, savedMovements.size());
 

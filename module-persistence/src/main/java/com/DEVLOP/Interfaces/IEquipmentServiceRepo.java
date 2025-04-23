@@ -1,8 +1,7 @@
 package com.DEVLOP.Interfaces;
 
-import com.DEVLOP.Repositories.EquipmentService;
-
+import com.DEVLOP.Entities.EquipmentService;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface IEquipmentService extends IGenericRepository<EquipmentService, Integer>, JpaSpecificationExecutor<EquipmentService> {
+public interface IEquipmentServiceRepo extends IGenericRepository<EquipmentService, Integer>, JpaSpecificationExecutor<EquipmentService> {
 }

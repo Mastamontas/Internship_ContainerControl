@@ -4,6 +4,7 @@ package com.DEVLOP.Entities;
 //lastUpdated (datetime)
 //db status (boolean)
 
+//todo: listar sempre entidades cujo is deleted = false;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
@@ -33,6 +34,7 @@ public abstract class BaseEntity implements Serializable {
     protected void OnCreate(){
         this.createdOn = LocalDateTime.now();
         this.lastUpdated = LocalDateTime.now();
+        this.isDeleted = false;
     }
 
 }

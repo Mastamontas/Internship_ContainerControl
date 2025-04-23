@@ -1,8 +1,8 @@
 package com.DEVLOP.Interfaces;
 
-import com.DEVLOP.Repositories.EquipmentService;
-import com.DEVLOP.Repositories.EquipmentStatus;
+import com.DEVLOP.Entities.EquipmentStatus;
+import com.DEVLOP.Repositories.EquipmentStatusRepo;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface IEquipmentStatus extends IGenericRepository<EquipmentStatus, Integer>, JpaSpecificationExecutor<EquipmentStatus> {
+public interface IEquipmentStatusRepo extends IGenericRepository<EquipmentStatus, Integer>, JpaSpecificationExecutor<EquipmentStatus> {
 }

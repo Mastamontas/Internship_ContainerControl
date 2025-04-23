@@ -1,9 +1,10 @@
 package com.DEVLOP.Repositories;
+import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Entities.EquipmentClass;
 import com.DEVLOP.Entities.EquipmentType;
-import com.DEVLOP.Interfaces.IEquipmentClass;
-import com.DEVLOP.Interfaces.IEquipment;
-import com.DEVLOP.Interfaces.IEquipmentType;
+import com.DEVLOP.Interfaces.IEquipmentClassRepo;
+import com.DEVLOP.Interfaces.IEquipmentRepo;
+import com.DEVLOP.Interfaces.IEquipmentTypeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
@@ -11,52 +12,53 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+//todo: passar metodos de equipment class e equipment type para os repositorios especificos
 @Repository
-public class Equipment {
-    private final IEquipment iEquipment;
-    private final IEquipmentClass iEquipmentClass;
-    private final IEquipmentType iEquipmentType;
+public class EquipmentRepo {
+    private final IEquipmentRepo iEquipmentRepo;
+    private final IEquipmentClassRepo iEquipmentClassRepo;
+    private final IEquipmentTypeRepo iEquipmentTypeRepo;
 
     @Autowired
-    public Equipment(IEquipment iEquipment, IEquipmentType iEquipmentType, IEquipmentClass iEquipmentClass){
-        this.iEquipment = iEquipment;
-        this.iEquipmentClass = iEquipmentClass;
-        this.iEquipmentType = iEquipmentType;
+    public EquipmentRepo(IEquipmentRepo iEquipmentRepo, IEquipmentTypeRepo iEquipmentType, IEquipmentClassRepo iEquipmentClass){
+        this.iEquipmentRepo = iEquipmentRepo;
+        this.iEquipmentClassRepo = iEquipmentClass;
+        this.iEquipmentTypeRepo = iEquipmentType;
     }
 
     /**
      * Method to return all valid equipment entities from the database
      * @return list of equipment entities
      */
-    public List<com.DEVLOP.Entities.Equipment> FindAll(){
-        return iEquipment.findAll();
+    public List<Equipment> FindAll(){
+        return iEquipmentRepo.findAll();
     }
 
-    public Optional<com.DEVLOP.Entities.Equipment> FindByID(int id){
-        return iEquipment.findById(id);
+    public Optional<Equipment> FindByID(int id){
+        return iEquipmentRepo.findById(id);
     }
 
 
-    public com.DEVLOP.Entities.Equipment PersistEquipment(com.DEVLOP.Entities.Equipment eq){
-        iEquipment.save(eq);
-        iEquipment.flush();
+    public Equipment PersistEquipment(Equipment eq){
+        iEquipmentRepo.save(eq);
+        iEquipmentRepo.flush();
         return eq;
     }
 
     public void PersistEquipmentClass(EquipmentClass eqClass){
-        iEquipmentClass.save(eqClass);
-        iEquipmentClass.flush();
+        iEquipmentClassRepo.save(eqClass);
+        iEquipmentClassRepo.flush();
     }
 
     public void PersistEquipmentType(EquipmentType eqType){
-        iEquipmentType.save(eqType);
-        iEquipmentType.flush();
+        iEquipmentTypeRepo.save(eqType);
+        iEquipmentTypeRepo.flush();
     }
 
     //tem de ser por id?
-    public void UpdateEquipment(com.DEVLOP.Entities.Equipment eq) {
-        iEquipment.save(eq);
-        iEquipment.flush();
+    public void UpdateEquipment(Equipment eq) {
+        iEquipmentRepo.save(eq);
+        iEquipmentRepo.flush();
     }
 
     /*
@@ -65,24 +67,24 @@ public class Equipment {
     imples tests should eventually return false to "isDeleted"
      */
     public void DeleteAllEquipments(){
-        iEquipment.deleteAll();
-        iEquipment.flush();
+        iEquipmentRepo.deleteAll();
+        iEquipmentRepo.flush();
 
-        iEquipmentType.deleteAll();
-        iEquipmentType.flush();
+        iEquipmentTypeRepo.deleteAll();
+        iEquipmentTypeRepo.flush();
 
-        iEquipmentClass.deleteAll();
-        iEquipmentClass.flush();
+        iEquipmentClassRepo.deleteAll();
+        iEquipmentClassRepo.flush();
     }
 
     /*
     return equipments by filter. eventually replaces the method to return all equipments
      */
-    public List<com.DEVLOP.Entities.Equipment> ReturnEquipmentListFiltered(Specification<com.DEVLOP.Entities.Equipment> spec){
-        return iEquipment.findAll(spec);
+    public List<Equipment> ReturnEquipmentListFiltered(Specification<Equipment> spec){
+        return iEquipmentRepo.findAll(spec);
     }
-    public List<com.DEVLOP.Entities.Equipment> GetEquipmentListFromID(List<Integer> idList){
-        return iEquipment.findAllById(idList);
+    public List<Equipment> GetEquipmentListFromID(List<Integer> idList){
+        return iEquipmentRepo.findAllById(idList);
     }
 
 

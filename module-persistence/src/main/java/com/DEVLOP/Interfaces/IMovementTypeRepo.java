@@ -1,8 +1,8 @@
 package com.DEVLOP.Interfaces;
 
-import com.DEVLOP.Repositories.EquipmentLeasing;
-import com.DEVLOP.Repositories.MovementType;
+
+import com.DEVLOP.Entities.MovementType;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface IMovementType extends IGenericRepository<MovementType, Integer>, JpaSpecificationExecutor<MovementType> {
+public interface IMovementTypeRepo extends IGenericRepository<MovementType, Integer>, JpaSpecificationExecutor<MovementType> {
 }

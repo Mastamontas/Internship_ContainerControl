@@ -6,6 +6,7 @@ import com.DEVLOP.Entities.*;
 import com.DEVLOP.Factories.*;
 import com.DEVLOP.Repositories.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -28,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) //important for test containers
 @AutoConfigureMockMvc
 @Testcontainers
-public class MovementRepoCommandIntegrationTest {
+public class MovementCommandIntegrationTest {
     @Container
     private static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql:latest");
 
@@ -65,6 +71,8 @@ public class MovementRepoCommandIntegrationTest {
     private IMovementMapper mapper;
 
     private Equipment equipment;
+    private Equipment equipment2;
+    private Equipment equipment3;
     private Movement movement;
     private Movement movement2;
     private Movement movement3;
@@ -72,14 +80,22 @@ public class MovementRepoCommandIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        movementRepo.DeleteAllMovements();
+
         equipment = EquipmentFactory.CreateEquipment();
         equipmentRepo.PersistEquipmentClass(equipment.getEquipmentType().getEquipmentClass());
         equipmentRepo.PersistEquipmentType(equipment.getEquipmentType());
         equipment = equipmentRepo.PersistEquipment(equipment);
-        /*
-        falta adicionar aqui todos os elementos necessários dos movimentos
-         */
+
+        equipment2 = EquipmentFactory.CreateEquipment();
+        equipmentRepo.PersistEquipmentClass(equipment2.getEquipmentType().getEquipmentClass());
+        equipmentRepo.PersistEquipmentType(equipment2.getEquipmentType());
+        equipment2 = equipmentRepo.PersistEquipment(equipment2);
+
+        equipment3 = EquipmentFactory.CreateEquipment();
+        equipmentRepo.PersistEquipmentClass(equipment3.getEquipmentType().getEquipmentClass());
+        equipmentRepo.PersistEquipmentType(equipment3.getEquipmentType());
+        equipment3 = equipmentRepo.PersistEquipment(equipment3);
+
         //-----Nested entities of movement
         MovementType moveType = MovementTypeFactory.CreateMovementType();
         movementTypeRepo.PersistMovementType(moveType);
@@ -142,8 +158,6 @@ public class MovementRepoCommandIntegrationTest {
         movement3.setEquipmentService(equipService);
         movement3.setEquipmentLeasing(equipLeasing);
         movement3.setTransportMeans(transMeans);
-        // Arrange - create 2 more movements for group update
-
 
         movement2 = movementRepo.PersistMovement(movement2);
         movement3 = movementRepo.PersistMovement(movement3);
@@ -190,18 +204,14 @@ public class MovementRepoCommandIntegrationTest {
 
     @Test
     public void ChangeGroupMovementTest() throws Exception{
-
-
         // List of IDs to update
         String queryParam = String.format("movementIDs=%d&movementIDs=%d&movementIDs=%d",
                 movement.getId(), movement2.getId(), movement3.getId());
-
         // Build update payload
         //create new movement dto
         MovementDto updatedDto = new MovementDto();
         updatedDto.setTransportResponsibility("Group update test");
         updatedDto.setComments("Updated in bulk");
-
         // Act: perform async call
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                         .patch("/v1/movements/updateGroup?" + queryParam)
@@ -209,7 +219,6 @@ public class MovementRepoCommandIntegrationTest {
                         .content(objectMapper.writeValueAsString(updatedDto)))
                 .andExpect(request().asyncStarted())
                 .andReturn();
-
         // Assert: dispatch async and validate response
         mockMvc.perform(asyncDispatch(mvcResult))
                 .andExpect(status().isOk())
@@ -217,7 +226,61 @@ public class MovementRepoCommandIntegrationTest {
                 .andExpect(jsonPath("$[0].transportResponsibility").value("Group update test"))
                 .andExpect(jsonPath("$[0].comments").value("Updated in bulk"));
     }
-    /*
-    add movement to group of equipments
-     */
+
+    @Test
+    public void AddGroupMovementTest() throws Exception{
+        //recebe uma lista de equipamentos ao qual vai associar um movimento
+        List<Integer> idList = List.of(equipment.getId(), equipment2.getId(), equipment3.getId());
+
+        //movimento que vem do utilizador para adicionar aos equipamentos que selecionou
+        MovementDto movementDtoToAdd = new MovementDto();
+        movementDtoToAdd.setDate(LocalDateTime.now());
+        movementDtoToAdd.setAccessUserId(1);
+        movementDtoToAdd.setBusinessUnitId(1);
+        movementDtoToAdd.setTransportResponsibility("Julio");
+        movementDtoToAdd.setMovementOfHire("helder");
+        movementDtoToAdd.setMovementRestitutionCode(1);
+        movementDtoToAdd.setMovementVoyageId(1);
+        movementDtoToAdd.setEquipmentOwnerId(1);
+        movementDtoToAdd.setMovementDays(2);
+        movementDtoToAdd.setMovementLast(false);
+        movementDtoToAdd.setShipmentUCN("barcos");
+        movementDtoToAdd.setMovementTransport("outro barco");
+        movementDtoToAdd.setTransportMeansComment("comentario transport means");
+        movementDtoToAdd.setMovementStatus("movement status");
+        movementDtoToAdd.setMovementTypeId(1);
+        movementDtoToAdd.setEquipmentStatusId(1);
+        movementDtoToAdd.setEquipmentConditionId(1);
+        movementDtoToAdd.setEquipmentServiceId(1);
+        movementDtoToAdd.setEquipmentLeasingId(1);
+        movementDtoToAdd.setTransportMeansId(1);
+
+        //criação dos parametros de query
+        String queryParam = idList.stream()
+                .map(id -> "equipmentIDs=" + id)
+                .collect(Collectors.joining("&"));
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/v1/movements/addGroupMovement?" + queryParam)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(movementDtoToAdd)))
+                .andExpect(request().asyncStarted())
+                .andReturn();
+
+
+        mockMvc.perform(asyncDispatch(mvcResult))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(3))
+                .andExpect(jsonPath("$[0].transportResponsibility").value("Julio"))
+                .andExpect(jsonPath("$[1].transportResponsibility").value("Julio"))
+                .andExpect(jsonPath("$[2].transportResponsibility").value("Julio"))
+                .andExpect(jsonPath("$[0].movementDays").value(2))
+                .andExpect(jsonPath("$[1].movementDays").value(2))
+                .andExpect(jsonPath("$[2].movementDays").value(2))
+                .andExpect(jsonPath("$[0].movementTransport").value("outro barco"))
+                .andExpect(jsonPath("$[0].movementStatus").value("movement status"))
+                .andExpect(jsonPath("$[1].movementStatus").value("movement status"))
+                .andExpect(jsonPath("$[2].movementStatus").value("movement status"));
+    }
+
 }

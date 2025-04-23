@@ -54,6 +54,7 @@ public class MovementQueryController {
             summary = "Returns filtered list of movements",
             description = "Asynchronously returns a list of filtered movements according to the selected filters"
     )
+    //todo: paginação das listas retornadas
     public CompletableFuture<ResponseEntity<List<MovementDto>>> ReturnFilteredMovementList(
             @Parameter(description = "Equipment Prefix of the movement") @RequestParam(required = false) String prefix,
             @Parameter(description = "Equipment number") @RequestParam(required = false) Integer number,

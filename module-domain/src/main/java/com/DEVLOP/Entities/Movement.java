@@ -25,6 +25,10 @@ public class Movement extends BaseEntity{
     @Column(name ="Date", nullable = false)
     private LocalDateTime date;
 
+    @Getter @Setter
+    @Column(name ="MovementStatus", nullable = false)
+    private String movementStatus;//tem de ser enum
+
     //event information
     @Getter @Setter
     @Column(name = "BusinessUnitID", nullable = false)
@@ -46,7 +50,7 @@ public class Movement extends BaseEntity{
     private EquipmentType equipmentType;
 
     //verificar se movementType existe quando se persiste um movement
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @Getter @Setter
     @JoinColumn(name = "MovementTypeID", nullable = false)
     private MovementType movementType;
@@ -56,24 +60,24 @@ public class Movement extends BaseEntity{
     @Column(name = "BookingEquipmentID")
     private int bookingEquipmentID;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @Getter @Setter
     @JoinColumn(name = "EquipmentServiceID", nullable = false)
     private EquipmentService equipmentService;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @Getter @Setter
     @JoinColumn(name ="EquipmentConditionID", nullable = false)
     private EquipmentCondition equipmentCondition;
 
 
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne//(cascade = CascadeType.PERSIST)
     @Getter @Setter
     @JoinColumn(name ="EquipmentLeasingID", nullable = false)
     private EquipmentLeasing equipmentLeasing;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @Getter @Setter
     @JoinColumn(name="TransportMeansID", nullable = false)
     private TransportMeans transportMeans;
@@ -91,7 +95,7 @@ public class Movement extends BaseEntity{
     private String movementComment;
 
     @Getter @Setter
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "EquipmentStatusID", nullable = false)
     private EquipmentStatus equipmentStatus;
 

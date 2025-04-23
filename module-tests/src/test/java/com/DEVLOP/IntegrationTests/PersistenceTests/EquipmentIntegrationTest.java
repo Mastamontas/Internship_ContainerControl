@@ -1,8 +1,7 @@
 package com.DEVLOP.IntegrationTests.PersistenceTests;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
-import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Factories.EquipmentFactory;
-import com.DEVLOP.Repositories.EquipmentRepository;
+import com.DEVLOP.Repositories.EquipmentRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +21,14 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureMockMvc
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class EquipmentRepositoryIntegrationTest {
+public class EquipmentIntegrationTest {
 
     @LocalServerPort
     private int port;
     @Container
     private static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql:latest");
     @Autowired
-    private EquipmentRepository equipmentRepository;
+    private EquipmentRepo equipment;
     @DynamicPropertySource
     static void mySqlProperties(DynamicPropertyRegistry registry){
         registry.add("spring.datasource.url", mysql::getJdbcUrl);
@@ -40,25 +39,25 @@ public class EquipmentRepositoryIntegrationTest {
 
     @BeforeEach
     public void setUp(){
-        equipmentRepository.DeleteAllEquipments();
+        equipment.DeleteAllEquipments();
         IntStream.rangeClosed(1,3).forEach(i->{
-            Equipment equipment = EquipmentFactory.CreateEquipment();
+            com.DEVLOP.Entities.Equipment equipment = EquipmentFactory.CreateEquipment();
             //repensar agrupar funções para persistencia de tipos de equipamentos
-            equipmentRepository.PersistEquipmentClass(equipment.getEquipmentType().getEquipmentClass());
-            equipmentRepository.PersistEquipmentType(equipment.getEquipmentType());
-            equipmentRepository.PersistEquipment(equipment);
+            this.equipment.PersistEquipmentClass(equipment.getEquipmentType().getEquipmentClass());
+            this.equipment.PersistEquipmentType(equipment.getEquipmentType());
+            this.equipment.PersistEquipment(equipment);
         });
     }
 
     @Test
     public void GetByIDTest(){
         //arrange
-        Equipment eq = equipmentRepository.FindAll().stream().findFirst()
+        com.DEVLOP.Entities.Equipment eq = equipment.FindAll().stream().findFirst()
                 .orElseThrow(() -> new EquipmentNotFoundException("No equipment found"));
 
         //act
         int generatedId = eq.getId();
-        Optional<Equipment> retrievedEq = equipmentRepository.FindByID(generatedId);
+        Optional<com.DEVLOP.Entities.Equipment> retrievedEq = equipment.FindByID(generatedId);
 
         //assert
         assertTrue(retrievedEq.isPresent());
@@ -71,7 +70,7 @@ public class EquipmentRepositoryIntegrationTest {
 
     @Test
     public void FindAllEquipmentsTest(){
-        List<Equipment> eqList =  equipmentRepository.FindAll();
+        List<com.DEVLOP.Entities.Equipment> eqList =  equipment.FindAll();
         eqList.forEach(System.out::println);
 
         assertNotNull(eqList, "List should not be null");
@@ -82,15 +81,15 @@ public class EquipmentRepositoryIntegrationTest {
     @Test
     public void EquipmentUpdatedSuccessfullyTest(){
         //arrange
-        Equipment eq = equipmentRepository.FindAll().stream().findFirst().orElseThrow(()-> new EquipmentNotFoundException(
+        com.DEVLOP.Entities.Equipment eq = equipment.FindAll().stream().findFirst().orElseThrow(()-> new EquipmentNotFoundException(
                 "equipments not found"
         ));
         //act
         String oldPrefix = eq.getPrefix();
         String alteration = "AAAA";
         eq.setPrefix(alteration);
-        equipmentRepository.UpdateEquipment(eq);
-        Equipment updatedEquipment = equipmentRepository.FindByID(eq.getId()).orElseThrow();
+        equipment.UpdateEquipment(eq);
+        com.DEVLOP.Entities.Equipment updatedEquipment = equipment.FindByID(eq.getId()).orElseThrow();
         //assert
         assertNotNull(updatedEquipment, "updated equipment should not be null");
         assertEquals(alteration, updatedEquipment.getPrefix(), "new prefixes should match");
@@ -99,9 +98,9 @@ public class EquipmentRepositoryIntegrationTest {
     }
     @Test
     public void DeleteAllEquipmentsTest(){
-        equipmentRepository.DeleteAllEquipments();
+        equipment.DeleteAllEquipments();
         assertThrows(EquipmentNotFoundException.class,
-                () -> equipmentRepository.FindByID(1).orElseThrow(() -> new EquipmentNotFoundException("Equipment not found"))
+                () -> equipment.FindByID(1).orElseThrow(() -> new EquipmentNotFoundException("Equipment not found"))
         );
     }
 }

@@ -2,9 +2,8 @@ package com.DEVLOP.Application.Queries;
 import com.DEVLOP.Application.Mappers.IEquipmentMapper;
 import com.DEVLOP.Application.DTOS.EquipmentDto;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
-import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Interfaces.Queries.IEquipmentQueries;
-import com.DEVLOP.Repositories.EquipmentRepository;
+import com.DEVLOP.Repositories.EquipmentRepo;
 import com.DEVLOP.Specifications.EquipmentSpecification;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -24,16 +23,16 @@ import java.util.stream.Collectors;
  */
 @Service
 public class EquipmentQuery implements IEquipmentQueries {
-    private final EquipmentRepository equipmentRepository;
+    private final EquipmentRepo equipmentRepo;
     private final IEquipmentMapper iEquipmentMapper;
 
     @Autowired
     private final EquipmentSpecification equipmentSpecification;
 
     @Autowired
-    public EquipmentQuery(EquipmentRepository equipmentRepository, @Qualifier("IEquipmentMapperImpl") IEquipmentMapper iEquipmentMapper,
+    public EquipmentQuery(EquipmentRepo equipmentRepo, @Qualifier("IEquipmentMapperImpl") IEquipmentMapper iEquipmentMapper,
                           EquipmentSpecification equipmentSpecification){
-        this.equipmentRepository = equipmentRepository;
+        this.equipmentRepo = equipmentRepo;
         this.iEquipmentMapper = iEquipmentMapper;
         this.equipmentSpecification = equipmentSpecification;
 
@@ -74,7 +73,7 @@ public class EquipmentQuery implements IEquipmentQueries {
      * @param equipmentList
      * @return List of equipment DTO's
      */
-    private List<EquipmentDto> MapToEquipmentDTOList(List<Equipment> equipmentList){
+    private List<EquipmentDto> MapToEquipmentDTOList(List<com.DEVLOP.Entities.Equipment> equipmentList){
         return equipmentList.stream().map(iEquipmentMapper::MaptoEquipmentDto).collect(Collectors.toList());
     }
 
@@ -83,8 +82,8 @@ public class EquipmentQuery implements IEquipmentQueries {
      *
      * @return List of equipment entities
      */
-    private List<Equipment> FetchEquipmentListFromRepo() {
-        List<Equipment> equipmentList = equipmentRepository.FindAll();
+    private List<com.DEVLOP.Entities.Equipment> FetchEquipmentListFromRepo() {
+        List<com.DEVLOP.Entities.Equipment> equipmentList = equipmentRepo.FindAll();
         if (equipmentList == null || equipmentList.isEmpty()) {
             return new ArrayList<>();
         }
@@ -97,8 +96,8 @@ public class EquipmentQuery implements IEquipmentQueries {
         return CompletableFuture.supplyAsync(()-> iEquipmentMapper.MaptoEquipmentDto(FetchEquipmentByID(id)));
     }
 
-    private Equipment FetchEquipmentByID(int id){
-        Optional<Equipment> optionalEquipment = equipmentRepository.FindByID(id);
+    private com.DEVLOP.Entities.Equipment FetchEquipmentByID(int id){
+        Optional<com.DEVLOP.Entities.Equipment> optionalEquipment = equipmentRepo.FindByID(id);
         if (optionalEquipment.isPresent()) {
             return optionalEquipment.get();
         } else {
@@ -109,8 +108,8 @@ public class EquipmentQuery implements IEquipmentQueries {
     @Transactional
     public CompletableFuture<List<EquipmentDto>> ReturnEquipmentsFilteredASync(Map<String,Object> filters){
         return CompletableFuture.supplyAsync(()->{
-            Specification<Equipment> spec = equipmentSpecification.BuildSpecification(filters);
-            List<Equipment> filteredEquipmentList = equipmentRepository.ReturnEquipmentListFiltered(spec);
+            Specification<com.DEVLOP.Entities.Equipment> spec = equipmentSpecification.BuildSpecification(filters);
+            List<com.DEVLOP.Entities.Equipment> filteredEquipmentList = equipmentRepo.ReturnEquipmentListFiltered(spec);
             return filteredEquipmentList.stream().map(iEquipmentMapper::MaptoEquipmentDto).toList();
         });
     }

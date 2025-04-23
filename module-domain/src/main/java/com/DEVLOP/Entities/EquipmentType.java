@@ -1,6 +1,8 @@
 package com.DEVLOP.Entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -9,116 +11,62 @@ import java.util.List;
 public class EquipmentType extends BaseEntity{
     @NotNull
     @Id
+    @Getter
+    @Setter
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name ="Id", nullable = false, unique = true)
     private int id;
 
     @NotNull
     @ManyToOne(cascade = CascadeType.MERGE)
+    @Getter
+    @Setter
     @JoinColumn(name = "EquipmentClass", nullable = false, unique = true)
     private EquipmentClass equipmentClass;
 
 
     //ver se esta relação faz sentido estar aqui na entidade
+    @Getter
+    @Setter
     @OneToMany(mappedBy = "equipmentType", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Equipment> equipments;
 
     @NotNull
+    @Getter
+    @Setter
     @Column(name = "EquipmentTypeCode", nullable = false, unique = true)
     private String equipmentTypeCode;
 
     @NotNull
+    @Getter
+    @Setter
     @Column(name = "EquipmentTypeLength",nullable = false)
     private double equipmentTypeLength;
 
     @NotNull
+    @Getter
+    @Setter
     @Column(name = "EquipmentTypeName",nullable = false)
     private String equipmentTypeName;
 
     @NotNull
+    @Getter
+    @Setter
     @Column(name = "EquipmentTypeTareWeight",nullable = false)
     private double equipmentTypeTareWeight;
 
     @NotNull
+    @Getter
+    @Setter
     @Column(name = "EquipmentTypeHeight" ,nullable = false)
     private double equipmentTypeHeight;
 
     //equipmentTypeComments
+    @Getter
+    @Setter
     @Column(name = "EquipmentTypeComments")
     private String equipmentTypeComments;
 
     public EquipmentType() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public EquipmentClass getEquipmentClass() {
-        return equipmentClass;
-    }
-
-    public void setEquipmentClass(EquipmentClass equipmentClassID) {
-        this.equipmentClass = equipmentClassID;
-    }
-
-    public String getEquipmentTypeCode() {
-        return equipmentTypeCode;
-    }
-
-    public void setEquipmentTypeCode(String equipmentTypeCode) {
-        this.equipmentTypeCode = equipmentTypeCode;
-    }
-
-    public double getEquipmentTypeLength() {
-        return equipmentTypeLength;
-    }
-
-    public void setEquipmentTypeLength(double equipmentTypeLength) {
-        this.equipmentTypeLength = equipmentTypeLength;
-    }
-
-    public String getEquipmentTypeName() {
-        return equipmentTypeName;
-    }
-
-    public void setEquipmentTypeName(String equipmentTypeName) {
-        this.equipmentTypeName = equipmentTypeName;
-    }
-
-    public double getEquipmentTypeTareWeight() {
-        return equipmentTypeTareWeight;
-    }
-
-    public void setEquipmentTypeTareWeight(double equipmentTypeTareWeight) {
-        this.equipmentTypeTareWeight = equipmentTypeTareWeight;
-    }
-
-    public double getEquipmentTypeHeight() {
-        return equipmentTypeHeight;
-    }
-
-    public void setEquipmentTypeHeight(double equipmentTypeHeight) {
-        this.equipmentTypeHeight = equipmentTypeHeight;
-    }
-
-    public String getEquipmentTypeComments() {
-        return equipmentTypeComments;
-    }
-
-    public void setEquipmentTypeComments(String equipmentTypeComments) {
-        this.equipmentTypeComments = equipmentTypeComments;
-    }
-
-    public List<Equipment> getEquipments() {
-        return equipments;
-    }
-
-    public void setEquipments(List<Equipment> equipments) {
-        this.equipments = equipments;
     }
 }

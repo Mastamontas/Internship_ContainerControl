@@ -62,4 +62,17 @@ public class MovementCommandController {
                 }
         );
     };
+
+    @PostMapping("/addGroupMovement")
+    @Async
+    @Operation(summary = "Add a movement to a group of equipments. Receives a set of equipment id's and sets those equipments in the created movement",
+    description = "This method is used to create a movement for a set of equipments")
+    public CompletableFuture<ResponseEntity<List<MovementDto>>> AddGroupMovement(
+            @Parameter(description = "Id's of equipments to add to the movement") @RequestParam List<Integer> equipmentIDs,
+            @Parameter(description ="Movement information in which the equipment will be added") @RequestBody MovementDto movementToCreate){
+        return movementCommand.AddMovementToEquipmentGroup(equipmentIDs, movementToCreate).thenApply(ResponseEntity::ok).exceptionally(ex ->{
+            log.error("error adding group movement");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ArrayList<>());
+        });
+    }
 }

@@ -1,8 +1,7 @@
 package com.DEVLOP.IntegrationTests.APITests;
 
-import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Factories.EquipmentFactory;
-import com.DEVLOP.Repositories.EquipmentRepository;
+import com.DEVLOP.Repositories.EquipmentRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +47,7 @@ public class EquipmentQueryControllerIntegrationTest {
     }
 
     @Autowired
-    private EquipmentRepository equipmentRepository;
+    private EquipmentRepo equipment;
 
     @Autowired
     private MockMvc mockMvc;
@@ -56,12 +55,12 @@ public class EquipmentQueryControllerIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        equipmentRepository.DeleteAllEquipments();
+        equipment.DeleteAllEquipments();
         IntStream.rangeClosed(1,3).forEach(i->{
-            Equipment equipment = EquipmentFactory.CreateEquipment();
-            equipmentRepository.PersistEquipmentClass(equipment.getEquipmentType().getEquipmentClass());
-            equipmentRepository.PersistEquipmentType(equipment.getEquipmentType());
-            equipmentRepository.PersistEquipment(equipment);
+            com.DEVLOP.Entities.Equipment equipment = EquipmentFactory.CreateEquipment();
+            this.equipment.PersistEquipmentClass(equipment.getEquipmentType().getEquipmentClass());
+            this.equipment.PersistEquipmentType(equipment.getEquipmentType());
+            this.equipment.PersistEquipment(equipment);
         });
     }
 
@@ -91,8 +90,8 @@ public class EquipmentQueryControllerIntegrationTest {
     @Test
     public void testGetEquipmentByIdAsync() throws Exception {
         //setup
-        List<Equipment> eqList = equipmentRepository.FindAll();
-        Equipment eq = eqList.get(0);
+        List<com.DEVLOP.Entities.Equipment> eqList = equipment.FindAll();
+        com.DEVLOP.Entities.Equipment eq = eqList.get(0);
         //act
         MvcResult mvcResult = mockMvc.perform(get("/v1/equipments/{id}", eq.getId()))
                 .andExpect(request().asyncStarted())

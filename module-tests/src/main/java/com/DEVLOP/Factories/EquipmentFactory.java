@@ -3,14 +3,12 @@ package com.DEVLOP.Factories;
 import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Entities.EquipmentClass;
 import com.DEVLOP.Entities.EquipmentType;
-import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import com.DEVLOP.Repositories.EquipmentRepository;
 import com.github.javafaker.Faker;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class EquipmentFactory {
     /*

@@ -13,9 +13,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-/*
 
- */
 public class MovementFactory {
     private static final Faker faker = new Faker();
     //classe tem de receber um equipamento pre existente para poder associar movimentos
@@ -25,26 +23,43 @@ public class MovementFactory {
         //base entity sets
         Movement movement = new Movement();
         movement.setCreatedOn(LocalDateTime.now());
+        movement.setMovementStatus("MovementStatus");
 
+        /*
         //create movement type
         MovementType randomMovementType = new MovementType();
         randomMovementType.setMovementTypeCode(faker.letterify(faker.lorem().characters(3,true)));
         randomMovementType.setMovementTypeName(faker.letterify(faker.lorem().characters(6,true)));
         randomMovementType.setEmpty(false);
 
+         */
+
         //create Equipment service
+        /*
         EquipmentService randomEquipmentService = new EquipmentService();
         randomEquipmentService.setEquipmentServiceCode(faker.letterify(faker.lorem().characters(6,true)));
         randomEquipmentService.setEquipmentServiceName(faker.letterify(faker.lorem().characters(8,true)));
+
+         */
+        /*
         //create equipment condition
         EquipmentCondition randomEquimentCondition = new EquipmentCondition();
         randomEquimentCondition.setPhysicalConditionCode(faker.letterify(faker.lorem().characters(8,true)));
         randomEquimentCondition.setPhysicalConditionName(faker.letterify(faker.lorem().characters(8,true)));
         randomEquimentCondition.setPhysicalConditionType(faker.letterify(faker.lorem().characters(8,true)));
+         */
+
+        /*
         //create random equipment leasing
+
         EquipmentLeasing randomEquipmentLeasing = new EquipmentLeasing();
         randomEquipmentLeasing.setLeasingContractCode(faker.letterify(faker.lorem().characters(8,true)));
         randomEquipmentLeasing.setLeasingContractName(faker.letterify(faker.lorem().characters(8,true)));
+
+         */
+        /*
+
+         */
         //create equipment status
         EquipmentStatus randomEquipmentStatus = new EquipmentStatus();
         randomEquipmentStatus.setEquipmentStatusCode(faker.random().nextBoolean() ? "IN_PROGRESS" : "COMPLETED");
@@ -52,18 +67,19 @@ public class MovementFactory {
         randomEquipmentStatus.setEquipmentStatusLevel1(faker.letterify(faker.lorem().characters(8,true)));
         randomEquipmentStatus.setEquipmentStatusLevel2(faker.letterify(faker.lorem().characters(8,true)));
 
+
         //create transport means
-        TransportMeans randomTransportMeans = new TransportMeans();
+        //TransportMeans randomTransportMeans = new TransportMeans();
 
         //set database relationships
-        movement.setMovementType(randomMovementType);
+        //movement.setMovementType(randomMovementType);
         movement.setEquipment(preExistingEquipment);//mudar nome
         movement.setEquipmentType(preExistingEquipment.getEquipmentType());//mudar nome para ser igual
-        movement.setEquipmentService(randomEquipmentService);
-        movement.setEquipmentCondition(randomEquimentCondition);
-        movement.setEquipmentLeasing(randomEquipmentLeasing);
-        movement.setTransportMeans(randomTransportMeans);
-        movement.setEquipmentStatus(randomEquipmentStatus);
+        //movement.setEquipmentService(randomEquipmentService);
+        //movement.setEquipmentCondition(randomEquimentCondition);
+        //movement.setEquipmentLeasing(randomEquipmentLeasing);
+        //movement.setTransportMeans(randomTransportMeans);
+        //movement.setEquipmentStatus(randomEquipmentStatus);
 
         //movement attributes
         movement.setDate(convertToLocalDateTime(faker.date().past(365, TimeUnit.DAYS)));

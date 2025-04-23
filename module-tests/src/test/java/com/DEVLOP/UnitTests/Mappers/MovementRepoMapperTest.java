@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class MovementMapperTest {
+public class MovementRepoMapperTest {
     /*
     Aqui tem de se colocar mocks?
      */

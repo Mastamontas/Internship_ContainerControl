@@ -4,9 +4,8 @@ import com.DEVLOP.Application.Commands.EquipmentCommand;
 import com.DEVLOP.Application.DTOS.EquipmentDto;
 import com.DEVLOP.Application.Mappers.IEquipmentMapper;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
-import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Factories.EquipmentFactory;
-import com.DEVLOP.Repositories.EquipmentRepository;
+import com.DEVLOP.Repositories.EquipmentRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -26,21 +25,21 @@ refactor nomenclatura e qualidade do teste. Cobrir edge cases.
 public class EquipmentCommandTest {
 
     @Mock
-    private EquipmentRepository equipmentRepository;
+    private EquipmentRepo equipment;
     @Mock
     private IEquipmentMapper mapper;
     @InjectMocks
     private EquipmentCommand equipmentCommand;
-    private Equipment existingEquipment;
+    private com.DEVLOP.Entities.Equipment existingEquipment;
     private EquipmentDto equipmentDTO;
-    private Equipment updatedEquipment;
+    private com.DEVLOP.Entities.Equipment updatedEquipment;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         existingEquipment = EquipmentFactory.CreateEquipment();
         equipmentDTO = mapToMockDTO(existingEquipment);
-        updatedEquipment = new Equipment();
+        updatedEquipment = new com.DEVLOP.Entities.Equipment();
         updatedEquipment.setId(existingEquipment.getId());
         updatedEquipment.setComment("Updated Equipment");
 
@@ -51,12 +50,12 @@ public class EquipmentCommandTest {
     @Test
     void testUpdateEquipmentAsync_UpdatesEquipmentCorrectly(){
         // Arrange
-        when(equipmentRepository.FindByID(existingEquipment.getId())).thenReturn(Optional.of(existingEquipment));
+        when(equipment.FindByID(existingEquipment.getId())).thenReturn(Optional.of(existingEquipment));
         when(mapper.MapAndUpdateEquipmentFromEquipmentDto(equipmentDTO, existingEquipment)).thenReturn(updatedEquipment);
-        when(equipmentRepository.PersistEquipment(updatedEquipment)).thenReturn(updatedEquipment);
+        when(equipment.PersistEquipment(updatedEquipment)).thenReturn(updatedEquipment);
 
         // Act
-        Equipment result = null;
+        com.DEVLOP.Entities.Equipment result = null;
         try {
             result = equipmentCommand.UpdateEquipment(existingEquipment.getId(), equipmentDTO).join();
         } catch (CompletionException e) {
@@ -66,13 +65,13 @@ public class EquipmentCommandTest {
 
         // Assert
         assertEquals(updatedEquipment, result);
-        verify(equipmentRepository, times(1)).PersistEquipment(updatedEquipment);
+        verify(equipment, times(1)).PersistEquipment(updatedEquipment);
     };
 
     @Test
     void testUpdateEquipmentAsync_ReturnsException(){
         // Arrange
-        when(equipmentRepository.FindByID(existingEquipment.getId())).thenReturn(Optional.empty());
+        when(equipment.FindByID(existingEquipment.getId())).thenReturn(Optional.empty());
 
         // Act & Assert
         CompletionException exception = assertThrows(CompletionException.class, () -> {
@@ -83,7 +82,7 @@ public class EquipmentCommandTest {
         assertEquals(EquipmentNotFoundException.class, exception.getCause().getClass());
     };
 
-    private EquipmentDto mapToMockDTO(Equipment equipment) {
+    private EquipmentDto mapToMockDTO(com.DEVLOP.Entities.Equipment equipment) {
         EquipmentDto dto = new EquipmentDto();
         dto.setId(equipment.getId());
         dto.setCheckDigit(equipment.getCheckDigit());

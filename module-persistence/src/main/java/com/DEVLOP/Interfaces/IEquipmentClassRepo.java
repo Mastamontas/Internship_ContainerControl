@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 /*
 implementar i generic repo com Equipment class
  */
-public interface IEquipmentClass extends IGenericRepository<EquipmentClass, Integer>, JpaSpecificationExecutor<EquipmentClass> {
+public interface IEquipmentClassRepo extends IGenericRepository<EquipmentClass, Integer>, JpaSpecificationExecutor<EquipmentClass> {
 
 }

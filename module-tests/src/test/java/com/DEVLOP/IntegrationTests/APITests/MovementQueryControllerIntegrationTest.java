@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) //important for test containers
 @AutoConfigureMockMvc
 @Testcontainers
-public class MovementRepoQueryControllerIntegrationTest {
+public class MovementQueryControllerIntegrationTest {
 
     @Container
     private static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql:latest");
