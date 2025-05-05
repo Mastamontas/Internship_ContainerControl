@@ -13,5 +13,7 @@ public interface IMovementRepo extends IGenericRepository<Movement, Integer>, Jp
     List<Movement> findMovementByEquipmentOrderByDateDesc(Equipment equipment);
     Optional<Movement> findMovementById(@NotNull int id);
 
+
     List<Movement> findAllByEquipment_IdIn(List<Integer> idList);
+
 }

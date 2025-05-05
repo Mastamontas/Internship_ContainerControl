@@ -117,4 +117,14 @@ public class MovementCommand implements IMovementCommands {
     private List<Equipment> GetEquipmentList(List<Integer> idList){
         return equipmentRepo.GetEquipmentListFromID(idList);
     }
+
+    /*
+    Range movement filtering
+
+    tem de ser colocados dois equipamentos
+    datas entre os movimentos tem de ser obrigatorios
+    outros campos de filtros sao opcionais
+    através do specification
+     */
+
 }

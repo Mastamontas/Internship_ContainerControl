@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-//todo: adicionar consição de retorno apenas de entidades não apagadas (isDeleted = false)
+//todo: adicionar condição de retorno apenas de entidades não apagadas (isDeleted = false)
 public abstract class AbstractSpecification<T>  {
     protected Specification<T> BuildSpecification(Map<String, Object> filters){
         return ((root, query, criteriaBuilder) ->{

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import jakarta.persistence.criteria.Predicate;
 
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,10 +36,43 @@ public class MovementSpecification extends AbstractSpecification<Movement> {
                         // Handling normal fields like "status"
                         predicates.add(criteriaBuilder.equal(root.get(field), value));
                     }
+
                 }
             });
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
+
+    public Specification<Movement> SpecificationBetween (Map<String, Object> fromFilter, Map<String, Object> toFilter) {
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            // Between dates
+            if (fromFilter.containsKey("date") && toFilter.containsKey("date")) {
+                LocalDate fromDate = (LocalDate) fromFilter.get("date");
+                LocalDate toDate = (LocalDate) toFilter.get("date");
+                predicates.add(criteriaBuilder.between(root.get("date"), fromDate, toDate));
+            }
+
+            // Additional fields - assume same keys in from/to for simplicity
+            for (String key : fromFilter.keySet()) {
+                if (key.equals("date")) continue; // Already handled
+
+                Object fromValue = fromFilter.get(key);
+                Object toValue = toFilter.get(key);
+
+                if (fromValue != null && toValue != null) {
+                    predicates.add(criteriaBuilder.between(root.get(key), (Comparable) fromValue, (Comparable) toValue));
+                } else if (fromValue != null) {
+                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get(key), (Comparable) fromValue));
+                } else if (toValue != null) {
+                    predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get(key), (Comparable) toValue));
+                }
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+    }
+
 }

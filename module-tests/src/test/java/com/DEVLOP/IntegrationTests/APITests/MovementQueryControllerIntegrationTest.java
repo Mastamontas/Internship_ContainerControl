@@ -1,9 +1,8 @@
 package com.DEVLOP.IntegrationTests.APITests;
 
-import com.DEVLOP.Factories.EquipmentFactory;
-import com.DEVLOP.Factories.MovementFactory;
-import com.DEVLOP.Repositories.EquipmentRepo;
-import com.DEVLOP.Repositories.MovementRepo;
+import com.DEVLOP.Entities.*;
+import com.DEVLOP.Factories.*;
+import com.DEVLOP.Repositories.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,7 +43,19 @@ public class MovementQueryControllerIntegrationTest {
     @Autowired
     private MovementRepo movementRepo;
     @Autowired
-    private EquipmentRepo equipment;
+    private EquipmentRepo equipmentRepo;
+    @Autowired
+    private MovementTypeRepo movementTypeRepo;
+    @Autowired
+    private EquipmentServiceRepo equipmentServiceRepo;
+    @Autowired
+    private EquipmentLeasingRepo equipmentLeasingRepo;
+    @Autowired
+    private EquipmentConditionRepo equipmentConditionRepo;
+    @Autowired
+    private EquipmentStatusRepo equipmentStatusRepo;
+    @Autowired
+    private TransportMeansRepo transportMeansRepo;
 
     @Autowired
     private MockMvc mockMvc;
@@ -52,11 +63,41 @@ public class MovementQueryControllerIntegrationTest {
     @BeforeEach
     public void SetUp(){
         com.DEVLOP.Entities.Equipment testEquipment = EquipmentFactory.CreateEquipment();
-        equipment.PersistEquipmentClass(testEquipment.getEquipmentType().getEquipmentClass());
-        equipment.PersistEquipmentType(testEquipment.getEquipmentType());
-        equipment.PersistEquipment(testEquipment);
-        IntStream.rangeClosed(1,4).forEach(i->{
+        equipmentRepo.PersistEquipmentClass(testEquipment.getEquipmentType().getEquipmentClass());
+        equipmentRepo.PersistEquipmentType(testEquipment.getEquipmentType());
+        equipmentRepo.PersistEquipment(testEquipment);
+        /*
+        estes testes nao passam porque é necessário criar entidades para todos os elementos
+         */
+        //-----Nested entities of movement
+        MovementType moveType = MovementTypeFactory.CreateMovementType();
+        movementTypeRepo.PersistMovementType(moveType);
+
+        EquipmentCondition equipCondition = EquipmentConditionFactory.CreateEquipmentCondition();
+        equipmentConditionRepo.PersistEquipmentCondition(equipCondition);
+
+        EquipmentStatus equipStatus = EquipmentStatusFactory.CreateEquipmentStatus();
+        equipmentStatusRepo.PersistEquipmentStatus(equipStatus);
+
+        EquipmentService equipService = EquipmentServiceFactory.CreateEquipmentService();
+        equipmentServiceRepo.PersistEquipmentService(equipService);
+
+        EquipmentLeasing equipLeasing = EquipmentLeasingFactory.CreateEquipmentLeasing();
+        equipmentLeasingRepo.PersistEquipmentLeasing(equipLeasing);
+
+        TransportMeans transportMeans = new TransportMeans();
+        transportMeansRepo.PersistTransportMeans(transportMeans);
+
+        IntStream.rangeClosed(1,25).forEach(i->{
             com.DEVLOP.Entities.Movement testMovement = MovementFactory.CreateMovement(testEquipment);
+
+            testMovement.setMovementType(moveType);
+            testMovement.setEquipmentStatus(equipStatus);
+            testMovement.setEquipmentCondition(equipCondition);
+            testMovement.setEquipmentService(equipService);
+            testMovement.setEquipmentLeasing(equipLeasing);
+            testMovement.setTransportMeans(transportMeans);
+
             movementRepo.PersistMovement(testMovement);
             System.out.println(testMovement.getEquipmentStatus().getEquipmentStatusCode());
         });
@@ -82,7 +123,7 @@ public class MovementQueryControllerIntegrationTest {
     }
 
     @Test
-    public void GetFilteredMovements() throws Exception{
+    public void GetFilteredMovementsTest() throws Exception{
 
         MvcResult mvcResult = mockMvc.perform(get("/v1/movements/filter")
                         .param("equipmentStatus.equipmentStatusCode", "IN_PROGRESS"))
@@ -90,6 +131,27 @@ public class MovementQueryControllerIntegrationTest {
                 .andReturn();
 
         // Assert: Validate response
+        mockMvc.perform(asyncDispatch(mvcResult))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+    }
+
+    @Test
+    public void RangeMovementTest() throws Exception{
+        /*
+        receber duas datas e retorna lista de movimentos entre essas datas
+        setup de movimentos tem de criar várias datas
+         */
+        MvcResult mvcResult = mockMvc.perform(get("/v1/movements/rangeFilter")
+                        .param("dateFrom", "2025-05-01")
+                        .param("dateTo", "2025-05-05"))
+                .andExpect(request().asyncStarted())
+                .andReturn();
+
         mockMvc.perform(asyncDispatch(mvcResult))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
