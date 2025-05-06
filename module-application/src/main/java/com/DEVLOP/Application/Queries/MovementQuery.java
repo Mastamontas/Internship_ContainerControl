@@ -122,7 +122,7 @@ public class MovementQuery implements IMovementQuery {
 
     @Override
     @Transactional
-    //todo: se lista vier vazia, retornar erro "No matches for that query"; Falta excepções quando campos são inválidos
+    //todo: se a toFilter estiver vazia, pode retornar até à data do dia atual
     public CompletableFuture<List<MovementDto>> ReturnRangeFilteredMovementListAsync(Map<String, Object> fromFilter, Map<String, Object> toFilter){
         return CompletableFuture.supplyAsync(()->{
             try {
