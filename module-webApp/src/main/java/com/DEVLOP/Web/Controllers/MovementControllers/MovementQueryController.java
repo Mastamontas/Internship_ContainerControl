@@ -210,7 +210,7 @@ public class MovementQueryController {
         if(toEquipmentStatusCode != null) toFilter.put("equipmentStatus.equipmentStatusCode", toEquipmentStatusCode);
         log.info("Received filters: {}", toFilter);
         System.out.println(Thread.currentThread().getName());
-        return movementQuery.ReturnRangeFilteredMovementList(fromFilter, toFilter)
+        return movementQuery.ReturnRangeFilteredMovementListAsync(fromFilter, toFilter)
                 .thenApply(movementDtos -> ResponseEntity.ok(movementDtos))
                 .exceptionally(ex -> {
                     log.error("Could not retrieve filtered movements due to error {}", ex.getMessage());

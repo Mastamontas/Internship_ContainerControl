@@ -46,7 +46,6 @@ public class MovementQuery implements IMovementQuery {
     private final MovementSpecification movementSpecification;
 
 
-    //isto ta uma ganda bosta por causa das implementações dos mappers. Verificar error e repetição
     @Autowired
     public MovementQuery(MovementRepo movementRepo, IMovementMapperImpl mapper,
                          EquipmentRepo equipmentRepo, MovementSpecification movementSpecification){
@@ -110,37 +109,24 @@ public class MovementQuery implements IMovementQuery {
         return equipmentRepo.FindByID(id)
                 .orElseThrow(() -> new EquipmentNotFoundException("No equipment found with ID " + id));
     }
-    /*
-    todo
-    exceptions
-    test
-     */
+
     @Override
     @Transactional
     public CompletableFuture<List<MovementDto>> ReturnFilteredMovementListAsync(Map<String,Object> filters){
         return CompletableFuture.supplyAsync(()->{
-            System.out.println(Thread.currentThread().getName());
             Specification<Movement> spec = movementSpecification.BuildSpecification(filters);
             List<Movement> filteredMovementList = movementRepo.ReturnFilteredMovementList(spec);
             return filteredMovementList.stream().map(mapper::MapToMovementDto).toList();
         });
     }
-    /*
-    o range movement tem de receber dois filtros, um do to e outro para o from (no sentido de ser o filtro das datas)
-    "filtrar movements from dados x to dados x"
-    retorna uma lista de movimentos existentes entre aquelas duas queries
 
-     */
     @Override
     @Transactional
     //todo: se lista vier vazia, retornar erro "No matches for that query"; Falta excepções quando campos são inválidos
-    public CompletableFuture<List<MovementDto>> ReturnRangeFilteredMovementList(Map<String, Object> fromFilter, Map<String, Object> toFilter){
+    public CompletableFuture<List<MovementDto>> ReturnRangeFilteredMovementListAsync(Map<String, Object> fromFilter, Map<String, Object> toFilter){
         return CompletableFuture.supplyAsync(()->{
-           /*Specification<Movement> fromSpec = movementSpecification.BuildSpecification(fromFilter);
-           Specification<Movement> toSpec = movementSpecification.BuildSpecification(toFilter);*/
            Specification<Movement> rangeFilterSpec = movementSpecification.SpecificationBetween(fromFilter,toFilter);
            List<Movement> filteredMovementList = movementRepo.ReturnFilteredMovementList(rangeFilterSpec);
-            filteredMovementList.forEach(movement -> System.out.println("Selected Movement ID: " + movement.getId()));
            return filteredMovementList.stream().map(mapper::MapToMovementDto).toList();
         });
     }

@@ -11,5 +11,5 @@ public interface IMovementQuery extends IQueries<MovementDto> {
     CompletableFuture<List<MovementDto>> ReturnMovementListFromEquipAsync(int id);
     CompletableFuture<MovementDto> ReturnMovementById(int movementId);
     CompletableFuture<List<MovementDto>> ReturnFilteredMovementListAsync(Map<String,Object> filters);
-    CompletableFuture<List<MovementDto>> ReturnRangeFilteredMovementList(Map<String, Object> fromFilter, Map<String, Object> toFilter);
+    CompletableFuture<List<MovementDto>> ReturnRangeFilteredMovementListAsync(Map<String, Object> fromFilter, Map<String, Object> toFilter);
 }
