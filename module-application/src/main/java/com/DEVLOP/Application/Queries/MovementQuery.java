@@ -125,9 +125,26 @@ public class MovementQuery implements IMovementQuery {
     //todo: se lista vier vazia, retornar erro "No matches for that query"; Falta excepções quando campos são inválidos
     public CompletableFuture<List<MovementDto>> ReturnRangeFilteredMovementListAsync(Map<String, Object> fromFilter, Map<String, Object> toFilter){
         return CompletableFuture.supplyAsync(()->{
-           Specification<Movement> rangeFilterSpec = movementSpecification.SpecificationBetween(fromFilter,toFilter);
-           List<Movement> filteredMovementList = movementRepo.ReturnFilteredMovementList(rangeFilterSpec);
-           return filteredMovementList.stream().map(mapper::MapToMovementDto).toList();
+            try {
+                if (fromFilter == null || toFilter == null) {
+                    throw new IllegalArgumentException("Date filter maps must not be null.");
+                }
+
+                Specification<Movement> rangeFilterSpec = movementSpecification.SpecificationBetween(fromFilter, toFilter);
+                List<Movement> filteredMovementList = movementRepo.ReturnFilteredMovementList(rangeFilterSpec);
+
+                if (filteredMovementList.isEmpty()) {
+                    throw new MovementNotFoundException("No matches for that query.");
+                }
+
+                return filteredMovementList.stream().map(mapper::MapToMovementDto).toList();
+
+            } catch (IllegalArgumentException | MovementNotFoundException ex) {
+                throw new CompletionException(ex);
+            } catch (Exception ex) {
+                log.error("Unexpected error during range filter execution: {}", ex.getMessage(), ex);
+                throw new CompletionException(new RuntimeException("Unexpected error in filtering movements", ex));
+            }
         });
     }
 }

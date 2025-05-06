@@ -4,6 +4,7 @@ import com.DEVLOP.Application.DTOS.MovementDto;
 import com.DEVLOP.Application.Mappers.IMovementMapperImpl;
 import com.DEVLOP.Application.Queries.MovementQuery;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
+import com.DEVLOP.CustomExceptions.Movement.MovementNotFoundException;
 import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Entities.Movement;
 import com.DEVLOP.Factories.EquipmentFactory;
@@ -232,6 +233,29 @@ public class MovementQueryTest {
         verify(movementRepo).ReturnFilteredMovementList(mockSpec);
         verify(mapper).MapToMovementDto(mockMovement);
 
+    }
+    @Test
+    void testReturnRangeFilteredMovementListAsync_withNullFilters_shouldThrowIllegalArgumentException() {
+        CompletableFuture<List<MovementDto>> future = movementQuery.ReturnRangeFilteredMovementListAsync(null, null);
+
+        ExecutionException exception = assertThrows(ExecutionException.class, future::get);
+        assertTrue(exception.getCause() instanceof IllegalArgumentException);
+        assertEquals("Date filter maps must not be null.", exception.getCause().getMessage());
+    }
+    @Test
+    void testReturnRangeFilteredMovementListAsync_withNoResults_shouldThrowMovementNotFoundException() {
+        Map<String, Object> fromFilter = Map.of("date", LocalDate.of(2023, 1, 1));
+        Map<String, Object> toFilter = Map.of("date", LocalDate.of(2023, 12, 31));
+
+        Specification<Movement> mockSpec = mock(Specification.class);
+        when(movementSpecification.SpecificationBetween(fromFilter, toFilter)).thenReturn(mockSpec);
+        when(movementRepo.ReturnFilteredMovementList(mockSpec)).thenReturn(List.of());
+
+        CompletableFuture<List<MovementDto>> future = movementQuery.ReturnRangeFilteredMovementListAsync(fromFilter, toFilter);
+
+        ExecutionException exception = assertThrows(ExecutionException.class, future::get);
+        assertTrue(exception.getCause() instanceof MovementNotFoundException);
+        assertEquals("No matches for that query.", exception.getCause().getMessage());
     }
 }
 
