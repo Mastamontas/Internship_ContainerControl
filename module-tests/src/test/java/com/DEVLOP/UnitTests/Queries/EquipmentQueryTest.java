@@ -3,10 +3,9 @@ import com.DEVLOP.Application.DTOS.EquipmentDto;
 import com.DEVLOP.Application.Mappers.IEquipmentMapper;
 import com.DEVLOP.Application.Queries.EquipmentQuery;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
-import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Entities.EquipmentClass;
 import com.DEVLOP.Entities.EquipmentType;
-import com.DEVLOP.Repositories.EquipmentRepository;
+import com.DEVLOP.Repositories.EquipmentRepo;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +36,7 @@ tests to Pascal Case
  */
 public class EquipmentQueryTest {
     @Mock
-    private EquipmentRepository equipmentRepository;
+    private EquipmentRepo equipment;
     @Mock
     private IEquipmentMapper mapper;
 
@@ -64,10 +63,10 @@ public class EquipmentQueryTest {
     void findAllAsyncReturnsValidDTOList (){
         int runTimes = faker.number().numberBetween(1,10);
         // Create a mock list of Equipment
-        List<Equipment> mockEquipmentList = generateMockEquipment(runTimes);
+        List<com.DEVLOP.Entities.Equipment> mockEquipmentList = generateMockEquipment(runTimes);
 
-        when(equipmentRepository.FindAll()).thenReturn(mockEquipmentList);
-        when(mapper.MaptoEquipmentDto(any(Equipment.class)))
+        when(equipment.FindAll()).thenReturn(mockEquipmentList);
+        when(mapper.MaptoEquipmentDto(any(com.DEVLOP.Entities.Equipment.class)))
                 .thenAnswer(invocation -> mapToMockDTO(invocation.getArgument(0)));
 
         CompletableFuture<List<EquipmentDto>> futureList = equipmentQuery.FindAllEquipmentsAsync();
@@ -77,8 +76,8 @@ public class EquipmentQueryTest {
         assertEquals(runTimes, result.size(), "Result size should match mock data size");
 
         // Verify mapper and repository interactions
-        verify(equipmentRepository, times(1)).FindAll();
-        verify(mapper, times(runTimes)).MaptoEquipmentDto(any(Equipment.class));
+        verify(equipment, times(1)).FindAll();
+        verify(mapper, times(runTimes)).MaptoEquipmentDto(any(com.DEVLOP.Entities.Equipment.class));
     }
 
     /**
@@ -89,7 +88,7 @@ public class EquipmentQueryTest {
     @Test
     void findAllAsyncObjectNotFound(){
         // Mock the repository to return an empty list
-        when(equipmentRepository.FindAll()).thenReturn(new ArrayList<>());
+        when(equipment.FindAll()).thenReturn(new ArrayList<>());
 
         CompletableFuture<List<EquipmentDto>> futureList = equipmentQuery.FindAllEquipmentsAsync();
         List<EquipmentDto> result = futureList.join(); //join waits for completion and returns value
@@ -164,8 +163,8 @@ public class EquipmentQueryTest {
 
     @Test
     void getEquipmentByIDAsyncTest() throws ExecutionException, InterruptedException {
-        Equipment mockEquipment = generateMockEquipment(1).get(0);
-        when(equipmentRepository.FindByID(mockEquipment.getId())).thenReturn(Optional.of(mockEquipment));
+        com.DEVLOP.Entities.Equipment mockEquipment = generateMockEquipment(1).get(0);
+        when(equipment.FindByID(mockEquipment.getId())).thenReturn(Optional.of(mockEquipment));
 
         EquipmentDto mockEquipmentDto = mapToMockDTO(mockEquipment);
         when(mapper.MaptoEquipmentDto(mockEquipment)).thenReturn(mockEquipmentDto);
@@ -177,19 +176,19 @@ public class EquipmentQueryTest {
         assertEquals(mockEquipment.getId(), result.getId(), "Fetched equipment ID should match");
         assertEquals(mockEquipment.getPrefix(), result.getPrefix(), "Fetched equipment prefix should match");
 
-        verify(equipmentRepository, times(1)).FindByID(mockEquipment.getId());
+        verify(equipment, times(1)).FindByID(mockEquipment.getId());
         verify(mapper, times(1)).MaptoEquipmentDto(mockEquipment);
     }
     @Test
     void getEquipmentByIDAsyncTest_ThrowsException(){
         int nonExistentId = 9999;  // ID that doesn't exist in the repository
 
-        when(equipmentRepository.FindByID(nonExistentId)).thenReturn(Optional.empty());
+        when(equipment.FindByID(nonExistentId)).thenReturn(Optional.empty());
         CompletableFuture<EquipmentDto> future = equipmentQuery.GetEquipmentByIDAsync(nonExistentId);
 
         ExecutionException thrown = assertThrows(ExecutionException.class, future::get);
         assertTrue(thrown.getCause() instanceof EquipmentNotFoundException, "Expected EquipmentNotFoundException");
-        verify(equipmentRepository, times(1)).FindByID(nonExistentId);
+        verify(equipment, times(1)).FindByID(nonExistentId);
         verifyNoInteractions(mapper);
     }
 
@@ -198,14 +197,14 @@ public class EquipmentQueryTest {
      * @param numberOfEqs
      * @return a list of equipments
      */
-    private List<Equipment> generateMockEquipment(int numberOfEqs){
-        List<Equipment> equipmentList = new ArrayList<>();
+    private List<com.DEVLOP.Entities.Equipment> generateMockEquipment(int numberOfEqs){
+        List<com.DEVLOP.Entities.Equipment> equipmentList = new ArrayList<>();
         /*
         todo
         rever este loop porque pode ser feito de maneira diferente e menos taxativa
          */
         for (int i = 0; i< numberOfEqs; i++){
-            Equipment equipment = new Equipment();
+            com.DEVLOP.Entities.Equipment equipment = new com.DEVLOP.Entities.Equipment();
             equipment.setId(faker.number().numberBetween(1, 100));
             equipment.setPrefix(faker.lorem().characters(3).toUpperCase());
             equipment.setNumber(faker.number().numberBetween(1000, 9999));
@@ -228,7 +227,7 @@ public class EquipmentQueryTest {
         return equipmentList;
     }
 
-    private EquipmentDto mapToMockDTO(Equipment equipment) {
+    private EquipmentDto mapToMockDTO(com.DEVLOP.Entities.Equipment equipment) {
         EquipmentDto dto = new EquipmentDto();
         dto.setId(equipment.getId());
         dto.setCheckDigit(equipment.getCheckDigit());

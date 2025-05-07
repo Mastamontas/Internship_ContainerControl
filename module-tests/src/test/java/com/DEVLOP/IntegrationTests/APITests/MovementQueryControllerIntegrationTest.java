@@ -1,11 +1,9 @@
 package com.DEVLOP.IntegrationTests.APITests;
 
-import com.DEVLOP.Entities.Equipment;
-import com.DEVLOP.Entities.Movement;
 import com.DEVLOP.Factories.EquipmentFactory;
 import com.DEVLOP.Factories.MovementFactory;
-import com.DEVLOP.Repositories.EquipmentRepository;
-import com.DEVLOP.Repositories.MovementRepository;
+import com.DEVLOP.Repositories.EquipmentRepo;
+import com.DEVLOP.Repositories.MovementRepo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,30 +42,33 @@ public class MovementQueryControllerIntegrationTest {
     }
 
     @Autowired
-    private MovementRepository movementRepository;
+    private MovementRepo movementRepo;
     @Autowired
-    private EquipmentRepository equipmentRepository;
+    private EquipmentRepo equipment;
 
     @Autowired
     private MockMvc mockMvc;
 
     @BeforeEach
     public void SetUp(){
-        Equipment testEquipment = EquipmentFactory.CreateEquipment();
-        //mudar nome metodo para persistEquipment
-        equipmentRepository.PersistEquipmentClass(testEquipment.getEquipmentType().getEquipmentClass());
-        equipmentRepository.PersistEquipmentType(testEquipment.getEquipmentType());
-        equipmentRepository.PersistEquipment(testEquipment);
+        com.DEVLOP.Entities.Equipment testEquipment = EquipmentFactory.CreateEquipment();
+        equipment.PersistEquipmentClass(testEquipment.getEquipmentType().getEquipmentClass());
+        equipment.PersistEquipmentType(testEquipment.getEquipmentType());
+        equipment.PersistEquipment(testEquipment);
         IntStream.rangeClosed(1,4).forEach(i->{
-            Movement testMovement = MovementFactory.CreateMovementEntity(testEquipment);
-            movementRepository.PersistMovement(testMovement);
+            com.DEVLOP.Entities.Movement testMovement = MovementFactory.CreateMovement(testEquipment);
+            movementRepo.PersistMovement(testMovement);
+            System.out.println(testMovement.getEquipmentStatus().getEquipmentStatusCode());
         });
     }
 
+    /*
+    todo: get por equipamento pela matricula (prefixo, number, check digit) campos obrigatorios
+     */
     @Test
     public void GetMovementsOfEquipment() throws Exception{
         //act
-        MvcResult mvcResult = mockMvc.perform(get("/v1/movements/{id}",1))
+        MvcResult mvcResult = mockMvc.perform(get("/v1/movements/equipment/{id}",1))
                 .andExpect(request().asyncStarted())
                 .andReturn();
 
@@ -80,5 +81,22 @@ public class MovementQueryControllerIntegrationTest {
                 .getContentAsString();
     }
 
+    @Test
+    public void GetFilteredMovements() throws Exception{
+
+        MvcResult mvcResult = mockMvc.perform(get("/v1/movements/filter")
+                        .param("equipmentStatus.equipmentStatusCode", "IN_PROGRESS"))
+                .andExpect(request().asyncStarted())
+                .andReturn();
+
+        // Assert: Validate response
+        mockMvc.perform(asyncDispatch(mvcResult))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+    }
 
 }

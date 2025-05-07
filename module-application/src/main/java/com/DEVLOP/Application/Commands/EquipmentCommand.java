@@ -3,9 +3,8 @@ package com.DEVLOP.Application.Commands;
 import com.DEVLOP.Application.Mappers.IEquipmentMapper;
 import com.DEVLOP.Application.DTOS.EquipmentDto;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
-import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Interfaces.Commands.IEquipmentCommands;
-import com.DEVLOP.Repositories.EquipmentRepository;
+import com.DEVLOP.Repositories.EquipmentRepo;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,23 +17,23 @@ import java.util.concurrent.CompletableFuture;
 public class EquipmentCommand implements IEquipmentCommands {
 
     private final IEquipmentMapper iEquipmentMapper;
-    private final EquipmentRepository equipmentRepository;
+    private final EquipmentRepo equipmentRepo;
 
     @Autowired
-    public EquipmentCommand(@Qualifier("IEquipmentMapperImpl") IEquipmentMapper iEquipmentMapper, EquipmentRepository equipmentRepository) {
+    public EquipmentCommand(@Qualifier("IEquipmentMapperImpl") IEquipmentMapper iEquipmentMapper, EquipmentRepo equipmentRepo) {
         this.iEquipmentMapper = iEquipmentMapper;
-        this.equipmentRepository = equipmentRepository;
+        this.equipmentRepo = equipmentRepo;
     }
 
     @Override
     @Transactional
-    public CompletableFuture<Equipment> UpdateEquipment(int id, @Valid EquipmentDto equipmentDTO){
+    public CompletableFuture<com.DEVLOP.Entities.Equipment> UpdateEquipment(int id, @Valid EquipmentDto equipmentDTO){
         return CompletableFuture.supplyAsync(()-> {
-            Equipment eq = equipmentRepository.FindByID(id).orElseThrow(()->
+            com.DEVLOP.Entities.Equipment eq = equipmentRepo.FindByID(id).orElseThrow(()->
                     new EquipmentNotFoundException("Equipment with that ID is not found"));
             return iEquipmentMapper.MapAndUpdateEquipmentFromEquipmentDto(equipmentDTO, eq);
         }).thenApplyAsync(updatedEq ->{
-            equipmentRepository.PersistEquipment(updatedEq);
+            equipmentRepo.PersistEquipment(updatedEq);
             return updatedEq;
         });
     }

@@ -6,7 +6,7 @@ import com.DEVLOP.Application.DTOS.EquipmentDto;
 import com.DEVLOP.Application.Mappers.IEquipmentMapperImpl;
 import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Factories.EquipmentFactory;
-import com.DEVLOP.Repositories.EquipmentRepository;
+import com.DEVLOP.Repositories.EquipmentRepo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,7 +50,7 @@ public class EquipmentCommandControllerIntegrationTest {
     @Autowired
     private IEquipmentMapperImpl mapper;
     @Autowired
-    private EquipmentRepository equipmentRepository;
+    private EquipmentRepo equipmentRepo;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -59,9 +59,9 @@ public class EquipmentCommandControllerIntegrationTest {
     @BeforeEach
     public void setUp() {
         equipment = EquipmentFactory.CreateEquipment();
-        equipmentRepository.PersistEquipmentClass(equipment.getEquipmentType().getEquipmentClass());
-        equipmentRepository.PersistEquipmentType(equipment.getEquipmentType());
-        equipment = equipmentRepository.PersistEquipment(equipment); // Save to the database
+        equipmentRepo.PersistEquipmentClass(equipment.getEquipmentType().getEquipmentClass());
+        equipmentRepo.PersistEquipmentType(equipment.getEquipmentType());
+        equipment = equipmentRepo.PersistEquipment(equipment); // Save to the database
         equipmentDTO = mapper.MaptoEquipmentDto(equipment);
     }
 
@@ -84,7 +84,7 @@ public class EquipmentCommandControllerIntegrationTest {
                 .andExpect(content().string("Equipment was updated successfully"));
 
         //assert
-        Equipment updatedEquipment = equipmentRepository.FindByID(id).orElse(null);
+        com.DEVLOP.Entities.Equipment updatedEquipment = equipmentRepo.FindByID(id).orElse(null);
         assert updatedEquipment != null;
         assertEquals("Updated Comment", updatedEquipment.getComment());
     }

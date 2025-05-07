@@ -1,6 +1,7 @@
 package com.DEVLOP.Entities;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -9,7 +10,7 @@ public class EquipmentService extends BaseEntity{
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Getter @Setter
     @Column(name = "Id", nullable = false, unique = true)
     private int id;

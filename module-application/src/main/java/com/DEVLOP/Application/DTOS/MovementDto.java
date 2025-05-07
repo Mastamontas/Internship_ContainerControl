@@ -8,97 +8,132 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 @Data
 public class MovementDto {
-    @NotNull
-    private int id;//id movimento
-
+    //mandatory fields
+    private Integer id;//id movimento
+    private LocalDateTime date; //igual a mov entity
+    private String movementStatus; //todo: definir enum - perguntar paulo
+    private Integer accessUserId;
+    private Integer businessUnitId;
+    private String transportResponsibility;
+    private String movementOfHire;
+    private Integer movementRestitutionCode;
+    private Integer movementVoyageId;
+    private Integer equipmentOwnerId;
+    private Integer movementDays;
+    private boolean isMovementLast;
+    private String shipmentUCN;
+    private String movementTransport;
+    private Integer transportMeansId;
+    private String transportMeansComment;
     //equipment
-
-    private int equipmentId;
+    private Integer equipmentId;
     @Pattern(
             regexp = "^[A-Z]{4}$",
             message = "Prefix must be exactly 4 uppercase letters"
     )
     private String prefix; //equipamento
-    private int number; //equipamento
-    private int checkDigit; //equipamento
-    private String equipmentTypeCode; //equipment type
-    private double equipmentTypeLength; //equipment type
+    private Integer number; //equipamento
+    private Integer checkDigit; //equipamento
 
-    //movement
-    private String movementKey; //movement type?
-    private String movementCode; //vem de movement type?
-    private String movementStatus; //enum
-    private LocalDateTime date; //igual a mov entity
-    private String equipmentServiceCode;//vem de equipment service
-    private String conditionCode; //vem de equipment condition
+    //equipment type
+    private Integer equipmentTypeId;//é int porque nunca pode ser nula?
+    private String equipmentTypeCode; //equipment type
+    private Double equipmentTypeLength; //equipment type
+
+    //movement type
+    private Integer movementTypeId;
+    private String movementTypeCode; //movement type
+    private String movementTypeName; //vem de movement type
+
+    //equipment status
+    private Integer equipmentStatusId;
+    private String equipmentStatusCode;
+    private String equipmentStatusName;
+    private String equipmentStatusLevel1;//enum?
+    private String equipmentStatusLevel2;//enum?
+    //equipment service
+    private Integer equipmentServiceId;
+    private String equipmentServiceCode;
+    private String equipmentServiceName;
+
+    //equipment condition
+    private Integer equipmentConditionId;
+    private String physicalConditionCode;
+    private String physicalConditionName;
+    private String physicalConditionType;
+    //equipment leasing
+    private Integer equipmentLeasingId;
+    private String equipmentLeasingCode;
+    private String equipmentLeasingName;
+
+
     private String movementBound;//vem de outra tabela
     private String shippingCode;//vem de outra tabela
     private boolean transhipment;//outra tabela
     private boolean isEmpty;//movement type
     private String stowageLocation;//outra tabela
-    private int sealNumberA;//outra tabela
-    private int sealNumberB;//outra tabela
+    private Integer sealNumberA;//outra tabela
+    private Integer sealNumberB;//outra tabela
     private String comments; //vem de movement entity
     private String transportDetails;//outra tabela
     private String transportReference;//outra tabela
-    private String transportResponsibility;//enum
     private String haulier;//outra tabela
-    private String vehicleReference;//outra tabela
+    private String vehicleReference; //outra tabela
 
     //location
-    private int fromCode; //evento externo
+    private Integer fromCode; //evento externo
     private String fromName; //evento externo
-    private int toCode; //evento externo
+    private Integer toCode; //evento externo
     private String toName; //evento externo
-    private int finalCode; //evento externo
+    private Integer finalCode; //evento externo
     private String finalName; //evento externo
-    private int restitutionCode; //evento externo
+    private Integer restitutionCode; //evento externo
     private String restitutionName; //evento externo
 
     //depot
-    private int depotCode;//outra tabela
+    private Integer depotCode;//outra tabela
     private String areaCode;//outra tabela
     private String locationCode;//outra tabela
     private String street;//outra tabela
     private String row;//outra tabela
     private String stack;//outra tabela
 
-    //companies
+    //companies - externo
     private String companyLine;
-    private int equipmentOwnerCode;
-    private int offHire;
-    private int agentCode;
-    private int shipperCode;
-    private int consigneeCode;
+    private Integer equipmentOwnerCode;
+    private Integer offHire;
+    private Integer agentCode;
+    private Integer shipperCode;
+    private Integer consigneeCode;
 
-    //booking process
+    //booking process - externo
     private String transportingCompany;
     private String vessel;
     private String voyage;
     private String transportBounds;//enum
-    private int bookingProcess;
-    private int bookingLineNumber;
-    private int bookingReference;
+    private Integer bookingProcess;
+    private Integer bookingLineNumber;
+    private Integer bookingReference;
     private String goodsDetail;
     private String UCN;
-    private int numberPacks;
-    private double netWeight;
-    private double grossWeight;
-    private double temperature;
+    private Integer numberPacks;
+    private Double netWeight;
+    private Double grossWeight;
+    private Double temperature;
     private String temperatureUnit;//enum
-    private int commodityCode;
+    private Integer commodityCode;
     private String commodityName;
     private LocalDate commodityExpireDate;
     private LocalDate equipmentExpireDate;
 
-    //customs
+    //customs - externo
     private String goodsExportDeclaration;
     private String customsDispatchDocument;
-    private double goodsValue;
+    private Double goodsValue;
     private String situation;
     private String customsSeal;
 
-    //audition
+    //audition - externo
     private String username;
     private LocalDate auditionDate;
     private LocalDateTime time;

@@ -2,16 +2,18 @@ package com.DEVLOP.Application.Queries;
 import com.DEVLOP.Application.Mappers.IEquipmentMapper;
 import com.DEVLOP.Application.DTOS.EquipmentDto;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
-import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Interfaces.Queries.IEquipmentQueries;
-import com.DEVLOP.Repositories.EquipmentRepository;
+import com.DEVLOP.Repositories.EquipmentRepo;
+import com.DEVLOP.Specifications.EquipmentSpecification;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -21,18 +23,23 @@ import java.util.stream.Collectors;
  */
 @Service
 public class EquipmentQuery implements IEquipmentQueries {
-    private final EquipmentRepository equipmentRepository;
+    private final EquipmentRepo equipmentRepo;
     private final IEquipmentMapper iEquipmentMapper;
 
     @Autowired
-    public EquipmentQuery(EquipmentRepository equipmentRepository, @Qualifier("IEquipmentMapperImpl") IEquipmentMapper iEquipmentMapper){
-        this.equipmentRepository = equipmentRepository;
+    private final EquipmentSpecification equipmentSpecification;
+
+    @Autowired
+    public EquipmentQuery(EquipmentRepo equipmentRepo, @Qualifier("IEquipmentMapperImpl") IEquipmentMapper iEquipmentMapper,
+                          EquipmentSpecification equipmentSpecification){
+        this.equipmentRepo = equipmentRepo;
         this.iEquipmentMapper = iEquipmentMapper;
+        this.equipmentSpecification = equipmentSpecification;
 
     }
     /*
     todo
-    ver se esta função é melhor ser uma page
+    aplicar filtros nesta função
      */
 
     @Override
@@ -66,7 +73,7 @@ public class EquipmentQuery implements IEquipmentQueries {
      * @param equipmentList
      * @return List of equipment DTO's
      */
-    private List<EquipmentDto> MapToEquipmentDTOList(List<Equipment> equipmentList){
+    private List<EquipmentDto> MapToEquipmentDTOList(List<com.DEVLOP.Entities.Equipment> equipmentList){
         return equipmentList.stream().map(iEquipmentMapper::MaptoEquipmentDto).collect(Collectors.toList());
     }
 
@@ -75,8 +82,8 @@ public class EquipmentQuery implements IEquipmentQueries {
      *
      * @return List of equipment entities
      */
-    private List<Equipment> FetchEquipmentListFromRepo() {
-        List<Equipment> equipmentList = equipmentRepository.FindAll();
+    private List<com.DEVLOP.Entities.Equipment> FetchEquipmentListFromRepo() {
+        List<com.DEVLOP.Entities.Equipment> equipmentList = equipmentRepo.FindAll();
         if (equipmentList == null || equipmentList.isEmpty()) {
             return new ArrayList<>();
         }
@@ -89,32 +96,21 @@ public class EquipmentQuery implements IEquipmentQueries {
         return CompletableFuture.supplyAsync(()-> iEquipmentMapper.MaptoEquipmentDto(FetchEquipmentByID(id)));
     }
 
-    private Equipment FetchEquipmentByID(int id){
-        Optional<Equipment> optionalEquipment = equipmentRepository.FindByID(id);
+    private com.DEVLOP.Entities.Equipment FetchEquipmentByID(int id){
+        Optional<com.DEVLOP.Entities.Equipment> optionalEquipment = equipmentRepo.FindByID(id);
         if (optionalEquipment.isPresent()) {
             return optionalEquipment.get();
         } else {
             throw new EquipmentNotFoundException("No equipment found with ID " + id);
         }
     }
-
-    /*
-    todo
-    this method will have dynamic query - return partial results according to user input
-     *//*
-    public CompletableFuture<EquipmentDTO> ReturnEqDTOByUniqueDetailsAsync(String prefix, int checkDigit, int number){
+    @Override
+    @Transactional
+    public CompletableFuture<List<EquipmentDto>> ReturnEquipmentsFilteredASync(Map<String,Object> filters){
         return CompletableFuture.supplyAsync(()->{
-            Equipment eq = FetchEquipmentByUniqueDetails(prefix, checkDigit, number);
-            return iEquipmentMapper.MaptoEquipmentDto(eq);
+            Specification<com.DEVLOP.Entities.Equipment> spec = equipmentSpecification.BuildSpecification(filters);
+            List<com.DEVLOP.Entities.Equipment> filteredEquipmentList = equipmentRepo.ReturnEquipmentListFiltered(spec);
+            return filteredEquipmentList.stream().map(iEquipmentMapper::MaptoEquipmentDto).toList();
         });
-    }*/
-    /*
-    todo
-    completar proxima branch
-     */
-    /*private Equipment FetchEquipmentByUniqueDetails(String prefix, int checkDigit, int number){
-        return equipmentRepository.FindEquipmentByUniqueDetails(prefix, checkDigit, number).orElseThrow(() -> new EquipmentNotFoundException(
-                String.format("No equipment found for details: Prefix=%s, CheckDigit=%d, Number=%d", prefix, checkDigit, number)
-        ));
-    }*/
+    }
 }
