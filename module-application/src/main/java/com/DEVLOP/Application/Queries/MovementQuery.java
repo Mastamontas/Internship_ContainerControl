@@ -129,16 +129,12 @@ public class MovementQuery implements IMovementQuery {
                 if (fromFilter == null || toFilter == null) {
                     throw new IllegalArgumentException("Date filter maps must not be null.");
                 }
-
                 Specification<Movement> rangeFilterSpec = movementSpecification.SpecificationBetween(fromFilter, toFilter);
                 List<Movement> filteredMovementList = movementRepo.ReturnFilteredMovementList(rangeFilterSpec);
-
                 if (filteredMovementList.isEmpty()) {
                     throw new MovementNotFoundException("No matches for that query.");
                 }
-
                 return filteredMovementList.stream().map(mapper::MapToMovementDto).toList();
-
             } catch (IllegalArgumentException | MovementNotFoundException ex) {
                 throw new CompletionException(ex);
             } catch (Exception ex) {
