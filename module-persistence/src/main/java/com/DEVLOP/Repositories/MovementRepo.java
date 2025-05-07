@@ -56,6 +56,7 @@ public class MovementRepo {
     }
     //make this the general method for retrieving movement lists
     public List<Movement> ReturnFilteredMovementList(Specification<Movement> spec){
+        System.out.println(Thread.currentThread().getName());
         return iMovementRepo.findAll(spec);
     }
 
@@ -69,6 +70,7 @@ public class MovementRepo {
     public List<Movement> ReturnMovementsWithEquipmentID(List<Integer> idList){
         return iMovementRepo.findAllByEquipment_IdIn(idList);
     }
+
 
 
 

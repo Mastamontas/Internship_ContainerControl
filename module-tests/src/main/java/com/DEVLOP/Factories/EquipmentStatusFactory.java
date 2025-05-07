@@ -7,7 +7,7 @@ public class EquipmentStatusFactory {
     private static final Faker faker = new Faker();
     public static EquipmentStatus CreateEquipmentStatus(){
         EquipmentStatus equipmentStatus = new EquipmentStatus();
-        equipmentStatus.setEquipmentStatusCode(faker.letterify(faker.lorem().characters(3,true)));
+        equipmentStatus.setEquipmentStatusCode(faker.random().nextBoolean() ? "IN_PROGRESS" : "COMPLETED");
         equipmentStatus.setEquipmentStatusName(faker.letterify(faker.lorem().characters(3,true)));
         equipmentStatus.setEquipmentStatusLevel1(faker.letterify(faker.lorem().characters(3,true)));
         equipmentStatus.setEquipmentStatusLevel2(faker.letterify(faker.lorem().characters(3,true)));

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class MovementDto {
     //mandatory fields
     private Integer id;//id movimento
-    private LocalDateTime date; //igual a mov entity
+    private LocalDate date; //igual a mov entity
     private String movementStatus; //todo: definir enum - perguntar paulo
     private Integer accessUserId;
     private Integer businessUnitId;

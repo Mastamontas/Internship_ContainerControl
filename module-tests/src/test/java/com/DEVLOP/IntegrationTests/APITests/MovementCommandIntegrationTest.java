@@ -23,6 +23,7 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -234,7 +235,7 @@ public class MovementCommandIntegrationTest {
 
         //movimento que vem do utilizador para adicionar aos equipamentos que selecionou
         MovementDto movementDtoToAdd = new MovementDto();
-        movementDtoToAdd.setDate(LocalDateTime.now());
+        movementDtoToAdd.setDate(LocalDate.now());
         movementDtoToAdd.setAccessUserId(1);
         movementDtoToAdd.setBusinessUnitId(1);
         movementDtoToAdd.setTransportResponsibility("Julio");

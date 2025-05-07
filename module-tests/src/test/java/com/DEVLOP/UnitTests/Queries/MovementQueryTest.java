@@ -4,6 +4,7 @@ import com.DEVLOP.Application.DTOS.MovementDto;
 import com.DEVLOP.Application.Mappers.IMovementMapperImpl;
 import com.DEVLOP.Application.Queries.MovementQuery;
 import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
+import com.DEVLOP.CustomExceptions.Movement.MovementNotFoundException;
 import com.DEVLOP.Entities.Equipment;
 import com.DEVLOP.Entities.Movement;
 import com.DEVLOP.Factories.EquipmentFactory;
@@ -18,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -25,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
-public class MovementRepoQueryTest {
+public class MovementQueryTest {
     @Mock
     private IMovementMapperImpl mapper;
     @Mock
@@ -33,7 +35,7 @@ public class MovementRepoQueryTest {
     @Mock
     private MovementRepo movementRepo;
     @Mock
-    private EquipmentRepo equipment;
+    private EquipmentRepo equipmentRepo;
     @InjectMocks
     private MovementQuery movementQuery;
 
@@ -58,12 +60,8 @@ public class MovementRepoQueryTest {
 
     }
 
-    //test if movement list is returned correctly
-    //asserts function in the repository is called
-    //assert it returns a list
-    //method tested here should not really be async, as they interact directly with database
     @Test
-    public void ReturnMovementListFromEquipmentAsyncTest() throws ExecutionException, InterruptedException {
+    public void ReturnFilteredMovementListAsyncTest() throws ExecutionException, InterruptedException {
         //arrange
         Map<String, Object> filter = new HashMap<>();
         filter.put("equipment.prefix", testEquipment.getPrefix());
@@ -98,7 +96,7 @@ public class MovementRepoQueryTest {
     public void ReturnEquipmentMovementAsyncTestSuccess(){
         //arrange
         // Mock dependencies
-        when(equipment.FindByID(1)).thenReturn(Optional.of(testEquipment));
+        when(equipmentRepo.FindByID(1)).thenReturn(Optional.of(testEquipment));
         when(movementRepo.GetMovementsOfEquipment(testEquipment))
                 .thenReturn(Arrays.asList(testMovement));
         when(mapper.MapToMovementDto(testMovement)).thenReturn(testMovementDto);
@@ -113,7 +111,7 @@ public class MovementRepoQueryTest {
         assertEquals(1, result.size(), "List should contain 1 MovementDto");
         assertEquals(testMovementDto, result.get(0), "Returned MovementDto should match the mapped DTO");
         // Verify interactions
-        verify(equipment, times(1)).FindByID(1);
+        verify(equipmentRepo, times(1)).FindByID(1);
         verify(movementRepo, times(1)).GetMovementsOfEquipment(testEquipment);
         verify(mapper, times(1)).MapToMovementDto(testMovement);
     }
@@ -121,7 +119,7 @@ public class MovementRepoQueryTest {
     @Test
     public void ReturnEquipmentMovementAsyncTest_EquipmentNotFound() {
         // Arrange: Equipment ID does not exist
-        when(equipment.FindByID(999)).thenReturn(Optional.empty());
+        when(equipmentRepo.FindByID(999)).thenReturn(Optional.empty());
 
         // Act & Assert
         CompletableFuture<List<MovementDto>> futureResult = movementQuery.ReturnMovementListFromEquipAsync(999);
@@ -134,14 +132,14 @@ public class MovementRepoQueryTest {
 
         assertEquals("No equipment found with ID 999", thrown.getCause().getMessage());
 
-        verify(equipment, times(1)).FindByID(999);
+        verify(equipmentRepo, times(1)).FindByID(999);
         verifyNoInteractions(movementRepo, mapper);
     }
 
     @Test
     public void ReturnEquipmentMovementAsyncTest_NoMovementsFound() {
         // Arrange: Equipment exists but has no movements
-        when(equipment.FindByID(2)).thenReturn(Optional.of(testEquipment));
+        when(equipmentRepo.FindByID(2)).thenReturn(Optional.of(testEquipment));
         when(movementRepo.GetMovementsOfEquipment(testEquipment)).thenReturn(Collections.emptyList());
 
         // Act
@@ -153,7 +151,7 @@ public class MovementRepoQueryTest {
         assertTrue(result.isEmpty(), "Result should be an empty list");
 
         // Verify interactions
-        verify(equipment, times(1)).FindByID(2);
+        verify(equipmentRepo, times(1)).FindByID(2);
         verify(movementRepo, times(1)).GetMovementsOfEquipment(testEquipment);
         verifyNoInteractions(mapper);
     }
@@ -161,7 +159,7 @@ public class MovementRepoQueryTest {
     @Test
     public void ReturnEquipmentMovementAsyncTest_UnexpectedError() {
         // Arrange: Simulate error
-        when(equipment.FindByID(3)).thenReturn(Optional.of(testEquipment));
+        when(equipmentRepo.FindByID(3)).thenReturn(Optional.of(testEquipment));
         when(movementRepo.GetMovementsOfEquipment(testEquipment)).thenThrow(new RuntimeException("Database error"));
 
         // Act & Assert
@@ -175,7 +173,7 @@ public class MovementRepoQueryTest {
         assertEquals("Unexpected error retrieving movements", thrown.getCause().getMessage());
 
         // Verify interactions
-        verify(equipment, times(1)).FindByID(3);
+        verify(equipmentRepo, times(1)).FindByID(3);
         verify(movementRepo, times(1)).GetMovementsOfEquipment(testEquipment);
     }
     @Test
@@ -201,6 +199,63 @@ public class MovementRepoQueryTest {
         verify(movementRepo, times(1)).FindMovementById(2);
         verify(mapper, times(1)).MapToMovementDto(testMovement);
 
+    }
+
+
+    @Test
+    public void ReturnRangeFilteredMovementListAsyncTest() throws ExecutionException, InterruptedException {
+        // Arrange
+        LocalDate fromDate = LocalDate.of(2024, 1, 1);
+        LocalDate toDate = LocalDate.of(2024, 12, 31);
+
+        Map<String, Object> fromFilter = Map.of("date", fromDate);
+        Map<String, Object> toFilter = Map.of("date", toDate);
+
+        Specification<Movement> mockSpec = mock(Specification.class);
+        Movement mockMovement = new Movement();
+        mockMovement.setId(1);
+        MovementDto mockDto = new MovementDto();
+        mockDto.setId(1);
+
+        when(movementSpecification.SpecificationBetween(fromFilter, toFilter)).thenReturn(mockSpec);
+        when(movementRepo.ReturnFilteredMovementList(mockSpec)).thenReturn(List.of(mockMovement));
+        when(mapper.MapToMovementDto(mockMovement)).thenReturn(mockDto);
+
+        // Act
+        CompletableFuture<List<MovementDto>> futureResult = movementQuery.ReturnRangeFilteredMovementListAsync(fromFilter, toFilter);
+        List<MovementDto> result = futureResult.get();
+
+        // Assert
+        assertEquals(1, result.size());
+        assertEquals(1, result.get(0).getId());
+
+        verify(movementSpecification).SpecificationBetween(fromFilter, toFilter);
+        verify(movementRepo).ReturnFilteredMovementList(mockSpec);
+        verify(mapper).MapToMovementDto(mockMovement);
+
+    }
+    @Test
+    void testReturnRangeFilteredMovementListAsync_withNullFilters_shouldThrowIllegalArgumentException() {
+        CompletableFuture<List<MovementDto>> future = movementQuery.ReturnRangeFilteredMovementListAsync(null, null);
+
+        ExecutionException exception = assertThrows(ExecutionException.class, future::get);
+        assertTrue(exception.getCause() instanceof IllegalArgumentException);
+        assertEquals("Date filter maps must not be null.", exception.getCause().getMessage());
+    }
+    @Test
+    void testReturnRangeFilteredMovementListAsync_withNoResults_shouldThrowMovementNotFoundException() {
+        Map<String, Object> fromFilter = Map.of("date", LocalDate.of(2023, 1, 1));
+        Map<String, Object> toFilter = Map.of("date", LocalDate.of(2023, 12, 31));
+
+        Specification<Movement> mockSpec = mock(Specification.class);
+        when(movementSpecification.SpecificationBetween(fromFilter, toFilter)).thenReturn(mockSpec);
+        when(movementRepo.ReturnFilteredMovementList(mockSpec)).thenReturn(List.of());
+
+        CompletableFuture<List<MovementDto>> future = movementQuery.ReturnRangeFilteredMovementListAsync(fromFilter, toFilter);
+
+        ExecutionException exception = assertThrows(ExecutionException.class, future::get);
+        assertTrue(exception.getCause() instanceof MovementNotFoundException);
+        assertEquals("No matches for that query.", exception.getCause().getMessage());
     }
 }
 

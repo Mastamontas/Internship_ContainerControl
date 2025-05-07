@@ -23,7 +23,7 @@ public class Movement extends BaseEntity{
 
     @Getter @Setter
     @Column(name ="Date", nullable = false)
-    private LocalDateTime date;
+    private LocalDate date;
 
     @Getter @Setter
     @Column(name ="MovementStatus", nullable = false)
@@ -65,7 +65,7 @@ public class Movement extends BaseEntity{
     @JoinColumn(name = "EquipmentServiceID", nullable = false)
     private EquipmentService equipmentService;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @Getter @Setter
     @JoinColumn(name ="EquipmentConditionID", nullable = false)
     private EquipmentCondition equipmentCondition;

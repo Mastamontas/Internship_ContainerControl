@@ -22,6 +22,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -89,6 +90,7 @@ public class MovementRepoIntegrationTest {
         testEquipment = EquipmentFactory.CreateEquipment();
 
         //mudar nome metodo para persistEquipment
+        //todo: os equipment types e classes tem de ser criados à parte do equipment repo (equipmentClassRepo; EquipmentTypeRepo);
         equipmentRepo.PersistEquipmentClass(testEquipment.getEquipmentType().getEquipmentClass());
         equipmentRepo.PersistEquipmentType(testEquipment.getEquipmentType());
         equipmentRepo.PersistEquipment(testEquipment);
@@ -234,7 +236,7 @@ public class MovementRepoIntegrationTest {
         List<Integer> idList = List.of(2,3,4);
         List<Equipment> equipmentList = equipmentRepo.GetEquipmentListFromID(idList);
         MovementDto movementDtoToAdd = new MovementDto();
-        movementDtoToAdd.setDate(LocalDateTime.now());
+        movementDtoToAdd.setDate(LocalDate.now());
         movementDtoToAdd.setAccessUserId(1);
         movementDtoToAdd.setBusinessUnitId(1);
         movementDtoToAdd.setTransportResponsibility("Julio");
