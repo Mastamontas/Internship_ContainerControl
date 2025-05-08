@@ -1,9 +1,4 @@
 package com.DEVLOP.Entities;
-//tem como objectivo ser a classe base de todas as entidades
-//createdOn (datetime)
-//lastUpdated (datetime)
-//db status (boolean)
-
 //todo: listar sempre entidades cujo is deleted = false;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;

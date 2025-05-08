@@ -103,9 +103,6 @@ public class MovementQueryControllerIntegrationTest {
         });
     }
 
-    /*
-    todo: get por equipamento pela matricula (prefixo, number, check digit) campos obrigatorios
-     */
     @Test
     public void GetMovementsOfEquipment() throws Exception{
         //act

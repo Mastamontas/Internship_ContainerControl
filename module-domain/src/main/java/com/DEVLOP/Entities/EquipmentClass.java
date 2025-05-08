@@ -5,11 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-
-/*
-todo: rever esta table que esta sem lombok e com dados provavelmente errados
-
- */
 @Entity
 @Table(name = "EquipmentClass")
 public class EquipmentClass extends BaseEntity {

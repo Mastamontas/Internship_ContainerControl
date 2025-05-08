@@ -37,17 +37,14 @@ public class EquipmentQuery implements IEquipmentQueries {
         this.equipmentSpecification = equipmentSpecification;
 
     }
-    /*
-    todo
-    aplicar filtros nesta função
-     */
+
 
     @Override
     @Transactional
     public CompletableFuture<List<@Valid EquipmentDto>> FindAllEquipmentsAsync() {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                return ReturnMappedEquipDTOList();//remover função chamar a outra
+                return ReturnMappedEquipDTOList();
             } catch (Exception ex) {
                 return new ArrayList<>();
             }
