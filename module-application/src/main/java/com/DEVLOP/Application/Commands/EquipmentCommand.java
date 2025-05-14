@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.CompletableFuture;
 
+/*
+todo: create equipment has to be possible, needs equipment type
+ */
 @Service
 public class EquipmentCommand implements IEquipmentCommands {
 

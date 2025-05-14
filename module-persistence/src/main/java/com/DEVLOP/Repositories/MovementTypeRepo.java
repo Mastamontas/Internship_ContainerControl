@@ -5,11 +5,13 @@ import com.DEVLOP.Interfaces.IMovementTypeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class MovementTypeRepo {
+    //podia extender esta classe e herdar os métodos, mas nao era possivel ter os nomes em letra maiuscula
     private IMovementTypeRepo iMovementTypeRepo;
     @Autowired
     public MovementTypeRepo(IMovementTypeRepo iMovementTypeRepo){
@@ -24,8 +26,12 @@ public class MovementTypeRepo {
     public Optional<MovementType> FindMovementTypeByID(int id){
         return iMovementTypeRepo.findById(id);
     }
+
     public List<MovementType> ReturnListOfMovementTypes(List<Integer> idList){
         return iMovementTypeRepo.findAllById(idList);
     }
-    //delete entitied: turn isDeleted to false
+    public Optional<MovementType> ReturnMovementTypeByCode(String code){
+        return iMovementTypeRepo.findByMovementTypeCode(code);
+    }
+
 }

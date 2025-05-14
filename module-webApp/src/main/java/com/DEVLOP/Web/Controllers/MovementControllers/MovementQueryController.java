@@ -218,4 +218,11 @@ public class MovementQueryController {
                 });
     }
 
+    /*
+    função tem de ser asincrona
+     */
+    /*@GetMapping("export")
+    @Async
+    @Operation(summary = "Returns an excel with movement information")*/
+
 }
