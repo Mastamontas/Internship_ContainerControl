@@ -25,4 +25,7 @@ public class EquipmentConditionRepo {
     public List<EquipmentCondition> ReturnListOfEquipmentCondition(List<Integer> idList){
         return iEquipmentConditionRepo.findAllById(idList);
     }
+    public Optional<EquipmentCondition> FindEquipmentConditionByCode(String code){
+        return iEquipmentConditionRepo.findByPhysicalConditionCode(code);
+    }
 }
