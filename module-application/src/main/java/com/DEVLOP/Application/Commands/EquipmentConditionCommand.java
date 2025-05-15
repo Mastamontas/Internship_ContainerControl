@@ -14,11 +14,12 @@ import java.util.concurrent.CompletionException;
 @Service
 public class EquipmentConditionCommand {
     private final EquipmentConditionRepo equipmentConditionRepo;
+
     @Qualifier("IEquipmentConditionMapperImpl")
     private final IEquipmentConditionMapper mapper;
 
     @Autowired
-    public EquipmentConditionCommand(EquipmentConditionRepo equipmentConditionRepo, IEquipmentConditionMapper mapper){
+    public EquipmentConditionCommand(EquipmentConditionRepo equipmentConditionRepo, @Qualifier("IEquipmentConditionMapperImpl") IEquipmentConditionMapper mapper){
         this.equipmentConditionRepo = equipmentConditionRepo;
         this.mapper = mapper;
     }

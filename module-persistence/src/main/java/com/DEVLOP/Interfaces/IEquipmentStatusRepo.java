@@ -4,5 +4,8 @@ import com.DEVLOP.Entities.EquipmentStatus;
 import com.DEVLOP.Repositories.EquipmentStatusRepo;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.Optional;
+
 public interface IEquipmentStatusRepo extends IGenericRepository<EquipmentStatus, Integer>, JpaSpecificationExecutor<EquipmentStatus> {
+    Optional<EquipmentStatus> findByEquipmentStatusCode(String equipmentStatusCode);
 }
