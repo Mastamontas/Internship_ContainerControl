@@ -24,4 +24,12 @@ public class EquipmentLeasingRepo {
     public List<EquipmentLeasing> ReturnListOfEquipmentLeasing(List<Integer> idList){
         return iEquipmentLeasingRepo.findAllById(idList);
     }
+
+    public EquipmentLeasing ReturnEquipmentLeasingByCode(String code) {
+        return iEquipmentLeasingRepo.findByLeasingContractCode(code);
+    }
+
+    public List<EquipmentLeasing> FindAll() {
+        return iEquipmentLeasingRepo.findAll();
+    }
 }
