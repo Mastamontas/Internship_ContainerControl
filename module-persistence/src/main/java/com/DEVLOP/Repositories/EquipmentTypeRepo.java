@@ -26,4 +26,7 @@ public class EquipmentTypeRepo {
         return iEquipmentTypeRepo.findAllById(idList);
     }
 
+    public List<EquipmentType> FindAll() {
+        return iEquipmentTypeRepo.findAll();
+    }
 }
