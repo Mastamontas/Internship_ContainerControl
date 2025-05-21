@@ -3,9 +3,7 @@ package com.DEVLOP.Application.Mappers;
 import com.DEVLOP.Application.DTOS.EquipmentClassDto;
 import com.DEVLOP.Application.DTOS.EquipmentTypeDto;
 import com.DEVLOP.Entities.EquipmentType;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface IEquipmentTypeMapper {
@@ -26,7 +24,7 @@ public interface IEquipmentTypeMapper {
     EquipmentType MapToEquipmentType (EquipmentTypeDto equipmentTypeDto);
 
 
-
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(source = "id", target ="id")
     @Mapping(source = "equipmentTypeCode", target ="equipmentTypeCode")
     @Mapping(source = "equipmentTypeName", target ="equipmentTypeName")
