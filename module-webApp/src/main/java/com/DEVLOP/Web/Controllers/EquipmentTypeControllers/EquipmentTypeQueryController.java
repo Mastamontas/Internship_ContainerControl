@@ -63,9 +63,12 @@ public class EquipmentTypeQueryController {
             @ApiResponse(responseCode = "200", description = "All equipment types retrieved",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = EquipmentTypeDto.class)))
     })
+
+
     @GetMapping
     public CompletableFuture<ResponseEntity<List<EquipmentTypeDto>>> GetAll() {
         return equipmentTypeQuery.ReturnAllEquipmentTypes().thenApply(ResponseEntity::ok);
     }
+    //todo get equipment types by id of equipment class
 
 }

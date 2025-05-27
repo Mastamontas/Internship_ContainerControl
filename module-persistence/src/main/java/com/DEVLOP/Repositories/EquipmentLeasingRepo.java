@@ -25,6 +25,7 @@ public class EquipmentLeasingRepo {
         return iEquipmentLeasingRepo.findAllById(idList);
     }
 
+    //todo este tem de ser optional - refactor
     public EquipmentLeasing ReturnEquipmentLeasingByCode(String code) {
         return iEquipmentLeasingRepo.findByLeasingContractCode(code);
     }

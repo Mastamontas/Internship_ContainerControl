@@ -1,4 +1,4 @@
-package com.DEVLOP.IntegrationTests.APITests;
+package com.DEVLOP.IntegrationTests.APITests.MovementControllerIntegrationTests;
 
 import com.DEVLOP.Entities.*;
 import com.DEVLOP.Factories.*;

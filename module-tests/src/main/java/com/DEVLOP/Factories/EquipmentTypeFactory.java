@@ -7,7 +7,7 @@ import com.github.javafaker.Faker;
 //has to receive an equipment class
 public class EquipmentTypeFactory {
     private static final Faker faker = new Faker();
-    public EquipmentType CreateEquipmentType(EquipmentClass preExistingEquipClass){
+    public  static EquipmentType CreateEquipmentType(EquipmentClass preExistingEquipClass){
         EquipmentType equipmentType = new EquipmentType();
         equipmentType.setEquipmentClass(preExistingEquipClass);
         equipmentType.setEquipmentTypeHeight(2.00);

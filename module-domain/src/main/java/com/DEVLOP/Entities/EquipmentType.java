@@ -26,6 +26,7 @@ public class EquipmentType extends BaseEntity{
 
 
     //ver se esta relação faz sentido estar aqui na entidade
+    //isto nao tem de estar aqui, quem é dono da relação é a classe equipments
     @Getter
     @Setter
     @OneToMany(mappedBy = "equipmentType", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -34,7 +35,7 @@ public class EquipmentType extends BaseEntity{
     @NotNull
     @Getter
     @Setter
-    @Column(name = "EquipmentTypeCode", nullable = false, unique = true)
+    @Column(name = "EquipmentTypeCode", nullable = false, unique = true)//ver se este code tem de ser unique
     private String equipmentTypeCode;
 
     @NotNull

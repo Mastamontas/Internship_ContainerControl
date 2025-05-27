@@ -65,7 +65,6 @@ public class EquipmentConditionCommandController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
     })
     public CompletableFuture<ResponseEntity<EquipmentConditionDto>> UpdateEquipmentCondition(
-            @PathVariable int id,
             @Valid @RequestBody EquipmentConditionDto equipmentConditionDto) {
         return equipmentConditionCommand.UpdateEquipmentCondition(equipmentConditionDto)
                 .thenApply(updated -> ResponseEntity.ok().body(updated));

@@ -32,7 +32,7 @@ public class MovementTypeCommandController {
         this.movementTypeCommand = movementTypeCommand;
     }
     //create movement type
-    @PostMapping("/create")
+    @PostMapping()
     @Async
     @Operation(
             summary = "Create a movement type entity",
@@ -50,7 +50,7 @@ public class MovementTypeCommandController {
                 .thenApply(saved -> ResponseEntity.status(HttpStatus.CREATED).body(saved));
     }
 
-    @PutMapping("/update")
+    @PutMapping()
     @Async
     @Operation(
             summary = "Update an existing movement type entity",

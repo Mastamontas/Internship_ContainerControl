@@ -4,6 +4,7 @@ import com.DEVLOP.Application.DTOS.EquipmentConditionDto;
 import com.DEVLOP.Application.Mappers.IEquipmentConditionMapper;
 import com.DEVLOP.Entities.EquipmentCondition;
 import com.DEVLOP.Repositories.EquipmentConditionRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class EquipmentConditionCommand {
         this.equipmentConditionRepo = equipmentConditionRepo;
         this.mapper = mapper;
     }
+    @Transactional
     public CompletableFuture<EquipmentConditionDto> CreateNewEquipmentCondition(EquipmentConditionDto equipmentConditionDto){
         return CompletableFuture.supplyAsync(()->{
             EquipmentCondition equipmentCondition = mapper.MapToEquipmentCondition(equipmentConditionDto);
@@ -32,6 +34,8 @@ public class EquipmentConditionCommand {
             throw new CompletionException(ex);
         });
     }
+
+    @Transactional
     public CompletableFuture<EquipmentConditionDto> UpdateEquipmentCondition(EquipmentConditionDto equipmentConditionDto){
         return CompletableFuture.supplyAsync(()->{
             EquipmentCondition equipmentCondition = equipmentConditionRepo.FindEquipmentConditionByID(equipmentConditionDto.getId())

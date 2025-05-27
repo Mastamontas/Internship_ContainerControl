@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
@@ -21,7 +22,7 @@ public class EquipmentClassQuery {
     @Qualifier("IEquipmentClassMapper")
     private final IEquipmentClassMapper mapper;
 
-    public EquipmentClassQuery (EquipmentClassRepo equipmentClassRepo, IEquipmentClassMapper mapper){
+    public EquipmentClassQuery (EquipmentClassRepo equipmentClassRepo, @Qualifier("IEquipmentClassMapperImpl") IEquipmentClassMapper mapper){
         this.equipmentClassRepo = equipmentClassRepo;
         this.mapper = mapper;
     }

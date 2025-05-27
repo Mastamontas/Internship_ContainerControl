@@ -5,6 +5,8 @@ import com.DEVLOP.Application.DTOS.EquipmentTypeDto;
 import com.DEVLOP.Entities.EquipmentType;
 import org.mapstruct.*;
 
+
+//todo este mapper tem de mapear automaticamente o id que vem do dto para o id da entidade equipment class
 @Mapper(componentModel = "spring")
 public interface IEquipmentTypeMapper {
     @Mapping(source = "id", target ="id")

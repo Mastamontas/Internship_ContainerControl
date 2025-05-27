@@ -33,7 +33,7 @@ public class EquipmentStatusCommandController {
     }
 
     // Create EquipmentStatus
-    @PostMapping("/create")
+    @PostMapping
     @Async
     @Operation(
             summary = "Create a new EquipmentStatus",
@@ -52,7 +52,7 @@ public class EquipmentStatusCommandController {
     }
 
     // Update EquipmentStatus
-    @PutMapping("/update")
+    @PutMapping
     @Async
     @Operation(
             summary = "Update an existing EquipmentStatus",

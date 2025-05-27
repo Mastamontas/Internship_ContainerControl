@@ -45,6 +45,7 @@ public class EquipmentLeasingQueryController {
                 .thenApply(ResponseEntity::ok);
     }
 
+    //todo add api responses
     @GetMapping("/code/{code}")
     @Async
     @Operation(summary = "Get equipment leasing by code")
@@ -53,6 +54,7 @@ public class EquipmentLeasingQueryController {
                 .thenApply(ResponseEntity::ok);
     }
 
+    //todo add api responses
     @PostMapping("/list")
     @Async
     @Operation(summary = "Get equipment leasing by a list of IDs")
@@ -61,6 +63,7 @@ public class EquipmentLeasingQueryController {
                 .thenApply(ResponseEntity::ok);
     }
 
+    //todo add api responses
     @GetMapping
     @Async
     @Operation(summary = "Get all equipment leasing entries")

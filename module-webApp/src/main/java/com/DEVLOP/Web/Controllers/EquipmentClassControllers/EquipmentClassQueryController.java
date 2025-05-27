@@ -16,7 +16,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 
 @Slf4j
 @RestController
@@ -41,7 +43,13 @@ public class EquipmentClassQueryController {
     })
     public CompletableFuture<ResponseEntity<EquipmentClassDto>> getById(@PathVariable int id) {
         return equipmentClassQuery.GetEquipmentClassById(id)
-                .thenApply(ResponseEntity::ok);
+                .thenApply(ResponseEntity::ok)
+                .exceptionally(ex -> {
+                    if (ex.getCause() instanceof NoSuchElementException) {
+                        return ResponseEntity.notFound().build();
+                    }
+                    throw new CompletionException(ex);
+                });
     }
 
     @GetMapping("/code/{code}")

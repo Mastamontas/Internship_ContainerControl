@@ -1,4 +1,4 @@
-package com.DEVLOP.IntegrationTests.APITests;
+package com.DEVLOP.IntegrationTests.APITests.EquipmentControllerIntegrationTests;
 
 
 
