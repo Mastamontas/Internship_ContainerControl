@@ -1,13 +1,15 @@
-package com.DEVLOP.IntegrationTests.APITests;
+package com.DEVLOP.IntegrationTests.APITests.EquipmentStatusControllersIntegrationTests;
 
-import com.DEVLOP.Factories.EquipmentFactory;
-import com.DEVLOP.Repositories.EquipmentRepo;
+
+import com.DEVLOP.Entities.EquipmentClass;
+import com.DEVLOP.Entities.EquipmentStatus;
+import com.DEVLOP.Factories.EquipmentStatusFactory;
+import com.DEVLOP.Repositories.EquipmentStatusRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -17,26 +19,19 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.util.List;
 import java.util.stream.IntStream;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-/*
-replace create equipment methods with factory methods
- */
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) //important for test containers
 @AutoConfigureMockMvc
 @Testcontainers
-public class EquipmentQueryControllerIntegrationTest {
-
-
-    @LocalServerPort //isto é necessário aqui?
-    private int port;
+public class EquipmentStatusQueryControllerIntegrationTest {
     @Container
-    private static final MySQLContainer <?> mysql = new MySQLContainer<>("mysql:latest");
+    private static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql:latest");
 
     @DynamicPropertySource //testcontainer setup
     static void mySqlProperties(DynamicPropertyRegistry registry){
@@ -45,63 +40,55 @@ public class EquipmentQueryControllerIntegrationTest {
         registry.add("spring.datasource.password", mysql::getPassword);
 
     }
-
-    @Autowired
-    private EquipmentRepo equipment;
-
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private EquipmentStatusRepo equipmentStatusRepo;
 
     @BeforeEach
-    public void setUp() {
-        equipment.DeleteAllEquipments();
-        IntStream.rangeClosed(1,3).forEach(i->{
-            com.DEVLOP.Entities.Equipment equipment = EquipmentFactory.CreateEquipment();
-            this.equipment.PersistEquipmentClass(equipment.getEquipmentType().getEquipmentClass());
-            this.equipment.PersistEquipmentType(equipment.getEquipmentType());
-            this.equipment.PersistEquipment(equipment);
+    public void SetUp(){
+        IntStream.rangeClosed(1,10).forEach(i->{
+            EquipmentStatus equipmentStatus = EquipmentStatusFactory.CreateEquipmentStatus();
+            equipmentStatusRepo.PersistEquipmentStatus(equipmentStatus);
+
         });
     }
 
     @Test
-    public void testGetAllEquipmentsAsync() throws Exception {
-        //act
-        MvcResult mvcResult = mockMvc.perform(get("/v1/equipments/"))
+    public void GetEquipmentStatusByID() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(get("/v1/equipmentStatus/{id}",1))
                 .andExpect(request().asyncStarted())
                 .andReturn();
-        //assert
+
         mockMvc.perform(asyncDispatch(mvcResult))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$").isArray())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
     }
 
-    /*
-    completar no proximo branch: adicao de filtros à pesquisa
-     */
     @Test
-    public void testGetEquipmentByUniqueDetails() throws Exception {
-    }
+    public void GetEquipmentStatusByCode() throws Exception {
 
-    @Test
-    public void testGetEquipmentByIdAsync() throws Exception {
-        //setup
-        List<com.DEVLOP.Entities.Equipment> eqList = equipment.FindAll();
-        com.DEVLOP.Entities.Equipment eq = eqList.get(0);
-        //act
-        MvcResult mvcResult = mockMvc.perform(get("/v1/equipments/{id}", eq.getId()))
+
+        EquipmentStatus equipmentStatus = equipmentStatusRepo.ReturnEquipmentStatusByID(1).orElseThrow();
+        String code = equipmentStatus.getEquipmentStatusCode();
+
+        MvcResult mvcResult = mockMvc.perform(get("/v1/equipmentStatus/code/{code}",code))
                 .andExpect(request().asyncStarted())
                 .andReturn();
-        //assert
+
         mockMvc.perform(asyncDispatch(mvcResult))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.equipmentStatusCode").value(code))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(eq.getId()))
-                .andExpect(jsonPath("$.prefix").value(eq.getPrefix()))
-                .andExpect(jsonPath("$.number").value(eq.getNumber()));
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
     }
+
+
 }

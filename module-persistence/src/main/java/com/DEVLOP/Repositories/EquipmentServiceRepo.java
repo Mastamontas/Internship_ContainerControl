@@ -24,4 +24,7 @@ public class EquipmentServiceRepo {
     public List<EquipmentService> ReturnListOfEquipmentService(List<Integer> idList){
         return iEquipmentServiceRepo.findAllById(idList);
     }
+    public Optional<EquipmentService> ReturnEquipmentServiceByCode(String code){
+        return iEquipmentServiceRepo.findByEquipmentServiceCode(code);
+    }
 }

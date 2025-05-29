@@ -1,4 +1,4 @@
-package com.DEVLOP.IntegrationTests.APITests;
+package com.DEVLOP.IntegrationTests.APITests.MovementControllerIntegrationTests;
 
 import com.DEVLOP.Application.DTOS.MovementDto;
 import com.DEVLOP.Application.Mappers.IMovementMapper;
@@ -6,7 +6,6 @@ import com.DEVLOP.Entities.*;
 import com.DEVLOP.Factories.*;
 import com.DEVLOP.Repositories.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,6 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -24,4 +24,7 @@ public class EquipmentStatusRepo {
     public List<EquipmentStatus> ReturnListOfEquipmentStatus(List<Integer> idList){
         return iEquipmentStatusRepo.findAllById(idList);
     }
+    public Optional<EquipmentStatus> ReturnEquipmentStatusByCode(String code){
+        return iEquipmentStatusRepo.findByEquipmentStatusCode(code);
+    }
 }

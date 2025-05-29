@@ -12,8 +12,8 @@ public class MovementDto {
     private Integer id;//id movimento
     private LocalDate date; //igual a mov entity
     private String movementStatus; //todo: definir enum - perguntar paulo
-    private Integer accessUserId;
-    private Integer businessUnitId;
+    private Integer accessUserId;//por no excel?
+    private Integer businessUnitId;//por no excel?
     private String transportResponsibility;
     private String movementOfHire;
     private Integer movementRestitutionCode;

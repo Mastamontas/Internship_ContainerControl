@@ -63,9 +63,6 @@ public class MovementFactory {
         });
         return movementList;
     }
-
-    // Helper method to convert Date to LocalDateTime
-    //todo maybe instead of date have local date time
     private static LocalDate convertToLocalDate(Date date) {
         return Instant.ofEpochMilli(date.getTime())
                 .atZone(ZoneId.systemDefault()) // Convert to system default timezone

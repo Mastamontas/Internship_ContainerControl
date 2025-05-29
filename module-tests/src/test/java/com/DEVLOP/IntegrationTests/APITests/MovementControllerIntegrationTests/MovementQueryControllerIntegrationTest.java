@@ -1,4 +1,4 @@
-package com.DEVLOP.IntegrationTests.APITests;
+package com.DEVLOP.IntegrationTests.APITests.MovementControllerIntegrationTests;
 
 import com.DEVLOP.Entities.*;
 import com.DEVLOP.Factories.*;
@@ -103,9 +103,6 @@ public class MovementQueryControllerIntegrationTest {
         });
     }
 
-    /*
-    todo: get por equipamento pela matricula (prefixo, number, check digit) campos obrigatorios
-     */
     @Test
     public void GetMovementsOfEquipment() throws Exception{
         //act

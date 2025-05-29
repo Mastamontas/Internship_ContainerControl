@@ -47,7 +47,7 @@ public interface IMovementMapper {
     @Mapping(source="movementLast", target="movementLast")
     @Mapping(source="shipmentUCN", target="shipmentUCN")
     @Mapping(source="movementTransport", target="movementTransport")
-    @Mapping(source = "transportMeansComment", target ="transportMeans.comment")
+    @Mapping(source ="transportMeansComment", target ="transportMeans.comment")
     //equipment status
     //equipment status id
     @Mapping(source="equipmentStatusId", target="equipmentStatus.id")

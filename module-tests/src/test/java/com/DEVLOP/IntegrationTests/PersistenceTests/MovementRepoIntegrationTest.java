@@ -32,9 +32,7 @@ import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/*
-todo feature add group movement
- */
+//todo em conjunto alguns testes falham por cada set up estar a adicionar elementos às tabelas
 @AutoConfigureMockMvc
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

@@ -2,11 +2,6 @@ package com.DEVLOP.Interfaces;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-/*
-just for generic query methods
-find all
-get by id
- */
+//todo: ver qual a funcionalidade disto
 public interface IQueries<T> {
-    //Optional<T> FindByID(int id)
 }
