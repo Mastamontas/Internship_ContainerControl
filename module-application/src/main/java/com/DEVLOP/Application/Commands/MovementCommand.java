@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 
 /*
 todo: some methods are overrided while other dont. Make methods consistent
@@ -73,9 +74,10 @@ public class MovementCommand implements IMovementCommands {
             movementRepo.SaveMovementList(updatedMovements);
             return updatedMovements.stream().map(mapper::MapToMovementDto).toList();
         }).exceptionally(e ->{
-            throw new MovementNotFoundException("Something went wrong in changing the group movements");
+            throw new CompletionException(e);
         });
     };
+
     private List<com.DEVLOP.Entities.Movement> GetSelectedMovements(List<Integer> ids){
         List<com.DEVLOP.Entities.Movement> movements = movementRepo.ReturnMovementsByIDList(ids);
         if (movements.isEmpty() || movements.size() != ids.size()) {

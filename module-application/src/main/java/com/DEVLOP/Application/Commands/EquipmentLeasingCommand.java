@@ -2,6 +2,7 @@ package com.DEVLOP.Application.Commands;
 
 import com.DEVLOP.Application.DTOS.EquipmentLeasingDto;
 import com.DEVLOP.Application.Mappers.IEquipmentLeasingMapper;
+import com.DEVLOP.CustomExceptions.EquipmentLeasingNotFoundException;
 import com.DEVLOP.Entities.EquipmentLeasing;
 import com.DEVLOP.Repositories.EquipmentLeasingRepo;
 import jakarta.transaction.Transactional;
@@ -36,7 +37,7 @@ public class EquipmentLeasingCommand {
     public CompletableFuture<EquipmentLeasingDto> UpdateEquipmentLeasing(EquipmentLeasingDto equipmentLeasingDto){
         return CompletableFuture.supplyAsync(()->{
             EquipmentLeasing equipmentLeasing = equipmentLeasingRepo.ReturnEquipmentLeasingByID(equipmentLeasingDto.getId())
-                    .orElseThrow();
+                    .orElseThrow(()-> new EquipmentLeasingNotFoundException("Equipment leasing with that ID does not exist"));
             equipmentLeasingRepo.PersistEquipmentLeasing(mapper.UpdateEquipmentLeasing(equipmentLeasingDto, equipmentLeasing));
             return equipmentLeasingDto;
         }).exceptionally(ex ->{

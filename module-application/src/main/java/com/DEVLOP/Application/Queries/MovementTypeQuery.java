@@ -3,6 +3,7 @@ package com.DEVLOP.Application.Queries;
 import com.DEVLOP.Application.DTOS.MovementTypeDto;
 import com.DEVLOP.Application.Mappers.IMovementTypeMapper;
 import com.DEVLOP.CustomExceptions.Movement.MovementNotFoundException;
+import com.DEVLOP.CustomExceptions.MovementTypeNotFoundException;
 import com.DEVLOP.Entities.MovementType;
 import com.DEVLOP.Interfaces.Queries.IMovementQuery;
 import com.DEVLOP.Repositories.MovementTypeRepo;
@@ -14,10 +15,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+
 @Service
 public class MovementTypeQuery {
-    private MovementTypeRepo movementTypeRepo;
-    private IMovementTypeMapper mapper;
+    private final MovementTypeRepo movementTypeRepo;
+    @Qualifier("IMovementTypeMapperImpl")
+    private final IMovementTypeMapper mapper;
 
     @Autowired
     public MovementTypeQuery (MovementTypeRepo movementTypeRepo, @Qualifier("IMovementTypeMapperImpl") IMovementTypeMapper mapper){
@@ -28,8 +32,10 @@ public class MovementTypeQuery {
     public CompletableFuture<MovementTypeDto> GetMovementTypeByIDAsync(int id) {
         return CompletableFuture.supplyAsync(() -> {
             MovementType movementType = movementTypeRepo.FindMovementTypeByID(id)
-                    .orElseThrow(() -> new MovementNotFoundException("Movement type with that ID not found"));
+                    .orElseThrow(() -> new MovementTypeNotFoundException("Movement type with that ID not found"));
             return mapper.MapToMovementTypeDto(movementType);
+        }).exceptionally(ex ->{
+            throw new CompletionException(ex);
         });
     }
 
@@ -37,8 +43,10 @@ public class MovementTypeQuery {
     public CompletableFuture<MovementTypeDto> GetMovementTypeByCodeAsync(String code) {
         return CompletableFuture.supplyAsync(() -> {
             MovementType movementType = movementTypeRepo.ReturnMovementTypeByCode(code)
-                    .orElseThrow(() -> new MovementNotFoundException("Movement type with that ID not found"));
+                    .orElseThrow(() -> new MovementTypeNotFoundException("Movement type with that code not found"));
             return mapper.MapToMovementTypeDto(movementType);
+        }).exceptionally(ex ->{
+            throw new CompletionException(ex);
         });
     }
 
@@ -48,7 +56,7 @@ public class MovementTypeQuery {
             List<MovementType> movementTypeList = movementTypeRepo.ReturnListOfMovementTypes(idList);
             return movementTypeList.stream().map(mapper::MapToMovementTypeDto).toList();
         }).exceptionally(ex ->{
-            throw new MovementNotFoundException("No movement list found with those id's");
+            throw new CompletionException(ex);
         });
     }
 }

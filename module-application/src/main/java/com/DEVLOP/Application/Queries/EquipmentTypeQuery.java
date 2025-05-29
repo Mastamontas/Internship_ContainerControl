@@ -3,6 +3,7 @@ package com.DEVLOP.Application.Queries;
 
 import com.DEVLOP.Application.DTOS.EquipmentTypeDto;
 import com.DEVLOP.Application.Mappers.IEquipmentTypeMapper;
+import com.DEVLOP.CustomExceptions.EquipmentTypeNotFoundException;
 import com.DEVLOP.Entities.EquipmentType;
 import com.DEVLOP.Repositories.EquipmentTypeRepo;
 import jakarta.transaction.Transactional;
@@ -31,7 +32,8 @@ public class EquipmentTypeQuery {
     @Transactional
     public CompletableFuture<EquipmentTypeDto> GetEquipmentTypeByID(int id){
         return CompletableFuture.supplyAsync(()->{
-            EquipmentType equipmentType = equipmentTypeRepo.ReturnEquipmentTypeByID(id).orElseThrow();
+            EquipmentType equipmentType = equipmentTypeRepo.ReturnEquipmentTypeByID(id)
+                    .orElseThrow(()-> new EquipmentTypeNotFoundException("Equipment type with ID does not exist"));
             return mapper.MapToEquipmentTypeDto(equipmentType);
         }).exceptionally(ex ->{
             throw new CompletionException(ex);

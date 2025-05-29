@@ -1,9 +1,8 @@
 package com.DEVLOP.Web.ExceptionHandlers;
 
 
-import com.DEVLOP.CustomExceptions.EquipmentNotFoundException;
+import com.DEVLOP.CustomExceptions.*;
 import com.DEVLOP.CustomExceptions.Movement.MovementNotFoundException;
-import com.DEVLOP.Repositories.MovementTypeRepo;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +13,8 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.CompletionException;
 import java.util.function.BiFunction;
+
+//todo: repensar este global controller porque a map so da para 10 entries
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -31,8 +32,50 @@ public class GlobalExceptionHandler {
                             req.getRequestURI(),
                             Instant.now()
                     ),
-                    IllegalArgumentException.class,(ex,req) ->new ApiErrorResponse(
-                            "INVALID_ARGUMENT",
+                    EquipmentClassNotFoundException.class,(ex,req) -> new ApiErrorResponse(
+                           "EQUIPMENT_CLASS_NOT_FOUND",
+                           ex.getMessage(),
+                           req.getRequestURI(),
+                           Instant.now()
+                    ),
+                    EquipmentConditionNotFoundException.class,(ex,req)-> new ApiErrorResponse(
+                            "EQUIPMENT_CONDITION_NOT_FOUND",
+                            ex.getMessage(),
+                            req.getRequestURI(),
+                            Instant.now()
+                    ),
+                    EquipmentLeasingNotFoundException.class,(ex, req)-> new ApiErrorResponse(
+                            "EQUIPMENT_LEASING_NOT_FOUND",
+                            ex.getMessage(),
+                            req.getRequestURI(),
+                            Instant.now()
+                    ),
+                    EquipmentServiceNotFoundException.class,(ex, req)-> new ApiErrorResponse(
+                            "EQUIPMENT_SERVICE_NOT_FOUND",
+                            ex.getMessage(),
+                            req.getRequestURI(),
+                            Instant.now()
+                    ),
+                    EquipmentTypeNotFoundException.class,(ex, req)-> new ApiErrorResponse(
+                            "EQUIPMENT_TYPE_NOT_FOUND",
+                            ex.getMessage(),
+                            req.getRequestURI(),
+                            Instant.now()
+                    ),
+                    EquipmentStatusNotFoundException.class,(ex, req)-> new ApiErrorResponse(
+                            "EQUIPMENT_STATUS_NOT_FOUND",
+                            ex.getMessage(),
+                            req.getRequestURI(),
+                            Instant.now()
+                    ),
+                    MovementTypeNotFoundException.class,(ex, req)-> new ApiErrorResponse(
+                            "MOVEMENT_TYPE_NOT_FOUND",
+                            ex.getMessage(),
+                            req.getRequestURI(),
+                            Instant.now()
+                    ),
+                    TransportMeansNotFoundException.class,(ex, req)-> new ApiErrorResponse(
+                            "TRANSPORT_MEANS_NOT_FOUND",
                             ex.getMessage(),
                             req.getRequestURI(),
                             Instant.now()
@@ -44,17 +87,28 @@ public class GlobalExceptionHandler {
             Map.of(
                     EquipmentNotFoundException.class, HttpStatus.NOT_FOUND,
                     MovementNotFoundException.class, HttpStatus.NOT_FOUND,
-                    IllegalArgumentException.class, HttpStatus.BAD_REQUEST
+                    EquipmentClassNotFoundException.class, HttpStatus.NOT_FOUND,
+                    EquipmentConditionNotFoundException.class, HttpStatus.NOT_FOUND,
+                    EquipmentLeasingNotFoundException.class, HttpStatus.NOT_FOUND,
+                    EquipmentServiceNotFoundException.class, HttpStatus.NOT_FOUND,
+                    EquipmentTypeNotFoundException.class, HttpStatus.NOT_FOUND,
+                    EquipmentStatusNotFoundException.class, HttpStatus.NOT_FOUND,
+                    MovementTypeNotFoundException.class, HttpStatus.NOT_FOUND,
+                    TransportMeansNotFoundException.class,HttpStatus.NOT_FOUND
             );
 
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<ApiErrorResponse> HandleAllExceptions(Throwable ex, HttpServletRequest request){
         Throwable rootCause = ex instanceof CompletionException ? ex.getCause(): ex;
+
         BiFunction<Throwable, HttpServletRequest, ApiErrorResponse> handler =
                 ERROR_HANDLES.getOrDefault(rootCause.getClass(),(e,req) ->new ApiErrorResponse(
-                        "INTERNAL_ERROR", "An unexpected error has occured",
-                req.getRequestURI(), Instant.now()
+                        "INTERNAL_ERROR",
+                        "An unexpected error has occurred",
+                        req.getRequestURI(),
+                        Instant.now()
         ));
+
         HttpStatus status = STATUS_CODES.getOrDefault(rootCause.getClass(),HttpStatus.INTERNAL_SERVER_ERROR);
         return ResponseEntity.status(status).body(handler.apply(rootCause,request));
     }

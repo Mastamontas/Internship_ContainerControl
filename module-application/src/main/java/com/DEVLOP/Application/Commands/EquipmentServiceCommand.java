@@ -2,6 +2,7 @@ package com.DEVLOP.Application.Commands;
 
 import com.DEVLOP.Application.DTOS.EquipmentServiceDto;
 import com.DEVLOP.Application.Mappers.IEquipmentServiceMapper;
+import com.DEVLOP.CustomExceptions.EquipmentServiceNotFoundException;
 import com.DEVLOP.Entities.EquipmentService;
 import com.DEVLOP.Repositories.EquipmentServiceRepo;
 import jakarta.transaction.Transactional;
@@ -38,7 +39,7 @@ public class EquipmentServiceCommand {
     public CompletableFuture<EquipmentServiceDto> UpdateEquipmentService(EquipmentServiceDto equipmentServiceDto){
         return CompletableFuture.supplyAsync(()->{
             EquipmentService  equipmentService = equipmentServiceRepo.ReturnEquipmentServiceByID(equipmentServiceDto.getId())
-                    .orElseThrow();
+                    .orElseThrow(()-> new EquipmentServiceNotFoundException("Equipment service with that ID does not exist"));
             equipmentServiceRepo.PersistEquipmentService(mapper.UpdateEquipmentService(equipmentServiceDto,equipmentService));
             return equipmentServiceDto;
         }).exceptionally(ex ->{
