@@ -4,6 +4,8 @@ package com.DEVLOP.Web.ExceptionHandlers;
 import com.DEVLOP.CustomExceptions.*;
 import com.DEVLOP.CustomExceptions.Movement.MovementNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,9 +16,12 @@ import java.util.Map;
 import java.util.concurrent.CompletionException;
 import java.util.function.BiFunction;
 
-//todo: repensar este global controller porque a map so da para 10 entries
+
+//todo: repensar este global controller porque a map so da para 10 entries - mudar para map of entries
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     private static final Map<Class<? extends Throwable>, BiFunction<Throwable, HttpServletRequest, ApiErrorResponse>> ERROR_HANDLES =
             Map.of(
@@ -110,6 +115,8 @@ public class GlobalExceptionHandler {
         ));
 
         HttpStatus status = STATUS_CODES.getOrDefault(rootCause.getClass(),HttpStatus.INTERNAL_SERVER_ERROR);
+
+        logger.error("Exception caught: {} at URI {} -> {}", rootCause.getClass().getSimpleName(), request.getRequestURI(), rootCause.getMessage(), rootCause);
         return ResponseEntity.status(status).body(handler.apply(rootCause,request));
     }
 }
