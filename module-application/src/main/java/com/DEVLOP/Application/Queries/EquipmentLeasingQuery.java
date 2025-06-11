@@ -2,6 +2,7 @@
 
     import com.DEVLOP.Application.DTOS.EquipmentLeasingDto;
     import com.DEVLOP.Application.Mappers.IEquipmentLeasingMapper;
+    import com.DEVLOP.CustomExceptions.EquipmentLeasingNotFoundException;
     import com.DEVLOP.Entities.EquipmentLeasing;
     import com.DEVLOP.Repositories.EquipmentLeasingRepo;
     import jakarta.transaction.Transactional;
@@ -19,7 +20,7 @@
         @Qualifier("iEquipmentLeasingMapperImpl")
         private final IEquipmentLeasingMapper mapper;
 
-        public EquipmentLeasingQuery (EquipmentLeasingRepo equipmentLeasingRepo, IEquipmentLeasingMapper mapper){
+        public EquipmentLeasingQuery (EquipmentLeasingRepo equipmentLeasingRepo, @Qualifier("IEquipmentLeasingMapperImpl") IEquipmentLeasingMapper mapper){
             this.equipmentLeasingRepo = equipmentLeasingRepo;
             this.mapper = mapper;
         }
@@ -27,7 +28,8 @@
         @Transactional
         public CompletableFuture<EquipmentLeasingDto> GetEquipmentLeasingByID (int id){
             return CompletableFuture.supplyAsync(()->{
-                EquipmentLeasing equipmentLeasing = equipmentLeasingRepo.ReturnEquipmentLeasingByID(id).orElseThrow();
+                EquipmentLeasing equipmentLeasing = equipmentLeasingRepo.ReturnEquipmentLeasingByID(id)
+                        .orElseThrow(()-> new EquipmentLeasingNotFoundException("Equipment leasing with that ID does not exist"));
                 return mapper.MapToEquipmentLeasingDto(equipmentLeasing);
             }).exceptionally(ex ->{
                throw new CompletionException(ex);
@@ -37,7 +39,8 @@
         @Transactional
         public CompletableFuture<EquipmentLeasingDto> GetEquipmentLeasingByCode(String code){
             return CompletableFuture.supplyAsync(()->{
-                EquipmentLeasing equipmentLeasing = equipmentLeasingRepo.ReturnEquipmentLeasingByCode(code);
+                EquipmentLeasing equipmentLeasing = equipmentLeasingRepo.ReturnEquipmentLeasingByCode(code)
+                        .orElseThrow(()-> new EquipmentLeasingNotFoundException("Equipment leasing with that code does not exist"));
                 return mapper.MapToEquipmentLeasingDto(equipmentLeasing);
             }).exceptionally(ex ->{
                 throw new CompletionException(ex);

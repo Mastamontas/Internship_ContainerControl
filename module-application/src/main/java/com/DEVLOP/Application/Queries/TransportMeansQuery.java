@@ -3,6 +3,7 @@ package com.DEVLOP.Application.Queries;
 
 import com.DEVLOP.Application.DTOS.TransportMeansDto;
 import com.DEVLOP.Application.Mappers.ITransportMeansMapper;
+import com.DEVLOP.CustomExceptions.TransportMeansNotFoundException;
 import com.DEVLOP.Entities.TransportMeans;
 import com.DEVLOP.Repositories.TransportMeansRepo;
 import jakarta.transaction.Transactional;
@@ -30,7 +31,8 @@ public class TransportMeansQuery {
     @Transactional
     public CompletableFuture<TransportMeansDto> GetTransportMeansByID(int id){
         return CompletableFuture.supplyAsync(()->{
-            TransportMeans transportMeans = transportMeansRepo.FindTransportMeansByID(id).orElseThrow();
+            TransportMeans transportMeans = transportMeansRepo.FindTransportMeansByID(id)
+                    .orElseThrow(()-> new TransportMeansNotFoundException("No transport means with that ID"));
             return mapper.MapToTransportMeansDto(transportMeans);
         }).exceptionally(ex ->{
             throw new CompletionException(ex);

@@ -76,7 +76,7 @@ public class EquipmentLeasingCommandControllerIntegrationTest {
                 .andExpect(jsonPath("$.leasingContractCode").value("AAA"))
                 .andExpect(jsonPath("$.leasingContractName").value("Test"));
 
-        EquipmentLeasing equipmentLeasing = equipmentLeasingRepo.ReturnEquipmentLeasingByCode("AAA");
+        EquipmentLeasing equipmentLeasing = equipmentLeasingRepo.ReturnEquipmentLeasingByCode("AAA").orElseThrow();
         //assertEquals(1, equipmentLeasing.getId());
         assertEquals("AAA", equipmentLeasing.getLeasingContractCode());
     }

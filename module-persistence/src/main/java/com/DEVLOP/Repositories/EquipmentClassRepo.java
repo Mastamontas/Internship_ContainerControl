@@ -25,7 +25,7 @@ public class EquipmentClassRepo {
         return iEquipmentClassRepo.findAllById(idList);
     }
 
-    public EquipmentClass ReturnEquipmentClassByCode(String code) {
+    public Optional<EquipmentClass> ReturnEquipmentClassByCode(String code) {
         return iEquipmentClassRepo.findByEquipmentClassCode(code);
     }
 }

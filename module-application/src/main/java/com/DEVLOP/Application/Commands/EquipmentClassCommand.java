@@ -2,6 +2,7 @@ package com.DEVLOP.Application.Commands;
 
 import com.DEVLOP.Application.DTOS.EquipmentClassDto;
 import com.DEVLOP.Application.Mappers.IEquipmentClassMapper;
+import com.DEVLOP.CustomExceptions.EquipmentClassNotFoundException;
 import com.DEVLOP.Entities.EquipmentClass;
 import com.DEVLOP.Repositories.EquipmentClassRepo;
 import jakarta.transaction.Transactional;
@@ -20,7 +21,7 @@ public class EquipmentClassCommand {
     @Qualifier("IEquipmentClassMapperImpl")
     private final IEquipmentClassMapper mapper;
 
-    public EquipmentClassCommand (EquipmentClassRepo equipmentClassRepo, IEquipmentClassMapper mapper){
+    public EquipmentClassCommand (EquipmentClassRepo equipmentClassRepo, @Qualifier("IEquipmentClassMapperImpl") IEquipmentClassMapper mapper){
         this.equipmentClassRepo = equipmentClassRepo;
         this.mapper = mapper;
     }
@@ -41,7 +42,7 @@ public class EquipmentClassCommand {
     public CompletableFuture<EquipmentClassDto> UpdateEquipmentClass(EquipmentClassDto equipmentClassDto){
         return CompletableFuture.supplyAsync(()->{
             EquipmentClass equipmentClass = equipmentClassRepo.ReturnEquipmentClassByID(equipmentClassDto.getId())
-                    .orElseThrow();
+                    .orElseThrow(()-> new EquipmentClassNotFoundException("Equipment class with that ID does not exist"));
             equipmentClassRepo.PersistEquipmentClass(mapper.UpdateEquipmentClass(equipmentClassDto,equipmentClass));
             return equipmentClassDto;
         }).exceptionally(ex->{

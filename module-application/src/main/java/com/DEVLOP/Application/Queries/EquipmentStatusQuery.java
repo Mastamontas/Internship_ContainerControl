@@ -2,6 +2,7 @@ package com.DEVLOP.Application.Queries;
 
 import com.DEVLOP.Application.DTOS.EquipmentStatusDto;
 import com.DEVLOP.Application.Mappers.IEquipmentStatusMapper;
+import com.DEVLOP.CustomExceptions.EquipmentStatusNotFoundException;
 import com.DEVLOP.Entities.EquipmentStatus;
 import com.DEVLOP.Repositories.EquipmentStatusRepo;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,13 +17,14 @@ public class EquipmentStatusQuery {
     @Qualifier("IEquipmentStatusImpl")
     private final IEquipmentStatusMapper mapper;
 
-    public EquipmentStatusQuery(EquipmentStatusRepo equipmentStatusRepo, IEquipmentStatusMapper mapper){
+    public EquipmentStatusQuery(EquipmentStatusRepo equipmentStatusRepo, @Qualifier("IEquipmentStatusMapperImpl") IEquipmentStatusMapper mapper){
         this.equipmentStatusRepo = equipmentStatusRepo;
         this.mapper = mapper;
     }
     public CompletableFuture<EquipmentStatusDto> GetEquipmentStatusByID (int id){
         return CompletableFuture.supplyAsync(()->{
-            EquipmentStatus equipmentStatus = equipmentStatusRepo.ReturnEquipmentStatusByID(id).orElseThrow();
+            EquipmentStatus equipmentStatus = equipmentStatusRepo.ReturnEquipmentStatusByID(id)
+                    .orElseThrow(()-> new EquipmentStatusNotFoundException("Equipment status with that ID does not exist"));
             return mapper.MapToEquipmentStatusDto(equipmentStatus);
         }).exceptionally(ex ->{
             throw new CompletionException(ex);
@@ -31,7 +33,8 @@ public class EquipmentStatusQuery {
 
     public CompletableFuture<EquipmentStatusDto> GetEquipmentStatusByCode (String code){
         return CompletableFuture.supplyAsync(()->{
-            EquipmentStatus equipmentStatus = equipmentStatusRepo.ReturnEquipmentStatusByCode(code).orElseThrow();
+            EquipmentStatus equipmentStatus = equipmentStatusRepo.ReturnEquipmentStatusByCode(code)
+                    .orElseThrow(()-> new EquipmentStatusNotFoundException("Equipment status with that code does not exist"));
             return mapper.MapToEquipmentStatusDto(equipmentStatus);
         }).exceptionally(ex ->{
             throw new CompletionException(ex);

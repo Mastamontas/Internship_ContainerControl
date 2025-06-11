@@ -3,6 +3,7 @@ package com.DEVLOP.Application.Queries;
 
 import com.DEVLOP.Application.DTOS.EquipmentClassDto;
 import com.DEVLOP.Application.Mappers.IEquipmentClassMapper;
+import com.DEVLOP.CustomExceptions.EquipmentClassNotFoundException;
 import com.DEVLOP.Entities.EquipmentClass;
 import com.DEVLOP.Repositories.EquipmentClassRepo;
 import jakarta.transaction.Transactional;
@@ -30,7 +31,8 @@ public class EquipmentClassQuery {
     @Transactional
     public CompletableFuture<EquipmentClassDto> GetEquipmentClassById(int id){
         return CompletableFuture.supplyAsync(()->{
-            EquipmentClass equipmentClass = equipmentClassRepo.ReturnEquipmentClassByID(id).orElseThrow();
+            EquipmentClass equipmentClass = equipmentClassRepo.ReturnEquipmentClassByID(id)
+                    .orElseThrow(()-> new EquipmentClassNotFoundException("Equipment class with that ID does not exist"));;
             return mapper.MapToEquipmentClassDto(equipmentClass);
         }).exceptionally(ex ->{
             throw new CompletionException(ex);
@@ -40,7 +42,8 @@ public class EquipmentClassQuery {
     @Transactional
     public CompletableFuture<EquipmentClassDto> GetEquipmentByCode(String code){
         return CompletableFuture.supplyAsync(()->{
-            EquipmentClass equipmentClass = equipmentClassRepo.ReturnEquipmentClassByCode(code);
+            EquipmentClass equipmentClass = equipmentClassRepo.ReturnEquipmentClassByCode(code)
+                    .orElseThrow(()-> new EquipmentClassNotFoundException("Equipment class with that code does not exist"));;
             return mapper.MapToEquipmentClassDto(equipmentClass);
         }).exceptionally(ex ->{
             throw new CompletionException(ex);

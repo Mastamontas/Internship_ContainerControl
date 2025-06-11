@@ -26,7 +26,7 @@ public class EquipmentLeasingRepo {
     }
 
     //todo este tem de ser optional - refactor
-    public EquipmentLeasing ReturnEquipmentLeasingByCode(String code) {
+    public Optional<EquipmentLeasing> ReturnEquipmentLeasingByCode(String code) {
         return iEquipmentLeasingRepo.findByLeasingContractCode(code);
     }
 

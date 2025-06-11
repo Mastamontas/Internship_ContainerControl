@@ -2,6 +2,7 @@ package com.DEVLOP.Application.Commands;
 
 import com.DEVLOP.Application.DTOS.EquipmentConditionDto;
 import com.DEVLOP.Application.Mappers.IEquipmentConditionMapper;
+import com.DEVLOP.CustomExceptions.EquipmentConditionNotFoundException;
 import com.DEVLOP.Entities.EquipmentCondition;
 import com.DEVLOP.Repositories.EquipmentConditionRepo;
 import jakarta.transaction.Transactional;
@@ -39,7 +40,7 @@ public class EquipmentConditionCommand {
     public CompletableFuture<EquipmentConditionDto> UpdateEquipmentCondition(EquipmentConditionDto equipmentConditionDto){
         return CompletableFuture.supplyAsync(()->{
             EquipmentCondition equipmentCondition = equipmentConditionRepo.FindEquipmentConditionByID(equipmentConditionDto.getId())
-                    .orElseThrow();
+                    .orElseThrow(()-> new EquipmentConditionNotFoundException("Equipment condition with that code does not exist"));
             equipmentConditionRepo.PersistEquipmentCondition(mapper.UpdateEquipmentCondition(equipmentConditionDto, equipmentCondition));
             return equipmentConditionDto;
         }).exceptionally(ex ->{

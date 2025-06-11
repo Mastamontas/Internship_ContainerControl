@@ -2,6 +2,8 @@ package com.DEVLOP.Application.Commands;
 
 import com.DEVLOP.Application.DTOS.EquipmentTypeDto;
 import com.DEVLOP.Application.Mappers.IEquipmentTypeMapper;
+import com.DEVLOP.CustomExceptions.EquipmentClassNotFoundException;
+import com.DEVLOP.CustomExceptions.EquipmentTypeNotFoundException;
 import com.DEVLOP.Entities.EquipmentClass;
 import com.DEVLOP.Entities.EquipmentType;
 import com.DEVLOP.Repositories.EquipmentClassRepo;
@@ -57,8 +59,9 @@ public class EquipmentTypeCommand {
     public CompletableFuture<EquipmentTypeDto> UpdateEquipmentType(EquipmentTypeDto equipmentTypeDto){
         return CompletableFuture.supplyAsync(()->{
             EquipmentClass equipmentClass = equipmentClassRepo.ReturnEquipmentClassByID(equipmentTypeDto.getEquipmentClassID())
-                    .orElseThrow();//ver o que se pode mandar aqui
-            EquipmentType equipmentType = equipmentTypeRepo.ReturnEquipmentTypeByID(equipmentTypeDto.getId()).orElseThrow();
+                    .orElseThrow(()-> new EquipmentClassNotFoundException("Equipment class with that ID does not exist"));//ver o que se pode mandar aqui
+            EquipmentType equipmentType = equipmentTypeRepo.ReturnEquipmentTypeByID(equipmentTypeDto.getId())
+                    .orElseThrow(()-> new EquipmentTypeNotFoundException("Equipment type with that ID not found"));
             equipmentType.setEquipmentClass(equipmentClass);
             equipmentTypeRepo.PersistEquipmentType(mapper.UpdateEquipmentType(equipmentTypeDto, equipmentType));
             return equipmentTypeDto;

@@ -3,6 +3,7 @@ package com.DEVLOP.Application.Commands;
 import com.DEVLOP.Application.DTOS.MovementTypeDto;
 import com.DEVLOP.Application.Mappers.IMovementTypeMapper;
 import com.DEVLOP.CustomExceptions.Movement.MovementNotFoundException;
+import com.DEVLOP.CustomExceptions.MovementTypeNotFoundException;
 import com.DEVLOP.Entities.MovementType;
 import com.DEVLOP.Repositories.MovementTypeRepo;
 import jakarta.transaction.Transactional;
@@ -32,7 +33,7 @@ public class MovementTypeCommand {
             movementTypeRepo.PersistMovementType(mapper.MapToMovementType(movementTypeDto));
             return movementTypeDto;
         }).exceptionally(ex -> {
-            throw new CompletionException(new MovementNotFoundException("Movement type not persisted"));
+            throw new CompletionException(ex);
         });
     }
 
@@ -40,8 +41,7 @@ public class MovementTypeCommand {
     public CompletableFuture<MovementTypeDto> UpdateMovementType(MovementTypeDto movementTypeDto){
         return CompletableFuture.supplyAsync(()->{
             MovementType movementToUpdate = movementTypeRepo.FindMovementTypeByID(movementTypeDto.getId())
-                    .orElseThrow(()-> new MovementNotFoundException("Movement type with that ID does not exist"));
-
+                    .orElseThrow(() -> new MovementTypeNotFoundException("Movement type with that ID not found"));
             MovementType updatedMovement = mapper.UpdateMovementType(movementTypeDto, movementToUpdate);
             movementTypeRepo.PersistMovementType(updatedMovement);
             return movementTypeDto;
